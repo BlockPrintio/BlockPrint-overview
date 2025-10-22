@@ -1,0 +1,253 @@
+.votingCard {
+    background: linear-gradient(165deg,
+            rgba(255, 255, 255, 0.03) 0%,
+            rgba(255, 255, 255, 0.01) 100%);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 24px -6px rgba(0, 0, 0, 0.3);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    animation: fadeInUp 0.8s ease-out 0.8s both;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.votingCard:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow:
+        0 8px 32px -4px rgba(0, 0, 0, 0.2),
+        0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+}
+
+.cardTitle {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.95);
+    margin-bottom: 1.5rem;
+    text-align: center;
+    letter-spacing: -0.01em;
+}
+
+.voteStats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.voteStat {
+    text-align: center;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+}
+
+.voteStat:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.voteStatValue {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 20px currentColor;
+    animation: numberPulse 3s ease-in-out infinite;
+    transition: all 0.3s ease;
+}
+
+.voteStat:hover .voteStatValue {
+    transform: scale(1.1);
+    animation-play-state: paused;
+}
+
+.voteStatLabel {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    margin-bottom: 0.25rem;
+}
+
+.voteStatPercent {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 600;
+}
+
+.proposalTypes {
+    margin-bottom: 2rem;
+}
+
+.typesTitle {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.typesList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.typeItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+}
+
+.typeItem:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+    transform: translateX(4px);
+}
+
+.typeName {
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 500;
+}
+
+.typeCount {
+    color: rgba(56, 232, 225, 0.9);
+    font-weight: 600;
+    font-size: 1.125rem;
+}
+
+.totalVotes {
+    text-align: center;
+    padding: 1.5rem;
+    background: rgba(56, 232, 225, 0.05);
+    border-radius: 12px;
+    border: 1px solid rgba(56, 232, 225, 0.1);
+}
+
+.totalLabel {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    margin-bottom: 0.5rem;
+}
+
+.totalValue {
+    font-size: 2rem;
+    font-weight: 700;
+    color: rgba(56, 232, 225, 0.9);
+    text-shadow: 0 0 20px rgba(56, 232, 225, 0.3);
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes numberPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.02);
+    }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .votingCard {
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .cardTitle {
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+    }
+
+    .voteStats {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .voteStat {
+        padding: 0.75rem;
+    }
+
+    .voteStatValue {
+        font-size: 2rem;
+    }
+
+    .voteStatLabel {
+        font-size: 0.8rem;
+    }
+
+    .voteStatPercent {
+        font-size: 0.875rem;
+    }
+
+    .typesTitle {
+        font-size: 1rem;
+    }
+
+    .typeItem {
+        padding: 0.5rem 0.75rem;
+    }
+
+    .typeName {
+        font-size: 0.875rem;
+    }
+
+    .typeCount {
+        font-size: 1rem;
+    }
+
+    .totalVotes {
+        padding: 1rem;
+    }
+
+    .totalValue {
+        font-size: 1.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .votingCard {
+        padding: 1rem;
+    }
+
+    .cardTitle {
+        font-size: 1.125rem;
+    }
+
+    .voteStatValue {
+        font-size: 1.75rem;
+    }
+
+    .totalValue {
+        font-size: 1.5rem;
+    }
+}

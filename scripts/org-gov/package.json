@@ -1,0 +1,27 @@
+{
+    "name": "org-gov-scripts",
+    "version": "1.0.0",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "update-catalyst-docs": "node catalyst-proposals/update-catalyst-docs.js",
+        "generate-milestones-data": "node catalyst-proposals/generate-milestones-data.js",
+        "generate-org-stats": "node org-stats/generate-org-stats.js",
+        "generate-yearly-stats": "node org-stats/generate-yearly-stats.js",
+        "fetch-org-stats-data": "node org-stats/fetch-org-stats-data.js",
+        "fetch-yearly-contributors": "node org-stats/fetch-yearly-contributors.js",
+        "generate-yearly-contributors": "node org-stats/generate-yearly-contributors.js",
+        "drep-delegation-info": "node drep-voting/drep-delegation-info.js",
+        "voting-action": "node drep-voting/voting-action.js",
+        "update-rationales": "node drep-voting/update-rationales.js",
+        "stake-pool-info": "node stake-pool/stake-pool-info.js"
+    },
+    "dependencies": {
+        "axios": "^1.6.0",
+        "@supabase/supabase-js": "^2.38.0",
+        "cheerio": "^1.0.0",
+        "discord.js": "^14.19.2",
+        "dotenv": "^16.4.7",
+        "node-fetch": "^3.3.2"
+    }
+}

@@ -1,0 +1,78 @@
+name: DRep Voting Action
+
+on:
+  schedule:
+    - cron: '10 4 * * *'  # Runs at 4:10 AM UTC every day
+    - cron: '10 16 * * *'  # Runs at 4:10 PM UTC every day
+  workflow_dispatch:
+    
+permissions:
+  contents: write      # allow GITHUB_TOKEN to push
+jobs:
+  fetch-drep-info:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Read config and set expected repository
+      id: config
+      run: |
+        CONFIG=$(cat org-stats-config.json)
+        ORG_NAME=$(echo "$CONFIG" | jq -r '.mainOrganization.name')
+        GOV_REPO=$(echo "$CONFIG" | jq -r '.repositories.governance')
+        EXPECTED_REPO="$ORG_NAME/$GOV_REPO"
+        echo "expected_repo=$EXPECTED_REPO" >> $GITHUB_OUTPUT
+        echo "Current repository: ${{ github.repository }}"
+        echo "Expected repository: $EXPECTED_REPO"
+    
+    - name: Check repository
+      if: github.repository != steps.config.outputs.expected_repo
+      run: |
+        echo "This workflow is designed to run only in ${{ steps.config.outputs.expected_repo }}"
+        echo "Current repository: ${{ github.repository }}"
+        exit 1
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        
+    - name: Install dependencies
+      run: npm install
+      working-directory: scripts/org-gov
+      
+    - name: Run voting action script
+      env:
+        KOIOS_API_KEY: ${{ secrets.KOIOS_API_KEY }}
+      run: npm run voting-action
+      working-directory: scripts/org-gov
+
+    - name: Check for changes
+      id: git-check
+      run: |
+        # Create .gitignore to exclude node_modules
+        echo "node_modules/" > scripts/org-gov/.gitignore
+        # Check for changes in voting files specifically
+        git status --porcelain org-gov-updates/drep-voting/*.json
+        echo "changes=$(git status --porcelain org-gov-updates/drep-voting/*.json | wc -l)" >> $GITHUB_OUTPUT
+
+    - name: Commit files
+      if: steps.git-check.outputs.changes > 0
+      run: |
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git add org-gov-updates/drep-voting/*.json
+        git commit -m "Update DRep voting history"
+        
+    - name: Push changes
+      if: steps.git-check.outputs.changes > 0
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}
+        
+    - name: No changes message
+      if: steps.git-check.outputs.changes == 0
+      run: |
+        echo "No updates needed - voting history is up to date"

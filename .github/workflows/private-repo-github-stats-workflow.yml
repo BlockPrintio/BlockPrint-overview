@@ -1,0 +1,39 @@
+name: Collect Private Repo GitHub Stats
+
+on:
+  # Trigger on manual workflow dispatch (no inputs needed)
+  workflow_dispatch:
+
+  # Optional: Trigger on schedule (e.g., daily at 2 AM UTC)
+  schedule:
+    - cron: "0 2 * * *"
+
+# Add explicit permissions for the GITHUB_TOKEN
+permissions:
+  contents: read
+  issues: read
+  pull-requests: read
+
+jobs:
+  collect-stats:
+    runs-on: ubuntu-latest
+    name: Collect GitHub Statistics
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Collect GitHub Stats
+        uses: MeshJS/governance/apps/shared-backend/github-actions/github-stats-action@main
+        with:
+          org: ${{ github.repository_owner }}
+          repo: ${{ github.event.repository.name }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Log completion
+        run: |
+          echo "✅ GitHub stats collection initiated successfully"
+          echo "📊 Stats will be processed by the background function"
+          echo "🔄 Check your dashboard for updated statistics"
+          echo "📍 Organization: ${{ github.repository_owner }}"
+          echo "📁 Repository: ${{ github.event.repository.name }}"

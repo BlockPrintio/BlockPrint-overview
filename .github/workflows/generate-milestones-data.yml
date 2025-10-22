@@ -1,0 +1,96 @@
+name: Generate Milestones Data
+
+on:
+  schedule:
+    - cron: '20 0 * * 1'  # Runs at 00:20 UTC every Monday
+    - cron: '20 0 * * 3'  # Runs at 00:20 UTC every Wednesday
+    - cron: '20 0 * * 5'  # Runs at 00:20 UTC every Friday
+  workflow_dispatch: # Allows manual trigger from GitHub Actions tab
+
+permissions:
+  contents: write
+  # More explicit permissions:
+  issues: read
+  pull-requests: read
+
+jobs:
+  generate-milestones-data:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+      
+      - name: Read config and set expected repository
+        id: config
+        run: |
+          CONFIG=$(cat org-stats-config.json)
+          ORG_NAME=$(echo "$CONFIG" | jq -r '.mainOrganization.name')
+          GOV_REPO=$(echo "$CONFIG" | jq -r '.repositories.governance')
+          EXPECTED_REPO="$ORG_NAME/$GOV_REPO"
+          echo "expected_repo=$EXPECTED_REPO" >> $GITHUB_OUTPUT
+          echo "Current repository: ${{ github.repository }}"
+          echo "Expected repository: $EXPECTED_REPO"
+      
+      - name: Check repository
+        if: github.repository != steps.config.outputs.expected_repo
+        run: |
+          echo "This workflow is designed to run only in ${{ steps.config.outputs.expected_repo }}"
+          echo "Current repository: ${{ github.repository }}"
+          exit 1
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+          
+      - name: Install dependencies
+        run: npm install
+        working-directory: scripts/org-gov
+        
+      - name: Generate Milestones Data
+        run: |
+          cd scripts/org-gov
+          npm run generate-milestones-data
+        
+      - name: Debug file locations
+        run: |
+          echo "Current working directory: $(pwd)"
+          echo "Repository contents:"
+          ls -la
+          echo "Checking for milestones files:"
+          find . -name "*.json" -path "*/catalyst*" 2>/dev/null || echo "No catalyst JSON files found"
+          echo "Checking org-gov-updates directory:"
+          ls -la org-gov-updates/ 2>/dev/null || echo "org-gov-updates directory not found"
+          echo "Checking org-gov-updates/catalyst-proposals directory:"
+          ls -la org-gov-updates/catalyst-proposals/ 2>/dev/null || echo "catalyst-proposals directory not found"
+        
+      - name: Commit and push if changed
+        run: |
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
+          
+          # Check if the milestones data file exists
+          if [ -f "org-gov-updates/catalyst-proposals/milestones-data.json" ]; then
+            echo "Found milestones-data.json, adding to git..."
+            git add org-gov-updates/catalyst-proposals/milestones-data.json
+            git status
+            git diff --cached --name-only
+            if git diff --cached --quiet; then
+              echo "No changes to commit"
+            else
+              echo "Committing changes..."
+              git commit -m "Update Milestones Data"
+              git push
+              echo "Changes committed and pushed successfully"
+            fi
+          else
+            echo "milestones-data.json not found at expected location"
+            echo "Available files in org-gov-updates:"
+            find org-gov-updates -type f 2>/dev/null || echo "No files found in org-gov-updates"
+          fi 

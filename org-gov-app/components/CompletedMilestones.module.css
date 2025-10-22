@@ -1,0 +1,244 @@
+.milestonesSection {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.001);
+    border: 1px solid rgba(255, 255, 255, 0.025);
+    border-radius: 12px;
+    backdrop-filter: blur(25px) saturate(140%);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.milestonesSection:hover {
+    background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.008) 0%, rgba(255, 255, 255, 0.001) 50%);
+    border-color: rgba(255, 255, 255, 0.05);
+    transform: translateY(-1px);
+}
+
+.sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sectionTitle {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0;
+}
+
+.milestoneCount {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+}
+
+.milestonesGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.milestoneCard {
+    background: rgba(255, 255, 255, 0.002);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.milestoneCard:hover {
+    background: rgba(255, 255, 255, 0.008);
+    border-color: rgba(255, 255, 255, 0.08);
+    transform: translateY(-1px);
+}
+
+.milestoneHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.milestoneHeader:hover {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.milestoneInfo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.milestoneNumber {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #38E8E1;
+}
+
+.milestoneBudget {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(56, 232, 225, 0.1);
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    border: 1px solid rgba(56, 232, 225, 0.3);
+}
+
+.milestoneDate {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.expandIcon {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.6);
+    transform: rotate(0deg);
+    transition: transform 0.3s ease;
+}
+
+.expandIcon.expanded {
+    transform: rotate(180deg);
+}
+
+.milestoneContent {
+    padding: 0 1.5rem 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.milestoneTitle {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 1rem 0 1.5rem;
+}
+
+.section {
+    margin-bottom: 1.5rem;
+}
+
+.sectionSubtitle {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #38E8E1;
+    margin: 0 0 0.75rem;
+}
+
+.outcomesList,
+.evidenceList,
+.list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.outcomesList li,
+.evidenceList li,
+.list li {
+    padding: 0.5rem 0;
+    color: rgba(255, 255, 255, 0.9);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+.outcomesList li:before,
+.evidenceList li:before,
+.list li:before {
+    content: "•";
+    color: #38E8E1;
+    font-size: 1.2rem;
+    position: absolute;
+    left: 0;
+    top: 0.5rem;
+}
+
+.outcomesList li:last-child,
+.evidenceList li:last-child,
+.list li:last-child {
+    border-bottom: none;
+}
+
+.evidenceLink,
+.link {
+    color: #38E8E1;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    word-break: break-all;
+}
+
+.evidenceLink:hover,
+.link:hover {
+    color: #4AEBDE;
+    text-decoration: underline;
+}
+
+.reportContent {
+    background: rgba(255, 255, 255, 0.01);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+    padding: 1rem;
+    margin-top: 0.5rem;
+}
+
+.paragraph {
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.6;
+    margin: 0.75rem 0;
+}
+
+.subheading {
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 1.5rem 0 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .sectionHeader {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+    
+    .milestoneHeader {
+        flex-direction: column;
+        gap: 0.75rem;
+        align-items: flex-start;
+    }
+    
+    .milestoneInfo {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: flex-start;
+    }
+    
+    .milestoneContent {
+        padding: 0 1rem 1rem;
+    }
+} 

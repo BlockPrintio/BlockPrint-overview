@@ -1,0 +1,276 @@
+.metricsSection {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    animation: fadeInUp 0.8s ease-out 0.3s both;
+}
+
+.sectionTitle {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.95);
+    margin-bottom: 1.5rem;
+    text-align: center;
+    letter-spacing: -0.01em;
+}
+
+.metricsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.metricCard {
+    padding: 1.5rem;
+    text-align: center;
+    position: relative;
+    animation: slideInScale 0.6s ease-out both;
+    transition: transform 0.3s ease;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.metricCard:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.metricCard:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.metricCard:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.metricCard:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+.metricCard:nth-child(5) {
+    animation-delay: 0.5s;
+}
+
+.metricCard:nth-child(6) {
+    animation-delay: 0.6s;
+}
+
+.metricCard:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(56, 232, 225, 0.3);
+}
+
+.metricValue {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.95);
+    margin-bottom: 0.75rem;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    transition: all 0.3s ease;
+}
+
+.metricCard:hover .metricValue {
+    color: rgba(56, 232, 225, 0.9);
+    text-shadow: 0 0 10px rgba(56, 232, 225, 0.3);
+}
+
+.metricLabel {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    transition: all 0.3s ease;
+}
+
+.metricCard:hover .metricLabel {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInScale {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.8);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .metricsSection {
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .metricsGrid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+    }
+
+    .metricCard {
+        padding: 1rem;
+    }
+
+    .metricValue {
+        font-size: 2rem;
+    }
+
+    .metricLabel {
+        font-size: 0.875rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .metricsGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .metricValue {
+        font-size: 1.75rem;
+    }
+
+    .metricLabel {
+        font-size: 0.8rem;
+    }
+}
+
+/* Pool Parameters Section */
+.poolParameters {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    animation: fadeInUp 0.8s ease-out 0.6s both;
+}
+
+.parametersTitle {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.95);
+    margin-bottom: 1.5rem;
+    text-align: center;
+    letter-spacing: -0.01em;
+}
+
+.parametersGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+}
+
+.parameter {
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    transition: all 0.3s ease;
+    animation: slideInScale 0.6s ease-out both;
+}
+
+.parameter:nth-child(1) {
+    animation-delay: 0.7s;
+}
+
+.parameter:nth-child(2) {
+    animation-delay: 0.8s;
+}
+
+.parameter:nth-child(3) {
+    animation-delay: 0.9s;
+}
+
+.parameter:nth-child(4) {
+    animation-delay: 1.0s;
+}
+
+.parameter:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(56, 232, 225, 0.3);
+    transform: translateY(-2px);
+}
+
+.parameterLabel {
+    display: block;
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    margin-bottom: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.parameter:hover .parameterLabel {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.parameterValue {
+    display: block;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.95);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    transition: all 0.3s ease;
+}
+
+.parameter:hover .parameterValue {
+    color: rgba(56, 232, 225, 0.9);
+    text-shadow: 0 0 10px rgba(56, 232, 225, 0.3);
+}
+
+/* Responsive design for parameters */
+@media (max-width: 768px) {
+    .poolParameters {
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+    }
+
+    .parametersGrid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+    }
+
+    .parameter {
+        padding: 0.75rem;
+    }
+
+    .parameterValue {
+        font-size: 1.125rem;
+    }
+
+    .parameterLabel {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .parametersGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .parameterValue {
+        font-size: 1rem;
+    }
+
+    .parameterLabel {
+        font-size: 0.75rem;
+    }
+}

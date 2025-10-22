@@ -1,0 +1,80 @@
+name: Update Discord Stats (Configurable)
+on:
+  schedule:
+    - cron: '0 2 1 * *' # 1st day of the month at 2:00 AM UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write      # allow GITHUB_TOKEN to push
+
+jobs:
+  stats:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Read config and set expected repository
+        id: config
+        run: |
+          CONFIG=$(cat org-stats-config.json)
+          ORG_NAME=$(echo "$CONFIG" | jq -r '.mainOrganization.name')
+          GOV_REPO=$(echo "$CONFIG" | jq -r '.repositories.governance')
+          EXPECTED_REPO="$ORG_NAME/$GOV_REPO"
+          GUILD_ID=$(echo "$CONFIG" | jq -r '.discordGuildId')
+          USE_API_ACTION=$(echo "$CONFIG" | jq -r '.discordStats.useApiAction // false')
+          echo "expected_repo=$EXPECTED_REPO" >> $GITHUB_OUTPUT
+          echo "guild_id=$GUILD_ID" >> $GITHUB_OUTPUT
+          echo "use_api_action=$USE_API_ACTION" >> $GITHUB_OUTPUT
+          echo "Current repository: ${{ github.repository }}"
+          echo "Expected repository: $EXPECTED_REPO"
+          echo "Guild ID: $GUILD_ID"
+          echo "Use API Action: $USE_API_ACTION"
+      
+      - name: Check repository
+        if: github.repository != steps.config.outputs.expected_repo
+        run: |
+          echo "This workflow is designed to run only in ${{ steps.config.outputs.expected_repo }}"
+          echo "Current repository: ${{ github.repository }}"
+          exit 1
+
+      - name: Run Discord-Stats Action (Standard)
+        if: steps.config.outputs.use_api_action != 'true'
+        uses: Signius/discord-stats-action@1.0.3
+        with:
+          guild-id:       ${{ steps.config.outputs.guild_id }}
+          output-file:    org-gov-updates/discord-stats/stats.json
+          backfill:       'false'
+          backfill-year:  '2025'
+
+      - name: Setup Node.js for API Action
+        if: steps.config.outputs.use_api_action == 'true'
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies for API Action
+        if: steps.config.outputs.use_api_action == 'true'
+        run: npm ci
+
+      - name: Run Discord Stats Script (API)
+        if: steps.config.outputs.use_api_action == 'true'
+        env:
+          API_BASE_URL: ${{ secrets.API_BASE_URL }}
+          DISCORD_TOKEN: ${{ secrets.DISCORD_ANALYTICS_TOKEN }}
+          BACKFILL: 'false'
+          BACKFILL_YEAR: '2025'
+        run: node scripts/org-gov/discord-stats/getStatsViaApi.js
+
+      - name: Commit stats.json
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add org-gov-updates/discord-stats/stats.json
+          git commit -m "chore: monthly Discord stats" || echo "No changes to commit"
+
+      - name: Push changes
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main

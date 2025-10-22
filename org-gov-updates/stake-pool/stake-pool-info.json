@@ -1,0 +1,69 @@
+{
+  "poolInfo": {
+    "pool_id_bech32": "pool1wnrrg33lw9fxcn0h3x3vexh78up660ajgk7pvrlrz5kkcgh9khs",
+    "pool_id_hex": "74c634463f71526c4df789a2cc9afe3f03ad3fb245bc160fe3152d6c",
+    "active_epoch_no": 492,
+    "vrf_key_hash": "43f16450a38ca4d8719439b7a8b44a27d3665e2b13c7da6847230a141ab7e411",
+    "margin": 0.03,
+    "fixed_cost": "170000000",
+    "pledge": "5000000000",
+    "deposit": null,
+    "reward_addr": "stake1u8jvxxghedtm5xafqxt52jjh5cry36jn6sp08x0lw22r0usemly39",
+    "reward_addr_delegated_drep": "drep1yfjez5zup0gystdvc933w2mn8k64hcy3krvc2namluwjxdcfhm8wd",
+    "owners": [
+      "stake1u8jvxxghedtm5xafqxt52jjh5cry36jn6sp08x0lw22r0usemly39"
+    ],
+    "relays": [
+      {
+        "dns": null,
+        "srv": null,
+        "ipv4": "35.241.93.21",
+        "ipv6": null,
+        "port": 6000
+      },
+      {
+        "dns": null,
+        "srv": null,
+        "ipv4": "35.220.180.193",
+        "ipv6": null,
+        "port": 6000
+      },
+      {
+        "dns": null,
+        "srv": null,
+        "ipv4": "34.150.87.50",
+        "ipv6": null,
+        "port": 6000
+      },
+      {
+        "dns": null,
+        "srv": null,
+        "ipv4": "35.220.146.123",
+        "ipv6": null,
+        "port": 6000
+      }
+    ],
+    "meta_url": "https://sidan.io/poolMetadata",
+    "meta_hash": "2b45d4a69ed818ca1f05a50fc4aa4e95f1e3f4b009e6901c616196a87907c137",
+    "meta_json": {
+      "name": "SIDAN Lab",
+      "ticker": "SIDAN",
+      "homepage": "https://sidan.io",
+      "description": "SIDAN Lab - Unleash impactful blockchain use-cases"
+    },
+    "pool_status": "registered",
+    "retiring_epoch": null,
+    "op_cert": "b859bf410d844f5b4db08a94ec998419f5196328411be7d33f9b67dee2f64644",
+    "op_cert_counter": 5,
+    "active_stake": "984927315837",
+    "sigma": 0.00004510919988513702,
+    "block_count": 236,
+    "live_pledge": "7012408002",
+    "live_stake": "884352592997",
+    "live_delegators": 56,
+    "live_saturation": 1.16,
+    "voting_power": "884352592997"
+  },
+  "lastUpdated": "2025-10-21T23:15:51.819Z",
+  "currentEpoch": 590
+}

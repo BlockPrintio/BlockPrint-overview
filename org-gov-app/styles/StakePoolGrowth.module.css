@@ -1,0 +1,212 @@
+.chartContainer {
+    background: linear-gradient(165deg,
+            rgba(255, 255, 255, 0.03) 0%,
+            rgba(255, 255, 255, 0.01) 100%);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 24px -6px rgba(0, 0, 0, 0.3);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    animation: fadeInUp 0.8s ease-out 0.6s both;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.chartContainer:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow:
+        0 8px 32px -4px rgba(0, 0, 0, 0.2),
+        0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+}
+
+.chartTitle {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.95);
+    margin-bottom: 1.5rem;
+    text-align: center;
+    letter-spacing: -0.01em;
+}
+
+.chart {
+    width: 100%;
+    height: 300px;
+    position: relative;
+}
+
+/* D3.js chart styles */
+.xAxis line,
+.xAxis path {
+    stroke: rgba(255, 255, 255, 0.2);
+}
+
+.xAxis text {
+    fill: rgba(255, 255, 255, 0.6);
+    font-size: 12px;
+}
+
+.yAxisStake line,
+.yAxisStake path {
+    stroke: rgba(255, 255, 255, 0.2);
+}
+
+.yAxisStake text {
+    fill: rgba(255, 255, 255, 0.6);
+    font-size: 12px;
+}
+
+.yAxisDelegators line,
+.yAxisDelegators path {
+    stroke: rgba(255, 255, 255, 0.2);
+}
+
+.yAxisDelegators text {
+    fill: rgba(255, 255, 255, 0.6);
+    font-size: 12px;
+}
+
+.lineLiveStake {
+    fill: none;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: all 0.3s ease;
+}
+
+.lineLiveStakeActive {
+    stroke-width: 4;
+    filter: drop-shadow(0 0 8px rgba(255, 193, 7, 0.6));
+}
+
+.lineDelegators {
+    fill: none;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: all 0.3s ease;
+}
+
+.lineDelegatorsActive {
+    stroke-width: 4;
+    filter: drop-shadow(0 0 8px rgba(203, 213, 225, 0.6));
+}
+
+.focus {
+    pointer-events: none;
+}
+
+.focusCircleLiveStake {
+    fill: rgba(255, 193, 7, 0.9);
+    stroke: rgba(255, 255, 255, 0.8);
+    stroke-width: 2;
+    transition: all 0.2s ease;
+}
+
+.focusCircleDelegators {
+    fill: rgba(203, 213, 225, 0.8);
+    stroke: rgba(255, 255, 255, 0.8);
+    stroke-width: 2;
+    transition: all 0.2s ease;
+}
+
+.overlay {
+    fill: none;
+    pointer-events: all;
+}
+
+.legend {
+    font-size: 12px;
+}
+
+.legendLiveStake,
+.legendDelegators {
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+.legendLiveStake:hover,
+.legendDelegators:hover {
+    opacity: 0.7;
+}
+
+.tooltip {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 0.75rem;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    pointer-events: none;
+    z-index: 1000;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    min-width: 200px;
+}
+
+.tooltip div {
+    margin-bottom: 0.25rem;
+}
+
+.tooltip div:last-child {
+    margin-bottom: 0;
+}
+
+.tooltip strong {
+    color: rgba(56, 232, 225, 0.9);
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .chartContainer {
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .chartTitle {
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+    }
+
+    .chart {
+        height: 250px;
+    }
+
+    .tooltip {
+        font-size: 0.8rem;
+        min-width: 180px;
+    }
+}
+
+@media (max-width: 480px) {
+    .chartContainer {
+        padding: 1rem;
+    }
+
+    .chartTitle {
+        font-size: 1.125rem;
+    }
+
+    .chart {
+        height: 200px;
+    }
+
+    .tooltip {
+        font-size: 0.75rem;
+        min-width: 160px;
+    }
+}
