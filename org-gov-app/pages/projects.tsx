@@ -126,11 +126,11 @@ export default function Projects() {
             <div className={styles.stats}>
                 <div className={styles.stat}>
                     <h3>Total Repos using {repoName}</h3>
-                    <p>{githubUsage.length}</p>
+                    <p>{Array.isArray(githubUsage) ? githubUsage.length : 0}</p>
                 </div>
                 <div className={styles.stat}>
                     <h3>Total References</h3>
-                    <p>{totalReferences.length}</p>
+                    <p>{Array.isArray(totalReferences) ? totalReferences.length : 0}</p>
                 </div>
             </div>
 

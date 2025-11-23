@@ -1,18 +1,18 @@
-// import { SearchFilterConfig } from '../components/SearchFilterBar';
-// import { CatalystProject, GovernanceVote } from '../types';
+import { SearchFilterConfig } from '../components/SearchFilterBar';
+import { CatalystProject } from '../types';
 
-// // Helper functions to generate filter options dynamically from data
-// export const getUniqueValues = <T, K extends keyof T>(items: T[], key: K): T[K][] => {
-//     const values = items.map(item => item[key]);
-//     return [...new Set(values)];
-// };
+// Helper functions to generate filter options dynamically from data
+export const getUniqueValues = <T, K extends keyof T>(items: T[], key: K): T[K][] => {
+    const values = items.map(item => item[key]);
+    return [...new Set(values)];
+};
 
-// export const extractFundingRounds = (projects: CatalystProject[]): string[] => {
-//     const fundingRounds = projects.map(project =>
-//         project.projectDetails.category.substring(0, 3)
-//     );
-//     return [...new Set(fundingRounds)];
-// };
+export const extractFundingRounds = (projects: CatalystProject[]): string[] => {
+    const fundingRounds = projects.map(project =>
+        project.projectDetails.category.substring(0, 3)
+    );
+    return [...new Set(fundingRounds)];
+};
 
 // export const getProposalTypes = (votes: GovernanceVote[]): string[] => {
 //     return [...new Set(votes.map(vote => vote.proposalType))];
@@ -74,33 +74,33 @@
 //     };
 // };
 
-// export const generateCatalystProposalsFilterConfig = (projects: CatalystProject[]): SearchFilterConfig => {
-//     // Extract unique statuses and funding rounds from projects data
-//     const statuses = [...new Set(projects.map(project => project.projectDetails.status))];
-//     const fundingRounds = extractFundingRounds(projects);
+export const generateCatalystProposalsFilterConfig = (projects: CatalystProject[]): SearchFilterConfig => {
+    // Extract unique statuses and funding rounds from projects data
+    const statuses = [...new Set(projects.map(project => project.projectDetails.status))];
+    const fundingRounds = extractFundingRounds(projects);
 
-//     return {
-//         placeholder: 'Search proposals by title, project ID, funding round, or status...',
-//         filters: [
-//             {
-//                 id: 'status',
-//                 label: 'Status',
-//                 options: statuses.map(status => ({
-//                     label: status,
-//                     value: status
-//                 }))
-//             },
-//             {
-//                 id: 'fundingRound',
-//                 label: 'Funding Round',
-//                 options: fundingRounds.map(round => ({
-//                     label: round,
-//                     value: round
-//                 }))
-//             }
-//         ]
-//     };
-// };
+    return {
+        placeholder: 'Search proposals by title, project ID, funding round, or status...',
+        filters: [
+            {
+                id: 'status',
+                label: 'Status',
+                options: statuses.map(status => ({
+                    label: status,
+                    value: status
+                }))
+            },
+            {
+                id: 'fundingRound',
+                label: 'Funding Round',
+                options: fundingRounds.map(round => ({
+                    label: round,
+                    value: round
+                }))
+            }
+        ]
+    };
+};
 
 // export const generateMeshStatsFilterConfig = (stats: CurrentStats): SearchFilterConfig => {
 //     // Get package names from stats data
@@ -151,27 +151,27 @@
 //     });
 // };
 
-// export const filterProposals = (projects: CatalystProject[], searchTerm: string, filters: Record<string, string>): CatalystProject[] => {
-//     // Don't filter if no search term and no filters
-//     if (!searchTerm && Object.keys(filters).length === 0) return projects;
+export const filterProposals = (projects: CatalystProject[], searchTerm: string, filters: Record<string, string>): CatalystProject[] => {
+    // Don't filter if no search term and no filters
+    if (!searchTerm && Object.keys(filters).length === 0) return projects;
 
-//     return projects.filter(project => {
-//         // Search term filter - check across multiple fields
-//         const searchMatch = !searchTerm ||
-//             project.projectDetails.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-//             project.projectDetails.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-//             project.projectDetails.project_id.toString().includes(searchTerm);
+    return projects.filter(project => {
+        // Search term filter - check across multiple fields
+        const searchMatch = !searchTerm ||
+            project.projectDetails.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            project.projectDetails.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            project.projectDetails.project_id.toString().includes(searchTerm);
 
-//         // Extract funding round from category (first 3 characters)
-//         const fundingRound = project.projectDetails.category.substring(0, 3);
+        // Extract funding round from category (first 3 characters)
+        const fundingRound = project.projectDetails.category.substring(0, 3);
 
-//         // Apply individual filters
-//         const statusMatch = !filters.status || project.projectDetails.status === filters.status;
-//         const fundingRoundMatch = !filters.fundingRound || fundingRound === filters.fundingRound;
+        // Apply individual filters
+        const statusMatch = !filters.status || project.projectDetails.status === filters.status;
+        const fundingRoundMatch = !filters.fundingRound || fundingRound === filters.fundingRound;
 
-//         return searchMatch && statusMatch && fundingRoundMatch;
-//     });
-// };
+        return searchMatch && statusMatch && fundingRoundMatch;
+    });
+};
 
 // export const filterStats = (stats: CurrentStats, searchTerm: string, filters: Record<string, string>): CurrentStats | undefined => {
 //     // Don't filter if no search term and no filters

@@ -1,173 +1,199 @@
-// import CatalystProposalsList from '../components/CatalystProposalsList';
-// import { useData } from '../contexts/DataContext';
-// import styles from '../styles/Proposals.module.css';
-// import PageHeader from '../components/PageHeader';
-// import SearchFilterBar, { SearchFilterConfig } from '../components/SearchFilterBar';
-// import { filterProposals, generateCatalystProposalsFilterConfig } from '../config/filterConfig';
-// import { useState, useMemo, useEffect, useCallback, useRef } from 'react';
-// import { CatalystProject } from '../types';
-// import { useRouter } from 'next/router';
-// import CatalystMilestonesDonut from '../components/CatalystMilestonesDonut';
-// import CatalystBudgetDonut from '../components/CatalystBudgetDonut';
-// import VotesDonutChart from '../components/VotesDonutChart';
-// import { useScrollRestoration } from '../hooks/useScrollRestoration';
+import CatalystProposalsList from '../components/CatalystProposalsList';
+import { useData } from '../contexts/DataContext';
+import styles from '../styles/Proposals.module.css';
+import PageHeader from '../components/PageHeader';
+import SearchFilterBar, { SearchFilterConfig } from '../components/SearchFilterBar';
+import { filterProposals, generateCatalystProposalsFilterConfig } from '../config/filterConfig';
+import { useState, useMemo, useEffect, useCallback, useRef } from 'react';
+import { CatalystProject } from '../types';
+import { useRouter } from 'next/router';
+import CatalystMilestonesDonut from '../components/CatalystMilestonesDonut';
+import CatalystBudgetDonut from '../components/CatalystBudgetDonut';
+import VotesDonutChart from '../components/VotesDonutChart';
+import { useScrollRestoration } from '../hooks/useScrollRestoration';
+import { CatalystData } from '../types';
 
-// export default function CatalystProposals() {
-//     const router = useRouter();
-//     const { catalystData, isLoading, error } = useData();
-//     const [filteredProjects, setFilteredProjects] = useState<CatalystProject[]>([]);
-//     const [isSearching, setIsSearching] = useState<boolean>(false);
-//     const [filterConfig, setFilterConfig] = useState<SearchFilterConfig>({
-//         placeholder: "Search proposals...",
-//         filters: []
-//     });
-//     const shouldRestoreScroll = useRef(false);
+export default function CatalystProposals() {
+    const router = useRouter();
+    const { isLoading, error } = useData();
+    const [catalystData, setCatalystData] = useState<{ catalystData: CatalystData } | null>(null);
+    const [catalystLoading, setCatalystLoading] = useState(true);
+    const [catalystError, setCatalystError] = useState<string | null>(null);
+    const [filteredProjects, setFilteredProjects] = useState<CatalystProject[]>([]);
+    const [isSearching, setIsSearching] = useState<boolean>(false);
+    const [filterConfig, setFilterConfig] = useState<SearchFilterConfig>({
+        placeholder: "Search proposals...",
+        filters: []
+    });
+    const shouldRestoreScroll = useRef(false);
 
-//     // Enable scroll restoration
-//     useScrollRestoration();
+    // Enable scroll restoration
+    useScrollRestoration();
 
-//     useEffect(() => {
-//         // Check if we're returning from a proposal page
-//         if (router.asPath === '/catalyst-proposals' && shouldRestoreScroll.current) {
-//             const scrollY = sessionStorage.getItem('scrollPosition');
-//             if (scrollY) {
-//                 // Delay the scroll restoration slightly to ensure the page is fully rendered
-//                 setTimeout(() => {
-//                     window.scrollTo(0, parseInt(scrollY));
-//                     sessionStorage.removeItem('scrollPosition');
-//                 }, 100);
-//             }
-//             shouldRestoreScroll.current = false;
-//         }
-//     }, [router.asPath]);
+    // Fetch catalyst data
+    useEffect(() => {
+        const fetchCatalystData = async () => {
+            try {
+                setCatalystLoading(true);
+                const response = await fetch('/api/catalyst/data');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch catalyst data');
+                }
+                const data = await response.json();
+                setCatalystData({ catalystData: data });
+            } catch (err) {
+                console.error('Error fetching catalyst data:', err);
+                setCatalystError('Failed to load catalyst data');
+            } finally {
+                setCatalystLoading(false);
+            }
+        };
 
-//     useEffect(() => {
-//         if (catalystData?.catalystData) {
-//             setFilterConfig(generateCatalystProposalsFilterConfig(catalystData.catalystData.projects));
-//         }
-//     }, [catalystData]);
+        fetchCatalystData();
+    }, []);
 
-//     // Get data early to avoid conditional access
-//     const data = catalystData?.catalystData;
-//     const allProjects = useMemo(() => data?.projects || [], [data?.projects]);
+    useEffect(() => {
+        // Check if we're returning from a proposal page
+        if (router.asPath === '/catalyst-proposals' && shouldRestoreScroll.current) {
+            const scrollY = sessionStorage.getItem('scrollPosition');
+            if (scrollY) {
+                // Delay the scroll restoration slightly to ensure the page is fully rendered
+                setTimeout(() => {
+                    window.scrollTo(0, parseInt(scrollY));
+                    sessionStorage.removeItem('scrollPosition');
+                }, 100);
+            }
+            shouldRestoreScroll.current = false;
+        }
+    }, [router.asPath]);
 
-//     // Calculate milestone stats
-//     const milestoneStats = useMemo(() => {
-//         let totalMilestones = 0;
-//         let completedMilestones = 0;
+    useEffect(() => {
+        if (catalystData?.catalystData) {
+            setFilterConfig(generateCatalystProposalsFilterConfig(catalystData.catalystData.projects));
+        }
+    }, [catalystData]);
 
-//         allProjects.forEach(project => {
-//             totalMilestones += project.projectDetails.milestones_qty;
-//             completedMilestones += project.milestonesCompleted;
-//         });
+    // Get data early to avoid conditional access
+    const data = catalystData?.catalystData;
+    const allProjects = useMemo(() => data?.projects || [], [data?.projects]);
 
-//         return { totalMilestones, completedMilestones };
-//     }, [allProjects]);
+    // Calculate milestone stats
+    const milestoneStats = useMemo(() => {
+        let totalMilestones = 0;
+        let completedMilestones = 0;
 
-//     // Calculate budget stats
-//     const budgetStats = useMemo(() => {
-//         let totalBudget = 0;
-//         let distributedBudget = 0;
+        allProjects.forEach((project: CatalystProject) => {
+            totalMilestones += project.projectDetails.milestones_qty;
+            completedMilestones += project.milestonesCompleted;
+        });
 
-//         allProjects.forEach(project => {
-//             totalBudget += project.projectDetails.budget;
-//             distributedBudget += project.projectDetails.funds_distributed;
-//         });
+        return { totalMilestones, completedMilestones };
+    }, [allProjects]);
 
-//         return { totalBudget, distributedBudget };
-//     }, [allProjects]);
+    // Calculate budget stats
+    const budgetStats = useMemo(() => {
+        let totalBudget = 0;
+        let distributedBudget = 0;
 
-//     // Handle search and filtering
-//     const handleSearch = useCallback((searchTerm: string, activeFilters: Record<string, string>) => {
-//         if (!searchTerm && Object.keys(activeFilters).length === 0) {
-//             setFilteredProjects([]);
-//             setIsSearching(false);
-//             return;
-//         }
+        allProjects.forEach((project: CatalystProject) => {
+            totalBudget += project.projectDetails.budget;
+            distributedBudget += project.projectDetails.funds_distributed;
+        });
 
-//         setIsSearching(true);
-//         const filtered = filterProposals(allProjects, searchTerm, activeFilters);
-//         setFilteredProjects(filtered);
-//     }, [allProjects]);
+        return { totalBudget, distributedBudget };
+    }, [allProjects]);
 
-//     // Handle URL search parameter
-//     useEffect(() => {
-//         if (router.isReady && router.query.search && data) {
-//             const searchTerm = router.query.search as string;
-//             const filtered = filterProposals(data.projects, searchTerm, {});
-//             setFilteredProjects(filtered);
-//             setIsSearching(true);
-//         }
-//     }, [router.isReady, router.query.search, data]);
+    // Handle search and filtering
+    const handleSearch = useCallback((searchTerm: string, activeFilters: Record<string, string>) => {
+        if (!searchTerm && Object.keys(activeFilters).length === 0) {
+            setFilteredProjects([]);
+            setIsSearching(false);
+            return;
+        }
 
-//     if (isLoading) {
-//         return (
-//             <div className={styles.container}>
-//                 <div className={styles.loading}>Loading catalyst data...</div>
-//             </div>
-//         );
-//     }
+        setIsSearching(true);
+        const filtered = filterProposals(allProjects, searchTerm, activeFilters);
+        setFilteredProjects(filtered);
+    }, [allProjects]);
 
-//     if (error) {
-//         return (
-//             <div className={styles.container}>
-//                 <div className={styles.error}>{error}</div>
-//             </div>
-//         );
-//     }
+    // Handle URL search parameter
+    useEffect(() => {
+        if (router.isReady && router.query.search && data) {
+            const searchTerm = router.query.search as string;
+            const filtered = filterProposals(data.projects, searchTerm, {});
+            setFilteredProjects(filtered);
+            setIsSearching(true);
+        }
+    }, [router.isReady, router.query.search, data]);
 
-//     if (!data) {
-//         return (
-//             <div className={styles.container}>
-//                 <div className={styles.error}>No catalyst data available</div>
-//             </div>
-//         );
-//     }
+    if (isLoading || catalystLoading) {
+        return (
+            <div className={styles.container}>
+                <div className={styles.loading}>Loading catalyst data...</div>
+            </div>
+        );
+    }
 
-//     // Determine which data to display
-//     const displayData = {
-//         ...data,
-//         projects: isSearching ? filteredProjects : data.projects
-//     };
+    if (error || catalystError) {
+        return (
+            <div className={styles.container}>
+                <div className={styles.error}>{error || catalystError}</div>
+            </div>
+        );
+    }
 
-//     return (
-//         <div className={styles.container}>
-//             <PageHeader
-//                 title={<>Catalyst Proposal <span>Dashboard</span></>}
-//                 subtitle="Mesh received strong support from Ada voters at Cardano's Project Catalyst. We are greatful for every support and want to make sure that our supporters have easy overview and insights on the progress of our funded proposals"
-//             />
+    if (!data) {
+        return (
+            <div className={styles.container}>
+                <div className={styles.error}>No catalyst data available</div>
+            </div>
+        );
+    }
 
-//             <SearchFilterBar
-//                 config={filterConfig}
-//                 onSearch={handleSearch}
-//                 initialSearchTerm={router.query.search as string}
-//             />
+    // Determine which data to display
+    const displayData = {
+        ...data,
+        projects: isSearching ? filteredProjects : data.projects
+    };
 
-//             <div className={styles.chartsGrid}>
-//                 <div className={styles.chartSection}>
-//                     <CatalystMilestonesDonut
-//                         totalMilestones={milestoneStats.totalMilestones}
-//                         completedMilestones={milestoneStats.completedMilestones}
-//                     />
-//                 </div>
-//                 <div className={styles.chartSection}>
-//                     <CatalystBudgetDonut
-//                         totalBudget={budgetStats.totalBudget}
-//                         distributedBudget={budgetStats.distributedBudget}
-//                     />
-//                 </div>
-//                 <div className={styles.chartSection}>
-//                     <VotesDonutChart proposals={allProjects} />
-//                 </div>
-//             </div>
+    return (
+        <div className={styles.container}>
+            <PageHeader
+                title={<>Catalyst Proposal <span>Dashboard</span></>}
+                subtitle="Mesh received strong support from Ada voters at Cardano's Project Catalyst. We are greatful for every support and want to make sure that our supporters have easy overview and insights on the progress of our funded proposals"
+            />
 
-//             {isSearching && (
-//                 <div className={styles.searchResults}>
-//                     <h2>Search Results ({filteredProjects.length} projects found)</h2>
-//                 </div>
-//             )}
+            <SearchFilterBar
+                config={filterConfig}
+                onSearch={handleSearch}
+                initialSearchTerm={router.query.search as string}
+            />
 
-//             <CatalystProposalsList data={displayData} />
-//         </div>
-//     );
-// } 
+            <div className={styles.chartsGrid}>
+                <div className={styles.chartSection}>
+                    <CatalystMilestonesDonut
+                        totalMilestones={milestoneStats.totalMilestones}
+                        completedMilestones={milestoneStats.completedMilestones}
+                    />
+                </div>
+                <div className={styles.chartSection}>
+                    <CatalystBudgetDonut
+                        totalBudget={budgetStats.totalBudget}
+                        distributedBudget={budgetStats.distributedBudget}
+                    />
+                </div>
+                <div className={styles.chartSection}>
+                    <VotesDonutChart proposals={allProjects} />
+                </div>
+            </div>
+
+            {isSearching && (
+                <div className={styles.searchResults}>
+                    <h2>Search Results ({filteredProjects.length} projects found)</h2>
+                </div>
+            )}
+
+            <CatalystProposalsList data={displayData} />
+        </div>
+    );
+} 

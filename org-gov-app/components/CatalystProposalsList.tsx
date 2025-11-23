@@ -60,7 +60,7 @@ const CatalystProposalsList: FC<CatalystProposalsListProps> = ({ data }) => {
                             <a
                                 key={project.projectDetails.id}
                                 className={styles.milestoneRow}
-                                onClick={() => handleCardClick(project.projectDetails.project_id)}
+                                onClick={() => handleCardClick(parseInt(project.projectDetails.project_id))}
                                 style={{ cursor: 'pointer' }}
                             >
                                 <div className={styles.milestoneInfo}>
@@ -100,7 +100,7 @@ const CatalystProposalsList: FC<CatalystProposalsListProps> = ({ data }) => {
                             key={project.projectDetails.id}
                             className={`${styles.card} ${styles.clickable}`}
                             data-testid="proposal-item"
-                            onClick={() => handleCardClick(project.projectDetails.project_id)}
+                            onClick={() => handleCardClick(parseInt(project.projectDetails.project_id))}
                         >
                             <div className={styles.cardInner}>
                                 <div className={styles.cardHeader}>
@@ -173,7 +173,7 @@ const CatalystProposalsList: FC<CatalystProposalsListProps> = ({ data }) => {
                                         className={styles.actionButton}
                                         onClick={(e) => {
                                             e.stopPropagation();
-                                            handleCardClick(project.projectDetails.project_id);
+                                            handleCardClick(parseInt(project.projectDetails.project_id));
                                         }}
                                     >
                                         View Details
