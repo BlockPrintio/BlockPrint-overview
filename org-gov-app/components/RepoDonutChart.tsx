@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import styles from '../styles/ContributorModal.module.css';
 
 interface ContributorRepository {
@@ -69,7 +69,7 @@ const RepoDonutChart: React.FC<RepoDonutChartProps> = ({ repositories }) => {
         };
     });
 
-    const drawChart = (isHovered: string | null) => {
+    const drawChart = useCallback((isHovered: string | null) => {
         const canvas = canvasRef.current;
         if (!canvas) return;
 
@@ -85,6 +85,32 @@ const RepoDonutChart: React.FC<RepoDonutChartProps> = ({ repositories }) => {
 
         // Clear canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Recompute chartData inside callback to use latest repositories
+        const topRepos = [...repositories]
+            .sort((a, b) => b.contributions - a.contributions)
+            .slice(0, 12);
+        const otherRepos = repositories.slice(12);
+        const otherContributions = otherRepos.reduce((sum, repo) => sum + repo.contributions, 0);
+        const chartData = otherContributions > 0
+            ? [...topRepos, {
+                name: 'Others',
+                contributions: otherContributions,
+                commits: otherRepos.reduce((sum, repo) => sum + repo.commits, 0),
+                pull_requests: otherRepos.reduce((sum, repo) => sum + repo.pull_requests, 0)
+            }]
+            : topRepos;
+
+        // Generate data for visualization
+        const data = chartData.map((repo) => {
+            return {
+                name: repo.name,
+                value: repo.contributions,
+                commits: repo.commits,
+                pull_requests: repo.pull_requests,
+                color: LEGEND_GRADIENT
+            };
+        });
 
         // Calculate total contributions
         const total = chartData.reduce((sum, repo) => sum + repo.contributions, 0);
@@ -150,11 +176,11 @@ const RepoDonutChart: React.FC<RepoDonutChartProps> = ({ repositories }) => {
         });
 
         setSegments(newSegments);
-    };
+    }, [repositories]);
 
     useEffect(() => {
         drawChart(activeSegment);
-    }, [repositories, activeSegment]);
+    }, [drawChart, activeSegment]);
 
     const handleCanvasMouseMove = (event: React.MouseEvent<HTMLCanvasElement>) => {
         const canvas = canvasRef.current;
