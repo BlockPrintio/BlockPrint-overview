@@ -9,6 +9,12 @@ const nextConfig: NextConfig = {
         port: '',          // leave empty string for default ports
         pathname: '/**',   // allow any path under this host,
       },
+      {
+        protocol: 'https',
+        hostname: 'github.com',
+        port: '',          // leave empty string for default ports
+        pathname: '/**',   // allow any path under this host,
+      },
     ],
   },
   async headers() {

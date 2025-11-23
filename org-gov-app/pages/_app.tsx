@@ -20,8 +20,8 @@ function MyApp({ Component, pageProps }: AppProps) {
     return (
         <>
             <Head>
-                <title>{config.mainOrganization.displayName} Governance</title>
-                <meta name="description" content="Org Governance Platform" />
+                <title>{config.mainOrganization.displayName}.io Governance</title>
+                <meta name="description" content="BlockPrint.io Governance Platform" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>

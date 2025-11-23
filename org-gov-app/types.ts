@@ -82,9 +82,9 @@ export interface Contributor {
 }
 
 // Context Types
-export interface MeshData {
+export interface BlockprintData {
     lastFetched: number;
-    meshPackagesData?: MeshPackagesApiResponse | null;
+    blockprintPackagesData?: BlockprintPackagesApiResponse | null;
 }
 
 export interface DRepEpochInfo {
@@ -179,34 +179,34 @@ export interface ContributorStats {
 }
 
 export interface DataContextType {
-    meshData: MeshData | null;
-    catalystData: CatalystContextData | null;
-    drepVotingData: DRepVotingData | null;
-    discordStats: DiscordStats | null;
+    blockprintData: BlockprintData | null;
+    //catalystData: CatalystContextData | null;
+    //drepVotingData: DRepVotingData | null;
+    //discordStats: DiscordStats | null;
     // Contributor stats only
     contributorStats: ContributorStats | null;
     isLoading: boolean;
     error: string | null;
     // Individual loading states
-    isLoadingMesh: boolean;
-    isLoadingCatalyst: boolean;
-    isLoadingDRep: boolean;
-    isLoadingDiscord: boolean;
+    isLoadingBlockprint: boolean;
+    //isLoadingCatalyst: boolean;
+    //isLoadingDRep: boolean;
+    //isLoadingDiscord: boolean;
     isLoadingContributors: boolean;
     // Individual error states
-    meshError: string | null;
-    catalystError: string | null;
-    drepError: string | null;
-    discordError: string | null;
+    blockprintError: string | null;
+    //catalystError: string | null;
+    //drepError: string | null;
+    //discordError: string | null;
     contributorsError: string | null;
     refetchData: () => Promise<void>;
     // Lazy loading function
     loadContributorStats: () => Promise<void>;
 }
 
-export interface MeshStatsViewProps {
+export interface BlockprintStatsViewProps {
     filteredStats?: FilteredStats;
-    discordStats?: DiscordStats;
+    //discordStats?: DiscordStats;
     contributorStats?: ContributorStats;
 }
 
@@ -302,7 +302,7 @@ export interface PackageStatsHistoryRow {
     package_downloads: number;
 }
 
-export interface MeshPackagesApiResponse {
+export interface BlockprintPackagesApiResponse {
     packages: Array<{
         id: number;
         name: string;

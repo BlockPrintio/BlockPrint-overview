@@ -1,0 +1,31 @@
+[ 
+ {
+    "name": "Asaolu Emmanuel (temasar)",
+    "bio": "Lead developer BlockPrint, Mesh and Gimbalabs contributor. Bachelor degree in Finance, UNILAG, Chartered Institite of banking of Nigeria (CIBN) Member Cardano contributions: Contributed to cardano in various roles, technical or Non-technical",  
+    "github": "https://github.com/Temasar1"
+},
+{
+    "name": "Jethro Adebisi",
+    "bio": "Jane Doe is a full-stack developer in training, working with the MERN stack, Tailwind, and modern JavaScript. Currently studying Engineering, building real projects, and expanding into backend systems, APIs, and blockchain technology.",
+    "github": "https://github.com/JaneDoe"
+},
+  {
+    "name": "Emafido Emmanuel Aridon",
+    "bio": "Emafido Emmanuel Aridon is a full-stack developer in training, working with the MERN stack, Tailwind, and modern JavaScript. Currently studying Engineering, building real projects, and expanding into backend systems, APIs, and blockchain technology.",
+    "github": "https://github.com/Emafido"
+  },{
+    "name": "Gideon Ovwiomor",
+    "bio": "I'm Gideon Ovwiomor a developer currently exploring building of meaningful solutions though the use of Blockchain technology. My stack includes Aiken, Python, Typescript and Rust. I'm currently studying Geophysics in the University of Lagos, Nigeria.",
+    "github": "https://github.com/0xGIDHUB"
+  },
+  {
+    "name": "Kadiri Ahmed Tunde",
+    "bio": "I'm Kadiri Ahmed Tunde, I am primarily a front-end developer and designer a potential full stack developer,  I am currently exploring blockchain development with Aiken. My tech stack are Aiken, React, Next.js,  Tailwind, JavaScript and Figma. I studied computer Science at Lagos State University.",
+    "github": "https://github.com/Mhizta-gab"
+  },
+  {
+    "name": "John Doe",
+    "bio": "I'm Treasure Olayemi, Alli …… a computational scientist and backend engineer with a strong foundation in physics, discrete math, and systems design. I build automated and dev tools, currently focused on Cardano’s blockchain architecture (UPLC, Aiken), simulation, and debugging systems. I work primarily with Python, Java, and Rust(Not that advanced yet on rust). My interests lie in low-level infrastructure, compilers, and intelligent systems that reveal how complex protocols behave. Studying Computer Science at the University of Lagos.",
+    "github": "https://github.com/TAENTED9"
+  }
+]

@@ -82,7 +82,7 @@ const ShowcaseRepoCard = ({ repo }: { repo: ShowcaseRepo }) => (
 );
 
 export default function Projects() {
-    const { orgData, isLoading, error } = useData();
+    const { blockprintData, isLoading, error } = useData();
 
     // Extract repository name from dependents URL
     const getRepoNameFromUrl = (url: string): string => {
@@ -110,8 +110,8 @@ export default function Projects() {
         );
     }
 
-    const githubUsage = orgData?.currentStats?.github?.core_in_repositories || 0;
-    const totalReferences = orgData?.currentStats?.github?.core_in_any_file || 0;
+    const githubUsage = blockprintData?.blockprintPackagesData?.packages|| 0;
+    const totalReferences = blockprintData?.blockprintPackagesData?.packages || 0;
 
     // Extract showcaseRepos from config
     const showcaseRepos: ShowcaseRepo[] = (config as { showcaseRepos?: ShowcaseRepo[] }).showcaseRepos || [];
@@ -126,11 +126,11 @@ export default function Projects() {
             <div className={styles.stats}>
                 <div className={styles.stat}>
                     <h3>Total Repos using {repoName}</h3>
-                    <p>{githubUsage}</p>
+                    <p>{githubUsage.length}</p>
                 </div>
                 <div className={styles.stat}>
                     <h3>Total References</h3>
-                    <p>{totalReferences}</p>
+                    <p>{totalReferences.length}</p>
                 </div>
             </div>
 
