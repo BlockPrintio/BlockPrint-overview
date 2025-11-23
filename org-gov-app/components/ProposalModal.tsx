@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import styles from '../styles/ProposalModal.module.css';
 import config from '../config';
-import { ProposalType } from '../types';
 
 interface ProposalModalProps {
     proposal: {
@@ -15,7 +14,6 @@ interface ProposalModalProps {
         metaUrl: string | null;
         metaHash: string | null;
         proposalTitle: string;
-        proposalType: ProposalType;
         proposedEpoch: number;
         expirationEpoch: number;
         rationale: string;
@@ -91,7 +89,7 @@ export default function ProposalModal({ proposal, onClose, context = 'drep' }: P
 
     const getVoteTitle = () => {
         const displayName = config.mainOrganization.displayName;
-        return `${displayName} DRep Vote`;
+            return `${displayName} DRep Vote`;
     };
 
     const modalContent = (
@@ -122,10 +120,6 @@ export default function ProposalModal({ proposal, onClose, context = 'drep' }: P
                     <div className={styles.section}>
                         <h3 className={styles.sectionTitle}>Proposal Details</h3>
                         <div className={styles.metadata}>
-                            <div className={styles.metaItem}>
-                                <span className={styles.metaLabel}>Type</span>
-                                <span className={styles.metaValue}>{proposal.proposalType}</span>
-                            </div>
                             <div className={styles.metaItem}>
                                 <span className={styles.metaLabel}>Proposal ID</span>
                                 <span className={styles.metaValue}>{proposal.proposalId}</span>
