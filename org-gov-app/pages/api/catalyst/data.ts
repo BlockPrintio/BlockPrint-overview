@@ -22,24 +22,59 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         if (fs.existsSync(localFilePath)) {
             console.log('Reading catalyst data from local file:', localFilePath);
             const localData = fs.readFileSync(localFilePath, 'utf-8');
-            data = JSON.parse(localData);
+            
+            // Check if file is empty
+            if (!localData || localData.trim().length === 0) {
+                console.warn('Catalyst data file is empty, returning empty structure');
+                data = { timestamp: new Date().toISOString(), projects: [] };
+            } else {
+                try {
+                    data = JSON.parse(localData);
+                } catch (parseError) {
+                    console.error('Error parsing catalyst data JSON:', parseError);
+                    data = { timestamp: new Date().toISOString(), projects: [] };
+                }
+            }
         } else {
             // Fallback to GitHub for production
             console.log('Reading catalyst data from GitHub:', `${BASE_URL}/catalyst-proposals/catalyst-data.json`);
-            const response = await fetch(`${BASE_URL}/catalyst-proposals/catalyst-data.json`);
-            
-            if (!response.ok) {
-                console.error('Failed to fetch catalyst data from GitHub:', response.status, response.statusText);
-                return res.status(500).json({ message: 'Failed to fetch catalyst data' });
+            try {
+                const response = await fetch(`${BASE_URL}/catalyst-proposals/catalyst-data.json`);
+                
+                if (!response.ok) {
+                    console.error('Failed to fetch catalyst data from GitHub:', response.status, response.statusText);
+                    data = { timestamp: new Date().toISOString(), projects: [] };
+                } else {
+                    const responseData = await response.text();
+                    if (!responseData || responseData.trim().length === 0) {
+                        data = { timestamp: new Date().toISOString(), projects: [] };
+                    } else {
+                        data = JSON.parse(responseData);
+                    }
+                }
+            } catch (fetchError) {
+                console.error('Error fetching catalyst data from GitHub:', fetchError);
+                data = { timestamp: new Date().toISOString(), projects: [] };
             }
-            
-            data = await response.json();
+        }
+        
+        // Ensure data has the correct structure
+        if (!data || typeof data !== 'object') {
+            data = { timestamp: new Date().toISOString(), projects: [] };
+        }
+        
+        if (!data.projects || !Array.isArray(data.projects)) {
+            data.projects = [];
         }
         
         return res.status(200).json(data);
     } catch (error) {
         console.error('Error fetching catalyst data:', error);
-        return res.status(500).json({ message: 'Failed to fetch catalyst data' });
+        // Return empty structure instead of error
+        return res.status(200).json({ 
+            timestamp: new Date().toISOString(), 
+            projects: [] 
+        });
     }
 }
 

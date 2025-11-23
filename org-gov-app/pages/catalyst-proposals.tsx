@@ -35,15 +35,25 @@ export default function CatalystProposals() {
         const fetchCatalystData = async () => {
             try {
                 setCatalystLoading(true);
+                setCatalystError(null);
                 const response = await fetch('/api/catalyst/data');
                 if (!response.ok) {
-                    throw new Error('Failed to fetch catalyst data');
+                    throw new Error(`Failed to fetch catalyst data: ${response.status}`);
                 }
                 const data = await response.json();
-                setCatalystData({ catalystData: data });
+                
+                // Handle empty data gracefully
+                if (!data || !data.projects || data.projects.length === 0) {
+                    console.warn('No catalyst projects found in data');
+                    setCatalystData({ catalystData: { timestamp: new Date().toISOString(), projects: [] } });
+                } else {
+                    setCatalystData({ catalystData: data });
+                }
             } catch (err) {
                 console.error('Error fetching catalyst data:', err);
                 setCatalystError('Failed to load catalyst data');
+                // Set empty data structure on error so page can still render
+                setCatalystData({ catalystData: { timestamp: new Date().toISOString(), projects: [] } });
             } finally {
                 setCatalystLoading(false);
             }
@@ -134,18 +144,46 @@ export default function CatalystProposals() {
         );
     }
 
-    if (error || catalystError) {
+    // Only show error if we have a real error and no data
+    if ((error || catalystError) && (!catalystData || !catalystData.catalystData || !catalystData.catalystData.projects || catalystData.catalystData.projects.length === 0)) {
         return (
             <div className={styles.container}>
-                <div className={styles.error}>{error || catalystError}</div>
+                <PageHeader
+                    title={<>Catalyst Proposal <span>Dashboard</span></>}
+                    subtitle="Mesh received strong support from Ada voters at Cardano's Project Catalyst. We are greatful for every support and want to make sure that our supporters have easy overview and insights on the progress of our funded proposals"
+                />
+                <div className={styles.error} style={{ 
+                    textAlign: 'center', 
+                    padding: '3rem',
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    borderRadius: '12px',
+                    border: '1px solid rgba(255, 255, 255, 0.1)'
+                }}>
+                    <p>{error || catalystError}</p>
+                </div>
             </div>
         );
     }
 
-    if (!data) {
+    if (!data || !data.projects || data.projects.length === 0) {
         return (
             <div className={styles.container}>
-                <div className={styles.error}>No catalyst data available</div>
+                <PageHeader
+                    title={<>Catalyst Proposal <span>Dashboard</span></>}
+                    subtitle="Mesh received strong support from Ada voters at Cardano's Project Catalyst. We are greatful for every support and want to make sure that our supporters have easy overview and insights on the progress of our funded proposals"
+                />
+                <div className={styles.error} style={{ 
+                    textAlign: 'center', 
+                    padding: '3rem',
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    borderRadius: '12px',
+                    border: '1px solid rgba(255, 255, 255, 0.1)'
+                }}>
+                    <p>No catalyst proposals data available at this time.</p>
+                    <p style={{ marginTop: '1rem', fontSize: '0.875rem', color: 'rgba(255, 255, 255, 0.6)' }}>
+                        Catalyst data will appear here once it's been loaded.
+                    </p>
+                </div>
             </div>
         );
     }
