@@ -22,7 +22,7 @@ interface ProposalModalProps {
     context?: 'drep';
 }
 
-export default function ProposalModal({ proposal, onClose, context = 'drep' }: ProposalModalProps) {
+export default function ProposalModal({ proposal, onClose }: ProposalModalProps) {
     const modalRef = useRef<HTMLDivElement>(null);
     const [copiedHash, setCopiedHash] = useState<string | null>(null);
     const [isSmallScreen, setIsSmallScreen] = useState(false);
