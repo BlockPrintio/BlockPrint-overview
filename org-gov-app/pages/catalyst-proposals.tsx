@@ -49,7 +49,7 @@ export default function CatalystProposals() {
 
     // Get data early to avoid conditional access
     const data = catalystData?.catalystData;
-    const allProjects = data?.projects || [];
+    const allProjects = useMemo(() => data?.projects || [], [data?.projects]);
 
     // Calculate milestone stats
     const milestoneStats = useMemo(() => {

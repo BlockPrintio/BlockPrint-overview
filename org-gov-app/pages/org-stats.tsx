@@ -4,7 +4,7 @@ import PageHeader from '../components/PageHeader';
 import config from '../config';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { FaGithub, FaCode, FaStar, FaCodeBranch, FaEye } from 'react-icons/fa';
+import { FaGithub, FaStar, FaCodeBranch } from 'react-icons/fa';
 
 interface Repository {
     name: string;
@@ -43,7 +43,16 @@ export default function OrgStatsPage() {
                     let totalStars = 0;
                     let totalForks = 0;
 
-                    const repositories: Repository[] = repos.map((repo: any) => {
+                    const repositories: Repository[] = repos.map((repo: {
+                        name: string;
+                        description: string | null;
+                        language: string | null;
+                        stargazers_count: number;
+                        forks_count: number;
+                        watchers_count: number;
+                        html_url: string;
+                        updated_at: string;
+                    }) => {
                         // Count languages
                         if (repo.language) {
                             languages[repo.language] = (languages[repo.language] || 0) + 1;

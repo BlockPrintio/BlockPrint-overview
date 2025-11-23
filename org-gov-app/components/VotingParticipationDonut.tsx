@@ -35,12 +35,6 @@ export default function VotingParticipationDonut({ totalProposals, votedProposal
         endAngle: number;
     }>>([]);
 
-    const data = [
-        { type: 'voted', value: votedProposals },
-        { type: 'notVoted', value: totalProposals - votedProposals }
-    ];
-    const total = totalProposals || 1;
-
     const drawChart = useCallback((isHovered: string | null) => {
         const canvas = canvasRef.current;
         if (!canvas) return;
@@ -52,6 +46,14 @@ export default function VotingParticipationDonut({ totalProposals, votedProposal
         canvas.height = rect.height * dpr;
         ctx.scale(dpr, dpr);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Compute data inside callback
+        const data = [
+            { type: 'voted', value: votedProposals },
+            { type: 'notVoted', value: totalProposals - votedProposals }
+        ];
+        const total = totalProposals || 1;
+        
         const centerX = canvas.width / (2 * dpr);
         const centerY = canvas.height / (2 * dpr);
         const radius = Math.min(centerX, centerY) * 0.8;

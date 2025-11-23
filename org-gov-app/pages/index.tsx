@@ -22,8 +22,6 @@ export default function Dashboard() {
     );
   }
 
-  const currentStats = blockprintData?.blockprintPackagesData?.packages;
-
   return (
     <div className={styles.page}>
       <main className={styles.main}>
