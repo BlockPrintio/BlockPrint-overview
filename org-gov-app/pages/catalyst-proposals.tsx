@@ -181,7 +181,7 @@ export default function CatalystProposals() {
                 }}>
                     <p>No catalyst proposals data available at this time.</p>
                     <p style={{ marginTop: '1rem', fontSize: '0.875rem', color: 'rgba(255, 255, 255, 0.6)' }}>
-                        Catalyst data will appear here once it's been loaded.
+                        Catalyst data will appear here once it&apos;s been loaded.
                     </p>
                 </div>
             </div>
