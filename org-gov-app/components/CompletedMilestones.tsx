@@ -159,74 +159,30 @@ export default function CompletedMilestones({ milestones }: CompletedMilestonesP
 
             <div className={styles.milestonesGrid}>
                 {milestones.map((milestone) => (
-                    <div key={milestone.milestoneNumber} className={styles.milestoneCard}>
+                    <div key={milestone.projectId} className={styles.milestoneCard}>
                         <div 
                             className={styles.milestoneHeader}
-                            onClick={() => toggleMilestone(milestone.milestoneNumber)}
+                            onClick={() => toggleMilestone(milestone.number)}
                         >
                             <div className={styles.milestoneInfo}>
                                 <div className={styles.milestoneNumber}>
-                                    Milestone {milestone.milestoneNumber}
+                                    Milestone {milestone.projectId}
                                 </div>
                                 <div className={styles.milestoneBudget}>
                                     {milestone.budget}
                                 </div>
                             </div>
                             <div className={styles.milestoneDate}>
-                                Delivered: {formatDate(milestone.deliveredDate)}
+                                Delivered: {formatDate(milestone.delivered)}
                             </div>
-                            <div className={`${styles.expandIcon} ${expandedMilestone === milestone.milestoneNumber ? styles.expanded : ''}`}>
+                            <div className={`${styles.expandIcon} ${expandedMilestone === milestone.number ? styles.expanded : ''}`}>
                                 ↓
                             </div>
                         </div>
 
-                        {expandedMilestone === milestone.milestoneNumber && (
+                            {expandedMilestone === milestone.number && (
                             <div className={styles.milestoneContent}>
-                                {milestone.title && (
-                                    <h3 className={styles.milestoneTitle}>{milestone.title}</h3>
-                                )}
-                                
-                                {milestone.outcomes.length > 0 && (
-                                    <div className={styles.section}>
-                                        <h4 className={styles.sectionSubtitle}>Outcomes & Objectives</h4>
-                                        <ul className={styles.outcomesList}>
-                                            {milestone.outcomes.map((outcome, index) => (
-                                                <li key={index}>{outcome}</li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                )}
-
-                                {milestone.evidence.length > 0 && (
-                                    <div className={styles.section}>
-                                        <h4 className={styles.sectionSubtitle}>Evidence & Links</h4>
-                                        <ul className={styles.evidenceList}>
-                                            {milestone.evidence.map((evidence, index) => (
-                                                <li key={index}>
-                                                    {evidence.startsWith('http') ? (
-                                                        <a 
-                                                            href={evidence} 
-                                                            target="_blank" 
-                                                            rel="noopener noreferrer"
-                                                            className={styles.evidenceLink}
-                                                        >
-                                                            {evidence}
-                                                        </a>
-                                                    ) : (
-                                                        evidence
-                                                    )}
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                )}
-
-                                <div className={styles.section}>
-                                    <h4 className={styles.sectionSubtitle}>Full Report</h4>
-                                    <div className={styles.reportContent}>
-                                        {renderContent(milestone.content)}
-                                    </div>
-                                </div>
+                                {renderContent(milestone.content)}
                             </div>
                         )}
                     </div>

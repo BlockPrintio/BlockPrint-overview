@@ -21,7 +21,7 @@ interface ProposalModalProps {
         rationale: string;
     };
     onClose: () => void;
-    context?: 'drep' | 'stakePool';
+    context?: 'drep';
 }
 
 export default function ProposalModal({ proposal, onClose, context = 'drep' }: ProposalModalProps) {
@@ -86,17 +86,11 @@ export default function ProposalModal({ proposal, onClose, context = 'drep' }: P
     // Determine the appropriate title based on context
     const getRationaleTitle = () => {
         const displayName = config.mainOrganization.displayName;
-        if (context === 'stakePool') {
-            return `${displayName} Stake Pool Vote Rationale`;
-        }
         return `${displayName} DRep Vote Rationale`;
     };
 
     const getVoteTitle = () => {
         const displayName = config.mainOrganization.displayName;
-        if (context === 'stakePool') {
-            return `${displayName} Stake Pool Vote`;
-        }
         return `${displayName} DRep Vote`;
     };
 

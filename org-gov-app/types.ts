@@ -46,22 +46,6 @@ export interface CatalystData {
     projects: CatalystProject[];
 }
 
-export interface GovernanceVote {
-    proposalId: string;
-    proposalTxHash: string;
-    proposalIndex: number;
-    voteTxHash: string;
-    blockTime: string;
-    vote: 'Yes' | 'No' | 'Abstain';
-    metaUrl: string | null;
-    metaHash: string | null;
-    proposalTitle: string;
-    proposalType: string;
-    proposedEpoch: number;
-    expirationEpoch: number;
-    rationale: string;
-}
-
 export interface ContributorRepository {
     name: string;
     commits: number;
@@ -85,38 +69,6 @@ export interface Contributor {
 export interface BlockprintData {
     lastFetched: number;
     blockprintPackagesData?: BlockprintPackagesApiResponse | null;
-}
-
-export interface DRepEpochInfo {
-    voting_power_lovelace: string;
-    total_delegators: number;
-}
-
-export interface DRepTimeline {
-    epochs: Record<string, DRepEpochInfo>;
-    current_epoch: number;
-    total_delegators: number;
-    total_amount_ada: number;
-}
-
-export interface DRepInfo {
-    drepId: string;
-    amount: string;
-    active: boolean;
-    registered: boolean;
-    expires_epoch_no: number;
-    last_updated: string;
-}
-
-export interface DRepDelegationData {
-    timeline: DRepTimeline;
-    drepInfo: DRepInfo;
-}
-
-export interface DRepVotingData {
-    votes: GovernanceVote[];
-    delegationData: DRepDelegationData | null;
-    lastFetched: number;
 }
 
 export interface CatalystContextData {
@@ -181,7 +133,6 @@ export interface ContributorStats {
 export interface DataContextType {
     blockprintData: BlockprintData | null;
     //catalystData: CatalystContextData | null;
-    //drepVotingData: DRepVotingData | null;
     //discordStats: DiscordStats | null;
     // Contributor stats only
     contributorStats: ContributorStats | null;
@@ -250,35 +201,6 @@ export interface CatalystProposalsResponse {
     missingProjectIds: string[];
     totalRequested: number;
     totalFound: number;
-}
-
-// DRep Vote API Types
-export interface DRepVote {
-    vote_tx_hash: string;
-    drep_id: string;
-    proposal_id: string;
-    proposal_tx_hash: string;
-    proposal_index: number;
-    vote: 'Yes' | 'No' | 'Abstain';
-    block_time: string;
-    meta_url: string | null;
-    meta_hash: string | null;
-    proposal_title: string;
-    proposal_type: string;
-    proposed_epoch: number | null;
-    expiration_epoch: number | null;
-    rationale: string;
-    isRecent?: boolean;
-    timeSinceVote?: number;
-}
-
-export interface DRepVotesResponse {
-    status: 'completed' | 'partial' | 'stale';
-    message: string;
-    hasData: boolean;
-    yearlyVotes: Record<string, DRepVote[]>;
-    totalVotes: number;
-    drepId: string;
 }
 
 export interface MonthlyDownloadRow {
