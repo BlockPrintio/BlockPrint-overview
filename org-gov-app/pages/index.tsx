@@ -4,7 +4,7 @@ import Link from "next/link";
 import config from "../config";
 
 export default function Dashboard() {
-  const { blockprintData, isLoading, error } = useData();
+  const { isLoading, error } = useData();
 
   if (isLoading) {
     return (
