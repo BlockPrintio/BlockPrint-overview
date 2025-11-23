@@ -4,7 +4,7 @@ import styles from '../styles/Events.module.css';
 import PageHeader from '../components/PageHeader';
 import EventCard from '../components/EventCard';
 import EventStatsCard from '../components/EventStatsCard';
-import { parseEventsData, getTotalEventsCount, getTotalAttendeesCount, EventCategory } from '../utils/eventsParser';
+import { parseEventsData, getTotalEventsCount, getTotalAttendeesCount, EventCategory, EventData } from '../utils/eventsParser';
 
 export default function CommunityEvents() {
     const { isLoading, error } = useData();
@@ -79,7 +79,7 @@ export default function CommunityEvents() {
                             <span className={styles.categoryCount}>({category.events.length})</span>
                         </h2>
                         <div className={styles.eventsGrid}>
-                            {category.events.map((event, index) => (
+                            {category.events.map((event: EventData, index: number) => (
                                 <EventCard
                                     key={`${category.name}-${index}`}
                                     event={event}
