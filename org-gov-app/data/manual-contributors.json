@@ -27,5 +27,10 @@
     "name": "Treasure Olayemi (TAENTED9)",
     "bio": "I'm Treasure Olayemi, Alli …… a computational scientist and backend engineer with a strong foundation in physics, discrete math, and systems design. I build automated and dev tools, currently focused on Cardano’s blockchain architecture (UPLC, Aiken), simulation, and debugging systems. I work primarily with Python, Java, and Rust(Not that advanced yet on rust). My interests lie in low-level infrastructure, compilers, and intelligent systems that reveal how complex protocols behave. Studying Computer Science at the University of Lagos.",
     "github": "https://github.com/TAENTED9"
+  },
+  {
+    "name": "Okeowo Quam",
+    "bio": "Okeowo Quam a cross-platform mobile application developer building with Dart and the Flutter framework. I have strong experience working within Android Studio and integrating backend and cloud functionality using Firebase. Beyond mobile development, I have growing footprint in blockchain technology, with hands-on proficiency in Aiken language and Haskell-Plutus for smart contract development. Outside my technical skills I am also an alumnus of the University of Lagos. ",
+    "github": "https://github.com/eltrain-704"
   }
 ]
