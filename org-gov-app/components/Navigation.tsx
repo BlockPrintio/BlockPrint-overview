@@ -67,7 +67,6 @@ const socialIcons: { [key: string]: React.JSX.Element } = {
 const Navigation = () => {
     const router = useRouter();
     const [isMobile, setIsMobile] = useState(false);
-    const [isExpanded, setIsExpanded] = useState(false);
 
     // Check if mobile view
     useEffect(() => {
@@ -83,42 +82,19 @@ const Navigation = () => {
         };
     }, []);
 
-    const handleMouseEnter = () => {
-        if (!isMobile) {
-            setIsExpanded(true);
-        }
-    };
-
-    const handleMouseLeave = () => {
-        if (!isMobile) {
-            setIsExpanded(false);
-        }
-    };
-
     return (
-        <nav
-            className={`${styles.navCard} ${isMobile ? styles.navCardMobile : ''} ${isExpanded ? styles.expanded : styles.collapsed}`}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-        >
+        <nav className={`${styles.navCard} ${isMobile ? styles.navCardMobile : ''}`}>
             <div className={styles.logoContainer}>
                 <div className={styles.logo}>
-                    {isExpanded ? (
-                        <Image
-                            src={config.mainOrganization.logoWithName.src}
-                            alt={config.mainOrganization.displayName}
-                            width={config.mainOrganization.logoWithName.width}
-                            height={config.mainOrganization.logoWithName.height}
-                            className={styles.logoImage}
-                        />
-                    ) : (
-                        <Image
-                            src={config.mainOrganization.logo.src}
-                            alt={config.mainOrganization.displayName}
-                            width={config.mainOrganization.logo.width}
-                            height={config.mainOrganization.logo.height}
-                            className={styles.logoImage}
-                        />
+                    <Image
+                        src={config.mainOrganization.logo.src}
+                        alt={config.mainOrganization.displayName}
+                        width={40}
+                        height={40}
+                        className={styles.logoImage}
+                    />
+                    {!isMobile && (
+                        <span className={styles.logoText}>{config.mainOrganization.displayName}</span>
                     )}
                 </div>
             </div>
@@ -131,7 +107,7 @@ const Navigation = () => {
                         title={item.name}
                     >
                         <span className={styles.icon}>{item.icon}</span>
-                        <span className={styles.label}>{item.name}</span>
+                        {!isMobile && <span className={styles.label}>{item.name}</span>}
                     </Link>
                 ))}
             </div>
