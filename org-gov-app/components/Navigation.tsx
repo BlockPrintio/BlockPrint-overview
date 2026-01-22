@@ -84,7 +84,7 @@ const Navigation = () => {
 
     return (
         <nav className={`${styles.navCard} ${isMobile ? styles.navCardMobile : ''}`}>
-            <div className={styles.logoContainer}>
+            <Link href="/" className={styles.logoContainer}>
                 <div className={styles.logo}>
                     <Image
                         src={config.mainOrganization.logo.src}
@@ -97,7 +97,7 @@ const Navigation = () => {
                         <span className={styles.logoText}>{config.mainOrganization.displayName}</span>
                     )}
                 </div>
-            </div>
+            </Link>
             <div className={styles.navItems}>
                 {navItems.map((item) => (
                     <Link

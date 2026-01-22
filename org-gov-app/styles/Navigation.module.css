@@ -33,6 +33,14 @@
   align-items: center;
   gap: var(--space-3);
   flex-shrink: 0;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: opacity var(--transition-fast);
+}
+
+.logoContainer:hover {
+  opacity: 0.8;
 }
 
 .logo {
