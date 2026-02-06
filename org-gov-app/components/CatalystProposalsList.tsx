@@ -27,9 +27,10 @@ const getFundingRound = (category: string): string => {
 
 interface CatalystProposalsListProps {
     data: CatalystData;
+    showMilestoneOverview?: boolean;
 }
 
-const CatalystProposalsList: FC<CatalystProposalsListProps> = ({ data }) => {
+const CatalystProposalsList: FC<CatalystProposalsListProps> = ({ data, showMilestoneOverview = true }) => {
     const router = useRouter();
 
     // Format the timestamp consistently using UTC to avoid timezone issues
@@ -51,45 +52,47 @@ const CatalystProposalsList: FC<CatalystProposalsListProps> = ({ data }) => {
 
     return (
         <>
-            <div className={styles.milestoneOverview}>
-                <h3 className={styles.milestoneOverviewTitle}>Project Milestones Progress</h3>
-                <div className={styles.milestoneGrid}>
-                    {data.projects.map((project) => {
-                        const progressPercent = calculateProgress(project.milestonesCompleted, project.projectDetails.milestones_qty);
-                        return (
-                            <a
-                                key={project.projectDetails.id}
-                                className={styles.milestoneRow}
-                                onClick={() => handleCardClick(parseInt(project.projectDetails.project_id))}
-                                style={{ cursor: 'pointer' }}
-                            >
-                                <div className={styles.milestoneInfo}>
-                                    <div className={styles.milestoneTitle}>
-                                        <span className={styles.fundTag}>{getFundingRound(project.projectDetails.category)}</span>
-                                        <span className={styles.projectTitle}>{project.projectDetails.title}</span>
+            {showMilestoneOverview && (
+                <div className={styles.milestoneOverview}>
+                    <h3 className={styles.milestoneOverviewTitle}>Project Milestones Progress</h3>
+                    <div className={styles.milestoneGrid}>
+                        {data.projects.map((project) => {
+                            const progressPercent = calculateProgress(project.milestonesCompleted, project.projectDetails.milestones_qty);
+                            return (
+                                <a
+                                    key={project.projectDetails.id}
+                                    className={styles.milestoneRow}
+                                    onClick={() => handleCardClick(parseInt(project.projectDetails.project_id))}
+                                    style={{ cursor: 'pointer' }}
+                                >
+                                    <div className={styles.milestoneInfo}>
+                                        <div className={styles.milestoneTitle}>
+                                            <span className={styles.fundTag}>{getFundingRound(project.projectDetails.category)}</span>
+                                            <span className={styles.projectTitle}>{project.projectDetails.title}</span>
+                                        </div>
+                                        <div className={styles.milestoneCount}>
+                                            {project.milestonesCompleted ?? 0}/{project.projectDetails.milestones_qty}
+                                        </div>
                                     </div>
-                                    <div className={styles.milestoneCount}>
-                                        {project.milestonesCompleted ?? 0}/{project.projectDetails.milestones_qty}
+                                    <div className={styles.milestoneProgressBar}>
+                                        <div
+                                            className={styles.milestoneProgressFill}
+                                            style={{
+                                                width: `${progressPercent}%`,
+                                                background: progressPercent === 100
+                                                    ? 'linear-gradient(90deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.35))'
+                                                    : progressPercent > 50
+                                                        ? 'linear-gradient(90deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.25))'
+                                                        : 'linear-gradient(90deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.15))'
+                                            }}
+                                        />
                                     </div>
-                                </div>
-                                <div className={styles.milestoneProgressBar}>
-                                    <div
-                                        className={styles.milestoneProgressFill}
-                                        style={{
-                                            width: `${progressPercent}%`,
-                                            background: progressPercent === 100
-                                                ? 'linear-gradient(90deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.35))'
-                                                : progressPercent > 50
-                                                    ? 'linear-gradient(90deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.25))'
-                                                    : 'linear-gradient(90deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.15))'
-                                        }}
-                                    />
-                                </div>
-                            </a>
-                        );
-                    })}
+                                </a>
+                            );
+                        })}
+                    </div>
                 </div>
-            </div>
+            )}
 
             <ul className={styles.list}>
                 {data.projects.map((project) => {
