@@ -1,298 +1,153 @@
-# Dashboard Template for Cardano Projects
+# BlockPrint Governance Dashboard
 
-A comprehensive, open-source dashboard template for Cardano projects that provides real-time statistics, governance tracking, and project analytics.
+A comprehensive governance dashboard for BlockPrint, showcasing our Cardano community's projects, contributors, Catalyst proposals, and ecosystem impact.
 
-[![Use this template](https://img.shields.io/badge/Use%20this%20template-2ea44f?style=for-the-badge&logo=github)](https://github.com/your-username/dashboard-template/generate)
+[![BlockPrint](https://img.shields.io/badge/BlockPrint-Cardano-blue?style=for-the-badge)](https://blockprint.team)
+[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
+
+## 🌟 About BlockPrint
+
+BlockPrint is a Cardano developer community based in Lagos, Nigeria, focused on making blockchain accessible through open source projects and innovative solutions. We are passionate about building tools that empower developers and improve the Cardano ecosystem.
+
+### Our Mission
+
+To make blockchain technology accessible, understandable, and usable for developers and end-users through:
+- **Open Source Development** - Building reusable tools and libraries
+- **Education & Onboarding** - Creating resources for developers new to Cardano
+- **Governance Participation** - Contributing to Cardano's decentralized governance
+- **Community Building** - Fostering collaboration and knowledge sharing
 
 ## 🚀 Quick Start
 
-1. **Click the "Use this template" button above** to create a new repository from this template
-2. **Configure your organization settings** (see Configuration section below)
-3. **Set up GitHub Actions secrets** (see GitHub Actions section below)
-4. **Deploy your dashboard** - the template is ready to deploy to Vercel, Netlify, or any other hosting platform
+### Prerequisites
 
-## 📋 Configuration
+- Node.js 18+ and npm
+- GitHub account with access to BlockPrint repositories
+- (Optional) Koios API key for Cardano blockchain data
 
-### 1. Update Organization Configuration
+### Installation
 
-Edit the `org-stats-config.json` file in the root directory to match your organization:
+```bash
+# Clone the repository
+git clone https://github.com/BlockPrintio/BlockPrint-overview.git
+cd BlockPrint-overview
 
-```json
-{
-  "mainOrganization": {
-    "name": "your-github-org-name",
-    "displayName": "Your Display Name",
-    "logo": {
-      "src": "/your-logo.png",
-      "width": 40,
-      "height": 40
-    },
-    "logoWithName": {
-      "src": "/your-logo-with-name.png",
-      "width": 120,
-      "height": 120
-    },
-    "excludedRepos": []
-  },
-  "extendedOrganizations": [
-    {
-      "name": "example-org",
-      "displayName": "Example Organization",
-      "excludedRepos": ["legacy-repo", "deprecated-project"]
-    }
-  ],
-  "repositories": {
-    "governance": "your-governance-repo",
-    "dependentsCountRepo": "your-main-repo"
-  },
-  "poolId": "your-stake-pool-id",
-  "drepId": "your-drep-id",
-  "catalystProjectIds": "1000107,1100271,1200148",
-  "discordGuildId": "your-discord-server-id",
-  "discordStats": {
-    "useApiAction": false
-  },
-  "npmPackages": {
-    "package_key": "@your-org/package-name"
-  },
-  "socialLinks": [
-    {
-      "name": "GitHub",
-      "url": "https://github.com/your-org"
-    }
-  ],
-  "builderProjects": [
-    {
-      "id": "b1",
-      "icon": "/project-icon.png",
-      "url": "https://project-website.com"
-    }
-  ],
-  "highlightedProjects": [
-    {
-      "id": "project-id",
-      "name": "Project Name",
-      "description": "Project description",
-      "icon": "/project-icon.png",
-      "url": "https://github.com/your-org/project"
-    }
-  ],
-  "showcaseRepos": [
-    {
-      "name": "Repository Name",
-      "description": "Repository description",
-      "icon": "/repo-icon.png",
-      "url": "https://github.com/your-org/repo"
-    }
-  ]
-}
+# Install dependencies
+cd org-gov-app
+npm install
+
+# Run development server
+npm run dev
 ```
 
-**📖 For detailed configuration options, see [org-stats-config-README.md](org-stats-config-README.md)**
+Visit `http://localhost:3000` to see the dashboard.
 
-### 2. Add Your Assets
+## 📋 Features
 
-Place your organization logos and images in the `org-gov-app/public/` directory and update the paths in the configuration file.
+This dashboard provides:
 
-### 3. Catalyst Proposals and Milestone Reporting
+- **📊 Organization Statistics** - GitHub stars, forks, contributors, and repository analytics
+- **👥 Contributors** - Showcase of community contributors and their contributions
+- **💡 Catalyst Proposals** - Track Fund 15 proposals and their progress
+- **📦 Projects** - Display of BlockPrint's open source projects and repositories
+- **🔗 Social Integration** - Links to GitHub, Twitter, and Discord
+- **📈 Real-time Data** - Automatic updates via GitHub Actions
 
-The `catalyst-proposals/` folder contains an example of milestone reporting structure that can be used to include project milestones in your dashboard. This folder demonstrates how to organize milestone documentation for Catalyst-funded projects.
+## 🎯 Fund 15 Proposals
 
-#### Structure
-```
-catalyst-proposals/
-├── catalyst-fund12/
-│   └── 1200148-mesh-saas/
-│       ├── 1200148-main.md
-│       ├── 1200148-milestone1.md
-│       ├── 1200148-milestone2.md
-│       └── ...
-└── catalyst-fund13/
-    └── 1300036-cardano-buidlerfest/
-        ├── 1300036-main.md
-        ├── 1300036-milestone1.md
-        └── ...
-```
+BlockPrint has submitted two proposals to Cardano's Project Catalyst Fund 15:
 
-#### Milestone Data Generation
+### 1. BlockPrint | Gimbalabs build a cardano Treasury explorer
+- **Budget**: 150,000 ADA
+- **Status**: Pending Vote
+- **Description**: Build a dedicated Cardano Treasury Explorer that consolidates treasury activity into a single platform for visibility of fund flows, spending trends, and treasury sustainability.
+- **Link**: [View Proposal](https://projectcatalyst.io/funds/15/cardano-use-cases-prototype-and-launch/blockprint-or-gimbalabs-build-a-cardano-treasury-explorer)
 
-The `milestones-data.json` file is automatically generated by a GitHub Action workflow and the `scripts/org-gov/catalyst-proposals/generate-milestones-data.js` script. This data is used by the dashboard to display milestone information.
+### 2. CS-Code: Web-IDE scaffolder for onchain and offchain code
+- **Budget**: 80,000 ADA
+- **Status**: Pending Vote
+- **Description**: Build a unified, web-based IDE comprising all Cardano on-chain and off-chain libraries with ready-to-use templates, full-stack scaffolding, integrated testing, and simplified deployment.
+- **Link**: [View Proposal](https://projectcatalyst.io/funds/15/cardano-use-cases-prototype-and-launch/cs-code-web-ide-scaffolder-for-onchain-and-offchain-code)
 
-**Key points:**
-- Milestone files should follow the naming convention: `{projectId}-milestone{milestoneNumber}.md`
-- The GitHub Action runs on a schedule (Mondays, Wednesdays, Fridays at 00:20 UTC)
-- Generated data includes project details, milestone numbers, budgets, delivery dates, outcomes, and evidence
-- The dashboard uses this data to show milestone progress and completion status
+**Your support and votes are crucial for these projects to receive funding!**
 
-### 4. Community Events
+## 👥 Our Team
 
-The `community-events/events-data.md` file contains all community events data for the dashboard. To add or update events, follow the format specified in the file header.
+BlockPrint is built by a diverse team of developers, designers, and blockchain enthusiasts. Meet our contributors:
 
-**📖 For detailed event format instructions, see [community-events/events-data.md](community-events/events-data.md)**
+- **Emmanuel Asaolu (temasar)** - Lead Developer
+- **Jethro Adebisi** - Co-lead Developer and UX Designer
+- **Gideon Ovwiomor** - Blockchain Developer
+- **Kadiri Ahmed Tunde** - Front-end Developer
+- **Treasure Olayemi (TAENTED9)** - Backend Engineer
+- **Oloyede Al-amin Oladapo (Xanes)** - Full-stack Developer
+- **Emafido Emmanuel Aridon** - Full-stack Developer
+- **Okeowo Quam** - Mobile Developer
+- **Oluwajuwon Oluwaseun** - Front-end Developer
 
-The dashboard automatically parses this file to display events in the community events section. Events are organized by category (Main Events, Workshops, Hong Kong Meetups, Interviews) and include metadata for filtering and display.
+View all contributors at [blockprint.team/contributors](https://blockprint.team/contributors)
 
-## 🔑 GitHub Actions Setup
+## 🔗 Connect With Us
+
+- **Website**: [blockprint.team](https://blockprint.team)
+- **GitHub**: [@BlockPrintio](https://github.com/BlockPrintio)
+- **Twitter**: [@blockprint0](https://x.com/blockprint0)
+- **Discord**: [Join our community](https://discord.gg/k4nFCf9MkB)
+
+## 🏗️ Technology Stack
+
+- **Framework**: Next.js 16.1.3
+- **Language**: TypeScript
+- **Styling**: CSS Modules with custom design system
+- **Font**: Helvetica Neue
+- **Deployment**: Vercel (recommended)
+
+## 📊 Data Sources
+
+The dashboard automatically fetches data from:
+
+- **GitHub API** - Repository statistics and contributor data
+- **Koios API** - Cardano blockchain data
+- **Project Catalyst API** - Proposal and milestone data
+- **Discord API** - Community statistics
+
+## 🔧 Configuration
+
+### Organization Settings
+
+Edit `org-stats-config.json` to configure:
+
+- Organization name and display settings
+- Logo paths and dimensions
+- Social media links
+- Repository exclusions
+- Catalyst project IDs
+- Discord server ID
+
+### GitHub Actions
+
+The dashboard uses GitHub Actions to automatically collect and update data:
+
+- **Organization Statistics** - Weekly updates
+- **Contributor Data** - Real-time tracking
+- **Catalyst Proposals** - Regular sync
+- **Discord Stats** - Monthly updates
 
 ### Required Secrets
 
-You need to add the following secrets to your GitHub repository:
+Add these secrets to your GitHub repository:
 
-1. **Go to your repository settings** → **Secrets and variables** → **Actions**
-2. **Add the following repository secrets:**
-
-| Secret Name | Description | How to Get |
-|-------------|-------------|------------|
-| `KOIOS_API_KEY` | Koios API key for Cardano data | [Get free key here](https://koios.rest/pricing/Pricing.html) |
-
-### Discord Statistics Setup
-
-The dashboard includes Discord server statistics with a configurable approach that adapts to your server size and requirements.
-
-#### Configuration
-
-In your `org-stats-config.json`, configure the Discord settings:
-
-```json
-{
-  "discordGuildId": "your-discord-server-id",
-  "discordStats": {
-    "useApiAction": false,
-    "description": "Set to true if your Discord server has more than 500 members to use the API-based action, false for the standard action (default: false)"
-  }
-}
-```
-
-#### For Discord Servers with 500+ Members
-
-Use the API-based approach which provides more comprehensive analytics:
-
-**Additional Secrets:**
-- `API_BASE_URL` - Your Discord analytics API endpoint
-- `DISCORD_ANALYTICS_TOKEN` - Token for accessing the Discord analytics API
-
-**Setup:**
-1. Set `"useApiAction": true` in your `org-stats-config.json`
-2. Add the required secrets to your GitHub repository
-3. The workflow will automatically run monthly to collect Discord statistics
-4. No bot setup required - uses external API for data collection
-
-**Features:**
-- Tracks message volume, unique communicators, and visitor counts
-- Provides daily engagement metrics aggregated to monthly statistics
-- Handles large servers with thousands of members efficiently
-- No need to add bots to your Discord server
-
-#### For Discord Servers with Less Than 500 Members
-
-Use the bot-based approach which is simpler to set up:
-
-**Required Configuration:**
-- `discordGuildId` in your `org-stats-config.json` (your Discord server ID)
-
-**Setup:**
-1. Set `"useApiAction": false` in your `org-stats-config.json` (default)
-2. Add your Discord server ID to the `discordGuildId` field in the config
-3. **Add the Discord bot to your server:**
-   - Contact the template maintainers to get the bot invite URL
-   - The bot will automatically collect message statistics monthly
-4. **No additional secrets required!** The bot token is managed by the template maintainers
-
-**Features:**
-- Simple setup with managed bot integration
-- Tracks total messages and unique posters per month
-- Monitors member count changes
-- Processes both regular channels and threads
-- No need to manage bot tokens yourself
-
-**Note:** A Discord bot still needs to be added to your server, but the token is managed by the template maintainers. Contact them to get the bot invite URL.
-
-### Optional Secrets for Advanced Features
-
-For full functionality, you may also need these optional secrets:
-
-| Secret Name | Description | When Required |
-|-------------|-------------|---------------|
-| `NEXT_PUBLIC_SUPABASE_URL` | Supabase URL for Catalyst data | If using real Catalyst API data |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anonymous key | If using real Catalyst API data |
-| `LIDO_CSRF_TOKEN` | Lido CSRF token for Catalyst API | If using real Catalyst API data |
-
-### Automatic Data Collection
-
-The following GitHub Actions workflows run automatically to collect data:
-
-| Workflow | Schedule | Purpose |
-|----------|----------|---------|
-| `org-stats.yml` | Every Thursday at midnight UTC | Organization statistics and contributor data |
-| `org-yearly-contributors.yml` | Every Monday at midnight UTC | Yearly contributor statistics |
-| `update-discord-stats.yml` | 1st day of each month at 2:00 AM UTC | Discord server statistics |
-| `stake-pool-info.yml` | Daily at 23:00 UTC | Stake pool performance and voting data |
-| `drep-voting.yml` | Twice daily at 4:10 AM and 4:10 PM UTC | DRep voting history and rationales |
-| `drep-delegation.yml` | Mondays and Thursdays at 00:20 UTC | DRep delegation information |
-| `update-catalyst-docs.yml` | Mondays, Wednesdays, Fridays at 00:10 UTC | Catalyst proposal data |
-| `generate-milestones-data.yml` | Mondays, Wednesdays, Fridays at 00:20 UTC | Project milestone progress |
-
-### Setting Up Secrets
-
-1. **Koios API Key:**
-   - Visit [Koios Pricing Page](https://koios.rest/pricing/Pricing.html)
-   - Sign up for a free API key
-   - Add the key as `KOIOS_API_KEY`
-
-2. **Discord Setup (Configurable based on your server size):**
-
-   **For servers with 500+ members:**
-   - Set `"useApiAction": true` in your `org-stats-config.json`
-   - Contact the template maintainers for API access
-   - Add `API_BASE_URL` and `DISCORD_ANALYTICS_TOKEN` secrets
-
-   **For servers with less than 500 members:**
-   - Set `"useApiAction": false` in your `org-stats-config.json` (default)
-   - Add your Discord server ID to the `discordGuildId` field in the config
-   - Contact the template maintainers to get the Discord bot invite URL
-   - **No additional secrets required!** The bot token is managed by the template maintainers
-
-### ⚠️ Important: Data Availability
-
-**All GitHub Actions workflows must run successfully before data becomes available in your dashboard.** The dashboard relies on data files generated by these workflows:
-
-- Organization statistics and contributor data
-- Stake pool analytics and voting history
-- DRep voting information
-- Catalyst proposals data
-- Discord server statistics
-
-After setting up your secrets, trigger the workflows manually or wait for them to run on schedule. Check the **Actions** tab in your repository to monitor workflow status.
-
-## 🏗️ Features
-
-This template includes:
-
-- **Organization Statistics** - GitHub stars, forks, contributors, and more
-- **Stake Pool Analytics** - Pool performance, delegation growth, voting history
-- **DRep Voting Dashboard** - Governance participation and voting patterns
-- **Catalyst Proposals** - Project funding proposals and status tracking
-- **Contributor Analytics** - Team growth and contribution patterns
-- **NPM Package Statistics** - Download counts and dependency tracking
-- **Discord Integration** - Server statistics and member analytics
-- **Multi-Organization Support** - Track statistics across multiple GitHub organizations
-- **Repository Exclusion** - Exclude specific repositories from statistics
-- **Builder Projects Showcase** - Highlight ecosystem projects
-- **Social Links Integration** - Display social media links
+| Secret Name | Description |
+|-------------|-------------|
+| `KOIOS_API_KEY` | Koios API key for Cardano data |
 
 ## 🚀 Deployment
 
 ### Vercel (Recommended)
 
 1. Connect your repository to [Vercel](https://vercel.com)
-2. Deploy automatically on every push
-3. Custom domain support included
-
-### Netlify
-
-1. Connect your repository to [Netlify](https://netlify.com)
-2. Build command: `cd org-gov-app && npm run build`
-3. Publish directory: `org-gov-app/out`
+2. Set environment variables if needed
+3. Deploy automatically on every push
 
 ### Manual Deployment
 
@@ -303,22 +158,14 @@ npm run build
 npm start
 ```
 
-## 📊 Data Sources
+## 🎨 Design System
 
-The dashboard automatically fetches data from:
+The dashboard uses a modern design system with:
 
-- **GitHub API** - Repository statistics and contributor data
-- **Koios API** - Cardano blockchain data (stake pools, DRep voting)
-- **NPM Registry** - Package download statistics
-- **Discord API** - Server member statistics
-- **Catalyst API** - Project funding proposals
-
-## 🔧 Customization
-
-- **Styling**: Modify CSS modules in `org-gov-app/styles/`
-- **Components**: Edit React components in `org-gov-app/components/`
-- **Data**: Update scripts in `scripts/org-gov/` for custom data processing
-- **Pages**: Add new pages in `org-gov-app/pages/`
+- **Color Palette**: Deep blue (#0033AD) primary, cyan (#06b6d4) secondary
+- **Typography**: Helvetica Neue with bold weights
+- **Glassmorphism**: Modern glass-effect cards and components
+- **Responsive**: Mobile-first design approach
 
 ## 📝 License
 
@@ -326,16 +173,30 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+We welcome contributions! BlockPrint is built by the community, for the community.
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
+
+## 🙏 Acknowledgments
+
+- **Gimbalabs** - Collaboration partner and mentor
+- **Cardano Community** - For support and feedback
+- **Project Catalyst** - For funding opportunities
+- **All Contributors** - For making BlockPrint possible
 
 ## 📞 Support
 
-If you need help setting up your dashboard:
+Need help or have questions?
 
-1. Check the [configuration documentation](org-stats-config-README.md)
-2. Review the [scripts documentation](scripts/README.md)
-3. Open an issue in this repository
+- **Discord**: Join our [Discord server](https://discord.gg/k4nFCf9MkB)
+- **GitHub Issues**: Open an issue in this repository
+- **Email**: Contact us through our website
 
 ---
 
-**Made with ❤️ for the Cardano community**
+**Made with ❤️ by the BlockPrint community for the Cardano ecosystem**
+
+*Building the future of blockchain, one commit at a time.*

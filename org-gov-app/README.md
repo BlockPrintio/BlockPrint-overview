@@ -1,36 +1,108 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# BlockPrint Governance Dashboard
 
-## Getting Started
+A modern, comprehensive governance dashboard for BlockPrint showcasing our Cardano community's projects, contributors, Catalyst proposals, and ecosystem impact.
 
-First, run the development server:
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js 18+ 
+- npm or yarn
+
+### Installation
 
 ```bash
+# Install dependencies
+npm install
+
+# Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view the dashboard.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Build for Production
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm start
+```
 
-## Learn More
+## 📁 Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+org-gov-app/
+├── components/          # React components
+├── contexts/           # React contexts (DataContext)
+├── data/              # Static data files
+├── hooks/             # Custom React hooks
+├── lib/               # Utility libraries
+├── pages/             # Next.js pages
+├── styles/            # CSS modules
+├── types/             # TypeScript type definitions
+├── utils/             # Utility functions
+└── public/            # Static assets
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🎨 Features
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Modern UI Design** - Clean, intuitive interface with glassmorphism effects
+- **Responsive Layout** - Works seamlessly on desktop, tablet, and mobile
+- **Real-time Data** - Automatic updates from GitHub Actions
+- **Catalyst Proposals** - Track Fund 15 proposals and their status
+- **Contributors Showcase** - Display community contributors
+- **Project Gallery** - Showcase BlockPrint's open source projects
 
-## Deploy on Vercel
+## 🔧 Configuration
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The dashboard is configured via `org-stats-config.json` in the root directory. Key settings include:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Organization name and logos
+- Social media links
+- Repository configurations
+- Catalyst project IDs
+- Discord server ID
+
+## 📦 Dependencies
+
+- **Next.js 16.1.3** - React framework
+- **React 19** - UI library
+- **TypeScript** - Type safety
+- **CSS Modules** - Scoped styling
+
+## 🎨 Design System
+
+The dashboard uses a custom design system with:
+
+- **Colors**: Deep blue (#0033AD) primary, cyan (#06b6d4) secondary
+- **Typography**: Helvetica Neue with bold weights
+- **Effects**: Glassmorphism, smooth transitions, hover effects
+- **Layout**: Responsive grid system
+
+## 🚀 Deployment
+
+### Vercel (Recommended)
+
+1. Connect your GitHub repository to Vercel
+2. Set environment variables if needed
+3. Deploy automatically on push
+
+### Other Platforms
+
+The app can be deployed to any platform that supports Next.js:
+- Netlify
+- Railway
+- AWS Amplify
+- Self-hosted
+
+## 📝 License
+
+MIT License - See LICENSE file for details
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit issues and pull requests.
+
+---
+
+**Built with ❤️ by the BlockPrint community**
