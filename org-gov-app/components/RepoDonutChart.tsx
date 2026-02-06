@@ -232,7 +232,7 @@ const RepoDonutChart: React.FC<RepoDonutChartProps> = ({ repositories }) => {
                 {data.map((repo) => (
                     <a
                         key={repo.name}
-                        href={repo.name === 'Others' ? 'https://github.com/MeshJS' : `https://github.com/MeshJS/${repo.name}`}
+                        href={repo.name === 'Others' ? 'https://github.com/BlockPrintio' : `https://github.com/BlockPrintio/${repo.name}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className={styles.legendItem}

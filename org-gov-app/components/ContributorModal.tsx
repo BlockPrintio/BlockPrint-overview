@@ -128,7 +128,7 @@ export const ContributorModal: React.FC<ContributorModalProps> = ({
                                     <tr key={repo.name}>
                                         <td>
                                             <a
-                                                href={`https://github.com/MeshJS/${repo.name}`}
+                                                href={`https://github.com/BlockPrintio/${repo.name}`}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                             >

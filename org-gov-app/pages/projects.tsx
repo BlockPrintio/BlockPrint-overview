@@ -163,7 +163,7 @@ export default function Projects() {
 
             <div className={styles.sectionHeader}>
                 <h2 className={styles.sectionTitle}>Trusted by Builders</h2>
-                <p className={styles.sectionDescription}>Awesome projects and organizations building with Mesh</p>
+                <p className={styles.sectionDescription}>Awesome projects and organizations building with BlockPrint</p>
             </div>
 
             <div className={styles.buildersGallery}>
