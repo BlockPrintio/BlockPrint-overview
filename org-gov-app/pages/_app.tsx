@@ -17,10 +17,27 @@ function MyApp({ Component, pageProps }: AppProps) {
     return (
         <>
             <Head>
-                <title>{config.mainOrganization.displayName}.io Governance</title>
-                <meta name="description" content="BlockPrint.io Governance Platform" />
+                <title>{config.mainOrganization.displayName} Governance Dashboard</title>
+                <meta name="description" content="BlockPrint is a Cardano developer community in Lagos, Nigeria, focused on making blockchain accessible through open source projects and innovative solutions." />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
-                <link rel="icon" href="/favicon.ico" />
+                
+                {/* Favicon and Icons */}
+                <link rel="icon" href="/blockprint-logo.png" type="image/png" />
+                <link rel="apple-touch-icon" href="/blockprint-logo.png" />
+                <link rel="shortcut icon" href="/blockprint-logo.png" type="image/png" />
+                
+                {/* Open Graph / Facebook */}
+                <meta property="og:type" content="website" />
+                <meta property="og:title" content={`${config.mainOrganization.displayName} Governance Dashboard`} />
+                <meta property="og:description" content="BlockPrint is a Cardano developer community in Lagos, Nigeria, focused on making blockchain accessible through open source projects and innovative solutions." />
+                <meta property="og:image" content="/blockprint-logo.png" />
+                <meta property="og:url" content="https://blockprint.team" />
+                
+                {/* Twitter */}
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content={`${config.mainOrganization.displayName} Governance Dashboard`} />
+                <meta name="twitter:description" content="BlockPrint is a Cardano developer community in Lagos, Nigeria, focused on making blockchain accessible through open source projects and innovative solutions." />
+                <meta name="twitter:image" content="/blockprint-logo.png" />
             </Head>
             <div className={spaceMono.variable}>
                 <DataProvider>
