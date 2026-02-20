@@ -522,6 +522,49 @@
     color: var(--text-secondary);
 }
 
+.navigationLoading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    gap: 1.5rem;
+}
+
+.navigationSpinner {
+    width: 60px;
+    height: 60px;
+    border: 5px solid rgba(255, 255, 255, 0.1);
+    border-top-color: var(--primary);
+    border-right-color: var(--accent);
+    border-radius: 50%;
+    animation: navigationSpin 0.8s linear infinite;
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+}
+
+.navigationLoadingText {
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 1.125rem;
+    font-weight: 500;
+    margin: 0;
+}
+
+@keyframes navigationSpin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
 .loading,
 .error {
     padding: var(--card-padding);
