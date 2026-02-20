@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState, useEffect } from 'react';
 import styles from '../styles/Proposals.module.css';
 import { CatalystData } from '../types';
 import { useRouter } from 'next/router';
@@ -32,6 +32,7 @@ interface CatalystProposalsListProps {
 
 const CatalystProposalsList: FC<CatalystProposalsListProps> = ({ data, showMilestoneOverview = true }) => {
     const router = useRouter();
+    const [isNavigating, setIsNavigating] = useState(false);
 
     // Format the timestamp consistently using UTC to avoid timezone issues
     const formatDate = (timestamp: string): string => {
@@ -46,12 +47,46 @@ const CatalystProposalsList: FC<CatalystProposalsListProps> = ({ data, showMiles
         return `${month}/${day}/${year}, ${hours}:${minutes} ${ampm} UTC`;
     };
 
+    // Handle router events for loading state
+    useEffect(() => {
+        const handleRouteChangeStart = (url: string) => {
+            if (url.startsWith('/catalyst-proposals/') && url !== '/catalyst-proposals') {
+                setIsNavigating(true);
+            }
+        };
+
+        const handleRouteChangeComplete = () => {
+            setIsNavigating(false);
+        };
+
+        const handleRouteChangeError = () => {
+            setIsNavigating(false);
+        };
+
+        router.events.on('routeChangeStart', handleRouteChangeStart);
+        router.events.on('routeChangeComplete', handleRouteChangeComplete);
+        router.events.on('routeChangeError', handleRouteChangeError);
+
+        return () => {
+            router.events.off('routeChangeStart', handleRouteChangeStart);
+            router.events.off('routeChangeComplete', handleRouteChangeComplete);
+            router.events.off('routeChangeError', handleRouteChangeError);
+        };
+    }, [router]);
+
     const handleCardClick = (projectId: number) => {
+        setIsNavigating(true);
         router.push(`/catalyst-proposals/${projectId}`);
     };
 
     return (
         <>
+            {isNavigating && (
+                <div className={styles.navigationLoading}>
+                    <div className={styles.navigationSpinner}></div>
+                    <p className={styles.navigationLoadingText}>Loading proposal details...</p>
+                </div>
+            )}
             {showMilestoneOverview && (
                 <div className={styles.milestoneOverview}>
                     <h3 className={styles.milestoneOverviewTitle}>Project Milestones Progress</h3>
@@ -104,6 +139,7 @@ const CatalystProposalsList: FC<CatalystProposalsListProps> = ({ data, showMiles
                             className={`${styles.card} ${styles.clickable}`}
                             data-testid="proposal-item"
                             onClick={() => handleCardClick(parseInt(project.projectDetails.project_id))}
+                            style={{ cursor: 'pointer' }}
                         >
                             <div className={styles.cardInner}>
                                 <div className={styles.cardHeader}>
