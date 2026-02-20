@@ -165,8 +165,8 @@ export interface BlockprintStatsViewProps {
 export interface CatalystProposalVoting {
     proposalId: number;
     yes_votes_count: number;
-    no_votes_count: number;
-    abstain_votes_count: number;
+    no_votes_count: number | null;
+    abstain_votes_count: number | null;
     unique_wallets: number;
 }
 

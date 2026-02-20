@@ -112,13 +112,12 @@ function parseProposalHTML(html: string): ProposalContent {
     // Helper function to extract section content more comprehensively
     const extractSection = (sectionName: string, html: string): string | null => {
         // Try multiple patterns to find the section
+        // Use [\s\S] instead of . with s flag for better compatibility
         const patterns = [
             // Standard heading pattern
-            new RegExp(`<h[2-4][^>]*>.*?${sectionName}.*?<\/h[2-4]>(.*?)(?=<h[1-4]|$)`, 'is'),
+            new RegExp(`<h[2-4][^>]*>[\\s\\S]*?${sectionName}[\\s\\S]*?<\\/h[2-4]>([\\s\\S]*?)(?=<h[1-4]|$)`, 'i'),
             // With class or id attributes
-            new RegExp(`<h[2-4][^>]*class="[^"]*${sectionName}[^"]*"[^>]*>.*?<\/h[2-4]>(.*?)(?=<h[1-4]|$)`, 'is'),
-            // Case insensitive
-            new RegExp(`<h[2-4][^>]*>.*?${sectionName}.*?<\/h[2-4]>(.*?)(?=<h[1-4]|$)`, 'i'),
+            new RegExp(`<h[2-4][^>]*class="[^"]*${sectionName}[^"]*"[^>]*>[\\s\\S]*?<\\/h[2-4]>([\\s\\S]*?)(?=<h[1-4]|$)`, 'i'),
         ];
         
         for (const pattern of patterns) {
@@ -141,7 +140,8 @@ function parseProposalHTML(html: string): ProposalContent {
     if (solutionContent) {
         // Get more content by looking for the next major section
         // Find where Solution section ends by looking for next major headings
-        const solutionMatch = html.match(/<h[2-4][^>]*>.*?Solution.*?<\/h[2-4]>(.*?)(?=<h[1-4][^>]*>.*?(?:Impact|Feasibility|Challenge|Proposal|Problem|Auditability|Budget|Timeline|Team|Roadmap|Conclusion|Next|Steps).*?<\/h[1-4]|$)/is);
+        // Use [\s\S] instead of . with s flag for better compatibility
+        const solutionMatch = html.match(/<h[2-4][^>]*>[\s\S]*?Solution[\s\S]*?<\/h[2-4]>([\s\S]*?)(?=<h[1-4][^>]*>[\s\S]*?(?:Impact|Feasibility|Challenge|Proposal|Problem|Auditability|Budget|Timeline|Team|Roadmap|Conclusion|Next|Steps)[\s\S]*?<\/h[1-4]|$)/i);
         if (solutionMatch && solutionMatch[1]) {
             content.solution = removeQuestions(cleanHTML(solutionMatch[1]));
         } else if (solutionContent) {
@@ -180,9 +180,10 @@ function cleanHTML(html: string): string {
         .replace(/<\/ul>|<\/ol>/gi, '\n');
     
     // Then remove all other HTML tags
+    // Use [\s\S] instead of . with s flag for better compatibility
     cleaned = cleaned
-        .replace(/<script[^>]*>.*?<\/script>/gis, '')
-        .replace(/<style[^>]*>.*?<\/style>/gis, '')
+        .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')
+        .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
         .replace(/<[^>]+>/g, '')
         .replace(/&nbsp;/g, ' ')
         .replace(/&amp;/g, '&')

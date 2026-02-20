@@ -119,12 +119,12 @@ export default async function handler(
         }
 
         // Try to fetch from local data source (same logic as /api/catalyst/data)
+        let localData: { projects?: CatalystProject[] } | null = null;
         try {
             const ORGANIZATION_NAME = config.mainOrganization.name;
             const GOVERNANCE_REPO = config.repositories.governance;
             const BASE_URL = `https://raw.githubusercontent.com/${ORGANIZATION_NAME}/${GOVERNANCE_REPO}/main/org-gov-updates`;
             
-            let localData;
             const localFilePath = path.join(process.cwd(), '..', '..', 'org-gov-updates', 'catalyst-proposals', 'catalyst-data.json');
             
             if (fs.existsSync(localFilePath)) {
