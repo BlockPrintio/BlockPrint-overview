@@ -23,28 +23,6 @@
 
 .heroText { min-width: 0; }
 
-.heroEyebrow {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-wide);
-  color: var(--text-subtle);
-  margin-bottom: var(--space-4);
-}
-
-/* Leader rule. A label on a drawing is drawn on the end of a line rather than
-   set loose on the paper. */
-.heroEyebrow::before {
-  content: '';
-  flex: none;
-  width: var(--space-8);
-  height: 1px;
-  background: var(--border-strong);
-}
-
 /* One step above every other sheet title, which are all --text-4xl via
    PageHeader. This is the front sheet and the only one carrying a drawing;
    ranking it with the rest was the reason the page opened flat. */

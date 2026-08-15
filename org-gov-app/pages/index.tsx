@@ -81,7 +81,6 @@ export default function Overview() {
                 because it is the one sheet that carries a drawing. */}
             <header className={styles.hero}>
                 <div className={styles.heroText}>
-                    <p className={styles.heroEyebrow}>Public record</p>
                     <h1 className={styles.heroTitle}>{org} <span>Governance</span></h1>
                     <p className={styles.heroSubtitle}>
                         BlockPrint is a Cardano developer community in Lagos, Nigeria,
