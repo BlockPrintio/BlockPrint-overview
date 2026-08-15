@@ -1,46 +1,47 @@
-[ 
- {
+[
+  {
     "name": "Emmanuel Asaolu (temasar)",
-    "bio": "Emmanuel is a blockchain developer with over 5 years of experience in the crypto space and 2+ years of active software development, primarily within the Cardano ecosystem. He is the Lead Developer at BlockPrint and an active contributor to Mesh SDK and Gimbalabs, where he has contributed across both technical and non-technical roles including developer tooling, protocol exploration, documentation, community education, and ecosystem research. Emmanuel holds a Bachelor’s degree in Finance from the University of Lagos (UNILAG) and is a member of the Chartered Institute of Bankers of Nigeria (CIBN). His background in finance strongly informs his work on governance, treasury systems, token standards, and decentralized infrastructure. His work is driven by a focus on open-source development, developer experience, and sustainable blockchain governance, with a particular interest in building practical tools for the Cardano ecosystem.",  
+    "bio": "Emmanuel is a blockchain developer with over 5 years of experience in the crypto space and 2+ years of active software development, primarily within the Cardano ecosystem. He is the Lead Developer at BlockPrint and an active contributor to Mesh SDK and Gimbalabs, where he has contributed across both technical and non-technical roles including developer tooling, protocol exploration, documentation, community education, and ecosystem research. Emmanuel holds a Bachelor’s degree in Finance from the University of Lagos (UNILAG) and is a member of the Chartered Institute of Bankers of Nigeria (CIBN). His background in finance strongly informs his work on governance, treasury systems, token standards, and decentralized infrastructure. His work is driven by a focus on open-source development, developer experience, and sustainable blockchain governance, with a particular interest in building practical tools for the Cardano ecosystem.",
     "github": "https://github.com/Temasar1"
-},
-{
+  },
+  {
     "name": "Jethro Adebisi",
-    "bio": " co-lead developer and admin, \n I’m a UX designer who spends a lot of time trying to make Web3 feel a bit less overwhelming. Some days that means rethinking how governance tools work; other times it’s sketching out flows for NFT platforms or small blockchain education projects that need clearer paths for beginners. I like the challenge of taking ideas that usually sound complicated on paper and turning them into interfaces people can actually use without guessing what’s going on.I wouldn’t say I have all the answers, but I try to design in a way that gives users more confidence and maybe nudges communities toward better participation. I’m drawn to projects that aim for transparency and trust, even if they don’t always get it perfect, because those small improvements tend to matter the most in the long run.",
+    "bio": "co-lead developer and admin, I’m a UX designer who spends a lot of time trying to make Web3 feel a bit less overwhelming. Some days that means rethinking how governance tools work; other times it’s sketching out flows for NFT platforms or small blockchain education projects that need clearer paths for beginners. I like the challenge of taking ideas that usually sound complicated on paper and turning them into interfaces people can actually use without guessing what’s going on.I wouldn’t say I have all the answers, but I try to design in a way that gives users more confidence and maybe nudges communities toward better participation. I’m drawn to projects that aim for transparency and trust, even if they don’t always get it perfect, because those small improvements tend to matter the most in the long run.",
     "github": "https://github.com/adebisijethro"
-},
-{
-  "name": "Gideon Ovwiomor",
-  "bio": "I'm Gideon Ovwiomor a developer currently exploring building of meaningful solutions though the use of Blockchain technology.\n My stack includes Aiken, Python, Typescript and Rust. I'm currently studying Geophysics in the University of Lagos, Nigeria.",
-  "github": "https://github.com/0xGIDHUB"
-},
-{
-  "name": "Kadiri Ahmed Tunde",
-  "bio": "I'm Kadiri Ahmed Tunde, I am primarily a front-end developer and designer a potential full stack developer, \n I am currently exploring blockchain development with Aiken. My tech stack are Aiken, React, Next.js,  Tailwind, JavaScript and Figma. I studied computer Science at Lagos State University.",
-  "github": "https://github.com/Mhizta-gab"
-},
-{
-  "name": "Treasure Olayemi (TAENTED9)",
-  "bio": "I'm Treasure Olayemi, Alli a computational scientist and backend engineer with a strong foundation in physics, discrete math, and systems design. \nI build automated and dev tools, currently focused on Cardano’s blockchain architecture (UPLC, Aiken), simulation, and debugging systems. I work primarily with Python, Java, and Rust(Not that advanced yet on rust). My interests lie in low-level infrastructure, compilers, and intelligent systems that reveal how complex protocols behave. Studying Computer Science at the University of Lagos.",
-  "github": "https://github.com/TAENTED9"
-  },{
+  },
+  {
+    "name": "Gideon Ovwiomor",
+    "bio": "I'm Gideon Ovwiomor a developer currently exploring building of meaningful solutions though the use of Blockchain technology. My stack includes Aiken, Python, Typescript and Rust. I'm currently studying Geophysics in the University of Lagos, Nigeria.",
+    "github": "https://github.com/0xGIDHUB"
+  },
+  {
+    "name": "Kadiri Ahmed Tunde",
+    "bio": "I'm Kadiri Ahmed Tunde, I am primarily a front-end developer and designer a potential full stack developer, I am currently exploring blockchain development with Aiken. My tech stack are Aiken, React, Next.js, Tailwind, JavaScript and Figma. I studied computer Science at Lagos State University.",
+    "github": "https://github.com/Mhizta-gab"
+  },
+  {
+    "name": "Treasure Olayemi (TAENTED9)",
+    "bio": "I'm Treasure Olayemi, Alli a computational scientist and backend engineer with a strong foundation in physics, discrete math, and systems design. I build automated and dev tools, currently focused on Cardano’s blockchain architecture (UPLC, Aiken), simulation, and debugging systems. I work primarily with Python, Java, and Rust(Not that advanced yet on rust). My interests lie in low-level infrastructure, compilers, and intelligent systems that reveal how complex protocols behave. Studying Computer Science at the University of Lagos.",
+    "github": "https://github.com/TAENTED9"
+  },
+  {
     "name": "Oloyede Al-amin Oladapo (Xanes)",
-    "bio": "Oloyede Al-amin Oladapo (Xanes) Full-stack developer with practical exposure to Python, C, JavaScript, and TypeScript, building interfaces and systems with React, Next.js, and Tailwind CSS. Currently studying Computing science at the University of Lagos, with growing focus areas in cryptography, machine learning, and systems architecture ",
+    "bio": "Oloyede Al-amin Oladapo (Xanes) Full-stack developer with practical exposure to Python, C, JavaScript, and TypeScript, building interfaces and systems with React, Next.js, and Tailwind CSS. Currently studying Computing science at the University of Lagos, with growing focus areas in cryptography, machine learning, and systems architecture",
     "github": "https://github.com/smurftyy"
   },
   {
     "name": "Emafido Emmanuel Aridon",
-    "bio": "Emafido Emmanuel Aridon is a full-stack developer in training,\n working with the MERN stack, Tailwind, and modern JavaScript. Currently studying Engineering, building real projects, and expanding into backend systems, APIs, and blockchain technology.",
+    "bio": "Emafido Emmanuel Aridon is a full-stack developer in training, working with the MERN stack, Tailwind, and modern JavaScript. Currently studying Engineering, building real projects, and expanding into backend systems, APIs, and blockchain technology.",
     "github": "https://github.com/Emafido"
   },
   {
     "name": "Okeowo Quam",
-    "bio": "Okeowo Quam a cross-platform mobile application developer building with Dart and the Flutter framework. \nI have strong experience working within Android Studio and integrating backend and cloud functionality using Firebase. Beyond mobile development, I have growing footprint in blockchain technology, with hands-on proficiency in Aiken language and Haskell-Plutus for smart contract development. Outside my technical skills I am also an alumnus of the University of Lagos. ",
+    "bio": "Okeowo Quam a cross-platform mobile application developer building with Dart and the Flutter framework. I have strong experience working within Android Studio and integrating backend and cloud functionality using Firebase. Beyond mobile development, I have growing footprint in blockchain technology, with hands-on proficiency in Aiken language and Haskell-Plutus for smart contract development. Outside my technical skills I am also an alumnus of the University of Lagos.",
     "github": "https://github.com/eltrain-704"
   },
   {
     "name": "Oluwajuwon Oluwaseun",
-    "bio": "I'm Salaudeen Ibrahim, a front-end developer with a passion for software testing and back-end development. \n I'm currently pursuing a degree in Physics Science at the University of Lagos. My current focus is on the Cardano blockchain infrastructure, although I'm still learning and looking to deepen my understanding on these tools; Aiken, Plutus, Mesh SDK and Lucid",
+    "bio": "I'm Salaudeen Ibrahim, a front-end developer with a passion for software testing and back-end development. I'm currently pursuing a degree in Physics Science at the University of Lagos. My current focus is on the Cardano blockchain infrastructure, although I'm still learning and looking to deepen my understanding on these tools; Aiken, Plutus, Mesh SDK and Lucid",
     "github": "https://github.com/Ibctdev"
   }
 ]

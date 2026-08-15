@@ -1,115 +1,94 @@
-/* ============================================
-   COMPLETELY NEW PAGE HEADER DESIGN
-   Modern & Clean
-   ============================================ */
-
-.headerContainer {
-  width: 100%;
-  margin-bottom: var(--space-10);
-  animation: fadeIn 0.6s ease-out;
-}
+/* Sheet header. The heavy rule beneath it is the frame line of a drawing —
+   it separates the title block from the drawing field, which is a real
+   division, so the rule is carrying information rather than decorating. */
 
 .header {
   display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
   justify-content: space-between;
-  align-items: flex-start;
-  width: 100%;
   gap: var(--space-6);
-  padding-bottom: var(--space-6);
-  border-bottom: 2px solid var(--border-color);
-  position: relative;
-}
-
-.header::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 120px;
-  height: 2px;
-  background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
-  border-radius: var(--radius-full);
+  padding-bottom: var(--space-5);
+  border-bottom: 2px solid var(--text);
 }
 
 .titleArea {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  flex: 1;
+  min-width: 0;
+  /* Caps the measure so the subtitle never runs to 140 characters on a wide
+     monitor. */
+  max-width: 54ch;
 }
 
-.headerIcon {
-  font-size: 2rem;
-  color: var(--primary);
-  margin-bottom: var(--space-2);
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--text-subtle);
+  margin-bottom: var(--space-3);
 }
 
+/* The width axis is the point of choosing Archivo. Set expanded, the title
+   reads as drafting lettering; at normal width it would read as any grotesk. */
 .title {
-  font-size: clamp(1.75rem, 4vw, 2.75rem);
-  font-weight: 900;
-  color: var(--text-primary);
-  margin: 0;
-  letter-spacing: -0.03em;
-  line-height: 1.2;
+  font-family: var(--font-display);
+  font-size: var(--text-4xl);
+  font-weight: 600;
+  font-variation-settings: 'wdth' 118;
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--text);
+  text-transform: uppercase;
 }
 
+/* The emphasised half of a title, passed in as <span> by the pages. Rendered
+   as print ink rather than as a second weight, so the two halves stay on one
+   optical line. */
 .title span {
-  font-weight: 900;
-  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--primary);
 }
 
 .subtitle {
-  font-size: clamp(0.9375rem, 2vw, 1.125rem);
-  font-weight: 500;
-  color: var(--text-secondary);
-  margin: var(--space-2) 0 0 0;
-  line-height: 1.7;
-  max-width: 800px;
+  margin-top: var(--space-4);
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+  color: var(--text-muted);
 }
 
-.actions {
+.aside {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   gap: var(--space-3);
   flex-shrink: 0;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-4);
-    padding-bottom: var(--space-4);
-  }
-
-  .headerContainer {
-    margin-bottom: var(--space-8);
-  }
-
-  .titleArea {
-    width: 100%;
-  }
-
-  .actions {
-    width: 100%;
-    justify-content: flex-start;
-  }
+/* Provenance block, set as a drawing's revision note: mono, small, hard
+   against the rule. */
+.meta {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  line-height: 1.7;
+  color: var(--text-subtle);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-@media (max-width: 480px) {
-  .headerContainer {
-    margin-bottom: var(--space-6);
-  }
+.meta strong {
+  display: block;
+  font-weight: 500;
+  color: var(--text-muted);
+}
 
+.actions {
+  display: flex;
+  gap: var(--space-2);
+}
+
+@media (max-width: 48rem) {
   .header {
-    padding-bottom: var(--space-3);
+    align-items: flex-start;
+    gap: var(--space-4);
   }
-
-  .subtitle {
-    font-size: 0.875rem;
-  }
+  .aside { align-items: flex-start; }
 }

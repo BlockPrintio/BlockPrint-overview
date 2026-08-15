@@ -1,0 +1,52 @@
+.wrap {
+  width: 100%;
+  min-width: 0;
+  color: var(--text-subtle);
+}
+
+/* Set on the path rather than passed as a `stroke` attribute, so the line
+   reads from the token layer instead of a literal. */
+.line {
+  stroke: var(--primary);
+  fill: none;
+}
+
+.empty {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--text-subtle);
+  padding: var(--space-2) 0;
+}
+
+.tooltip {
+  background: var(--surface-raised);
+  border: 1px solid var(--border-strong);
+  padding: var(--space-3);
+  box-shadow: var(--shadow-2);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  min-width: 11rem;
+}
+
+.tooltipDate {
+  color: var(--text-subtle);
+  padding-bottom: var(--space-2);
+  margin-bottom: var(--space-2);
+  border-bottom: 1px solid var(--border);
+  letter-spacing: 0.04em;
+}
+
+.tooltipRow {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.tooltipRow span:last-child {
+  color: var(--text);
+  font-weight: 500;
+}

@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import styles from '../styles/Contributors.module.css';
 import { FaGithub } from 'react-icons/fa';
+import ContributorBio from './ContributorBio';
 
 export interface ManualContributor {
     name: string;
@@ -39,8 +40,8 @@ export default function ManualContributorCard({ contributor }: ManualContributor
                 <h3 className={styles.username}>{contributor.name}</h3>
             </div>
             
-            <p className={styles.contributorBio}>{contributor.bio}</p>
-            
+            <ContributorBio name={contributor.name}>{contributor.bio}</ContributorBio>
+
             <div className={styles.contributorLinks}>
                 <Link
                     href={contributor.github}

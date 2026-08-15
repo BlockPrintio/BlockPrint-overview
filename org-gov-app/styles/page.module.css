@@ -1,329 +1,515 @@
-/* ============================================
-   COMPLETELY NEW HOMEPAGE DESIGN
-   Modern, Clean, Bold
-   ============================================ */
+/* Overview sheet.
+   Section rhythm and page gutters are owned by .sheet / .sheet-section in
+   globals.css. Nothing here sets either, so there is no pair of equal-
+   specificity selectors fighting over padding. */
 
-.page {
-  width: 100%;
-  min-height: calc(100vh - 80px);
-  padding: 0;
-}
+/* ==========================================================================
+   HERO
+   Sheet title on the left, the drawing on the right, the title block ruled
+   across the foot of both, closed by one heavy frame rule — the arrangement
+   of an actual sheet.
+   ========================================================================== */
 
-.main {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-16);
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0;
-}
-
-/* Hero Section - Bold & Modern */
 .hero {
-  text-align: center;
-  padding: var(--space-16) 0 var(--space-12);
-  position: relative;
-}
-
-.title {
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
-  font-weight: 900;
-  line-height: 1.1;
-  margin-bottom: var(--space-6);
-  background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 50%, var(--primary-light) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  letter-spacing: -0.04em;
-  animation: fadeIn 0.8s ease-out;
-}
-
-.heroDescription {
-  font-size: clamp(1rem, 2vw, 1.25rem);
-  color: var(--text-secondary);
-  max-width: 700px;
-  margin: 0 auto;
-  line-height: 1.8;
-  padding: var(--space-8) var(--space-6);
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-lg);
-  animation: fadeIn 0.8s ease-out 0.2s both;
-  position: relative;
-  overflow: hidden;
-}
-
-.heroDescription::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(0, 51, 173, 0.1), transparent);
-  animation: shimmer 3s infinite;
-}
-
-/* Stats Section - Modern Cards */
-.stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: var(--space-6);
-  margin-bottom: var(--space-12);
-  animation: fadeIn 0.8s ease-out 0.4s both;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  align-items: center;
+  column-gap: var(--space-10);
+  row-gap: var(--space-8);
+  /* No padding of its own: the title block's last row of cells carries the
+     gap to the frame rule, the way a ruled cell does. */
+  border-bottom: 2px solid var(--text);
 }
 
-.statCard {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  padding: var(--space-8) var(--space-6);
-  text-align: center;
-  transition: all var(--transition-base);
-  position: relative;
-  overflow: hidden;
-  box-shadow: var(--shadow-md);
-}
+.heroText { min-width: 0; }
 
-.statCard::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform var(--transition-base);
-}
-
-.statCard:hover {
-  transform: translateY(-8px);
-  border-color: var(--primary);
-  box-shadow: var(--shadow-xl), var(--shadow-glow);
-  background: var(--bg-card-hover);
-}
-
-.statCard:hover::before {
-  transform: scaleX(1);
-}
-
-.statCard h3 {
-  font-size: 0.875rem;
-  font-weight: 700;
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-bottom: var(--space-4);
-}
-
-.statNumber {
-  font-size: clamp(2.5rem, 5vw, 3.5rem);
-  font-weight: 900;
-  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  line-height: 1;
-}
-
-/* Quick Actions Section */
-.quickActions {
-  margin-bottom: var(--space-12);
-  animation: fadeIn 0.8s ease-out 0.6s both;
-}
-
-.new_title {
-  font-size: clamp(1.75rem, 4vw, 2.5rem);
-  font-weight: 800;
-  color: var(--text-primary);
-  margin-bottom: var(--space-8);
-  text-align: center;
-  letter-spacing: -0.03em;
-}
-
-.actionGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: var(--space-6);
-}
-
-.actionCard {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  padding: var(--space-8);
-  text-decoration: none;
-  transition: all var(--transition-base);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-  position: relative;
-  overflow: hidden;
-  box-shadow: var(--shadow-md);
-}
-
-.actionCard::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 100px;
-  height: 100px;
-  background: radial-gradient(circle, rgba(0, 51, 173, 0.1) 0%, transparent 70%);
-  opacity: 0;
-  transition: opacity var(--transition-base);
-}
-
-.actionCard:hover {
-  transform: translateY(-8px) scale(1.02);
-  border-color: var(--primary);
-  box-shadow: var(--shadow-xl), var(--shadow-glow);
-  background: var(--bg-card-hover);
-}
-
-.actionCard:hover::after {
-  opacity: 1;
-}
-
-.actionCard h3 {
-  font-size: 1.375rem;
-  font-weight: 800;
-  color: var(--text-primary);
-  margin: 0;
-  position: relative;
-  z-index: 1;
+.heroEyebrow {
   display: flex;
   align-items: center;
   gap: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--text-subtle);
+  margin-bottom: var(--space-4);
 }
 
-.actionCard h3::before {
+/* Leader rule. A label on a drawing is drawn on the end of a line rather than
+   set loose on the paper. */
+.heroEyebrow::before {
   content: '';
-  width: 8px;
-  height: 8px;
-  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-  border-radius: var(--radius-full);
+  flex: none;
+  width: var(--space-8);
+  height: 1px;
+  background: var(--border-strong);
+}
+
+/* One step above every other sheet title, which are all --text-4xl via
+   PageHeader. This is the front sheet and the only one carrying a drawing;
+   ranking it with the rest was the reason the page opened flat. */
+.heroTitle {
+  font-family: var(--font-display);
+  font-size: var(--text-5xl);
+  font-weight: 600;
+  font-variation-settings: 'wdth' 118;
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+.heroTitle span { color: var(--primary); }
+
+/* The measure is capped here rather than on .heroText, so the prose stays
+   readable while the title still gets the full width of its column. */
+.heroSubtitle {
+  margin-top: var(--space-5);
+  max-width: 46ch;
+  color: var(--text-muted);
+  line-height: var(--leading-relaxed);
+}
+
+.heroFigure {
+  margin: 0;
+  min-width: 0;
+}
+
+/* ---- Title block ---------------------------------------------------------
+   Runs the full width under both columns. Ruled cells, mono throughout: these
+   are recorded values, not prose. Status is derived from the record in the
+   page, so the sheet cannot claim a state its own figures contradict. No
+   revision ink here — the accent belongs to the open item alone. */
+
+.titleBlock {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid var(--border-strong);
+}
+
+.titleBlockField {
+  padding: var(--space-4) var(--space-5);
+  border-left: 1px solid var(--border);
+}
+
+.titleBlockField:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.titleBlockField dt {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--text-subtle);
+  margin-bottom: var(--space-2);
+}
+
+.titleBlockField dd {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  line-height: var(--leading-snug);
+  color: var(--text);
+}
+
+/* Reserves the drawing's space before it loads so nothing below shifts. */
+.figurePlaceholder {
+  width: 100%;
+  aspect-ratio: 11 / 4;
+  min-height: 7rem;
+}
+
+/* The drawing never leads: source order is title, drawing, title block, which
+   is the order they should stack in. Nothing here reorders them — an `order`
+   on the figure would push it past the title block, since the block is the
+   third child of this grid. */
+@media (max-width: 64rem) {
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: var(--space-6);
+  }
+}
+
+/* Two up rather than four: four mono cells across a phone leaves each value
+   wrapping mid-word. */
+@media (max-width: 60rem) {
+  .titleBlock { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .titleBlockField { padding: var(--space-4); }
+  .titleBlockField:nth-child(odd) { padding-left: 0; border-left: 0; }
+  .titleBlockField:nth-child(n + 3) { border-top: 1px solid var(--border); }
+}
+
+@media (max-width: 40rem) {
+  .figurePlaceholder { aspect-ratio: 2 / 1; min-height: 0; }
+}
+
+.sectionTitle {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 600;
+  font-variation-settings: 'wdth' 112;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--text);
+  margin-bottom: var(--space-6);
+}
+
+/* ==========================================================================
+   OPEN ITEM — the annotation
+   The only use of revision ink on this page. A drawing marks the thing that
+   still needs action in red in the margin; this is that mark, and it points
+   at the one genuinely outstanding fact on the site.
+   ========================================================================== */
+
+/* The annotation carries its emphasis in a stamp, not a side bar.
+   A thick coloured left border is generic alert furniture — and a real
+   drawing marks an outstanding item with a stamped flag, not a stripe. The
+   accent lives entirely in .openMark below, which is that stamp. */
+.open {
+  border: 1px solid var(--border-strong);
+  background: var(--accent-subtle);
+}
+
+.openHead {
+  padding: var(--space-6) var(--space-6) var(--space-5);
+}
+
+/* The revision stamp. This is the single place revision ink is filled on the
+   whole site, which is what keeps it meaning "this one is outstanding". */
+.openMark {
+  display: inline-block;
+  padding: var(--space-1) var(--space-3);
+  background: var(--accent);
+  color: var(--text-on-accent);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  margin-bottom: var(--space-4);
+}
+
+.openTitle {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  font-variation-settings: 'wdth' 108;
+  line-height: var(--leading-snug);
+  color: var(--text);
+  max-width: 30ch;
+}
+
+.openBody {
+  margin-top: var(--space-3);
+  max-width: 62ch;
+  color: var(--text-muted);
+  line-height: var(--leading-relaxed);
+}
+
+.openList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--border);
+}
+
+.openItem {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: var(--space-6);
+  padding: var(--space-5) var(--space-6);
+  background: var(--surface);
+}
+
+.openItem + .openItem {
+  border-top: 1px solid var(--border);
+}
+
+.openItemMain { min-width: 0; }
+
+.openItemId {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.06em;
+  color: var(--text-subtle);
+  margin-bottom: var(--space-2);
+}
+
+.openItemTitle {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  line-height: var(--leading-snug);
+  color: var(--text);
+}
+
+.openItemSummary {
+  margin-top: var(--space-2);
+  max-width: 58ch;
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  line-height: var(--leading-normal);
+}
+
+/* Spec pairs, set the way a drawing's callout block is: label above value,
+   mono throughout, right-aligned so the figures form a column. */
+.openItemSpec {
+  display: flex;
+  gap: var(--space-6);
+  margin: 0;
   flex-shrink: 0;
 }
 
-.actionCard p {
-  color: var(--text-secondary);
-  font-size: 0.9375rem;
-  font-weight: 500;
-  line-height: 1.7;
+.openItemSpec dt {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-subtle);
+  margin-bottom: var(--space-1);
+}
+
+.openItemSpec dd {
   margin: 0;
-  position: relative;
-  z-index: 1;
+  font-family: var(--font-mono);
+  font-size: var(--text-lg);
+  font-weight: 500;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
 }
 
-/* Loading & Error States */
-.container {
-  display: flex;
-  justify-content: center;
+.openItemAction {
+  display: inline-flex;
   align-items: center;
-  min-height: calc(100vh - 80px);
-  padding: var(--space-8);
+  gap: var(--space-2);
+  flex-shrink: 0;
+  min-height: var(--space-11);
+  padding: 0 var(--space-5);
+  background: var(--accent);
+  color: var(--text-on-accent);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color var(--dur-fast) var(--ease-standard);
 }
 
-.loading {
+.openItemAction:hover { background: var(--accent-hover); }
+.openItemAction:active { background: var(--accent-active); }
+
+/* Offset keeps the ring off the fill it surrounds, where it would otherwise
+   measure 1:1 against itself. */
+.openItemAction:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.openItemArrow {
+  transition: transform var(--dur-fast) var(--ease-standard);
+}
+
+.openItemAction:hover .openItemArrow {
+  transform: translateX(2px);
+}
+
+/* ==========================================================================
+   THE RECORD — spec table
+   ========================================================================== */
+
+.specTable {
+  margin: 0;
+  border-top: 1px solid var(--border);
+}
+
+.specRow {
+  display: grid;
+  grid-template-columns: minmax(0, 14rem) minmax(0, 10rem) minmax(0, 1fr);
+  align-items: baseline;
+  gap: var(--space-4) var(--space-6);
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.specKey {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--text-muted);
+}
+
+.specValue {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-2xl);
+  font-weight: 500;
+  line-height: 1;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+/* The denominator stays visibly subordinate to the delivered count so the
+   ratio reads at a glance rather than as one long number. */
+.specOf {
+  color: var(--text-subtle);
+  font-size: var(--text-lg);
+}
+
+.specNote {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--text-subtle);
+}
+
+/* ==========================================================================
+   SHEET INDEX
+   ========================================================================== */
+
+.indexList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--border);
+}
+
+.indexItem {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-5);
+  padding: var(--space-5) var(--space-4);
+  border-bottom: 1px solid var(--border);
+  text-decoration: none;
+  color: inherit;
+  transition: background-color var(--dur-fast) var(--ease-standard);
+}
+
+.indexItem:hover { background: var(--primary-subtle); }
+.indexItem:active { background: var(--surface-sunken); }
+
+.indexItem:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: -2px;
+}
+
+/* These numbers are a real index: 02 is the Proposals sheet, and the header
+   of that page says so. Following one gets you somewhere. */
+.indexNumber {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--text-subtle);
+  font-variant-numeric: tabular-nums;
+}
+
+.indexBody {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: var(--space-4);
-  color: var(--text-secondary);
-  font-size: 1.125rem;
+  gap: var(--space-1);
+  min-width: 0;
 }
 
-.loading::after {
-  content: '';
-  width: 48px;
-  height: 48px;
-  border: 4px solid var(--bg-card);
-  border-top-color: var(--primary);
-  border-radius: var(--radius-full);
-  animation: spin 1s linear infinite;
+.indexName {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  font-variation-settings: 'wdth' 108;
+  color: var(--text);
+}
+
+.indexDescription {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  max-width: 68ch;
+}
+
+.indexArrow {
+  color: var(--text-subtle);
+  transition: transform var(--dur-fast) var(--ease-standard),
+              color var(--dur-fast) var(--ease-standard);
+}
+
+.indexItem:hover .indexArrow {
+  color: var(--primary);
+  transform: translateX(3px);
+}
+
+/* ==========================================================================
+   LOADING / ERROR
+   ========================================================================== */
+
+.container {
+  display: grid;
+  place-items: center;
+  min-height: 60vh;
+}
+
+.loading,
+.error {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--text-muted);
 }
 
 .error {
-  color: var(--error);
-  font-size: 1.125rem;
-  text-align: center;
-  background: var(--bg-card);
-  border: 1px solid var(--error);
-  border-radius: var(--radius-lg);
-  padding: var(--space-6) var(--space-8);
-  max-width: 600px;
-  box-shadow: var(--shadow-md);
+  color: var(--danger-text);
+  border: 1px solid var(--danger);
+  background: var(--danger-subtle);
+  padding: var(--space-5) var(--space-6);
+  text-transform: none;
+  letter-spacing: normal;
 }
 
-/* Responsive Design */
-@media (max-width: 1024px) {
-  .main {
-    gap: var(--space-12);
-  }
+/* ==========================================================================
+   NARROW WIDTHS
+   Each block is reconsidered rather than reflowed: the open item stacks into
+   title → spec → action so the vote link stays the last thing read, and the
+   spec table drops to two columns with the note beneath the pair it explains.
+   ========================================================================== */
 
-  .hero {
-    padding: var(--space-12) 0 var(--space-8);
-  }
-
-  .actionGrid {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  }
-}
-
-@media (max-width: 768px) {
-  .main {
-    gap: var(--space-10);
-  }
-
-  .hero {
-    padding: var(--space-8) 0 var(--space-6);
-  }
-
-  .heroDescription {
-    padding: var(--space-6) var(--space-4);
-  }
-
-  .stats {
-    grid-template-columns: 1fr;
+@media (max-width: 60rem) {
+  .openItem {
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--space-4);
+    align-items: start;
   }
 
-  .actionGrid {
-    grid-template-columns: 1fr;
-    gap: var(--space-4);
-  }
+  .openItemSpec { gap: var(--space-8); }
 
-  .actionCard {
-    padding: var(--space-6);
-  }
+  .openItemAction { justify-content: center; }
 }
 
-@media (max-width: 480px) {
-  .main {
-    gap: var(--space-8);
+@media (max-width: 48rem) {
+  .specRow {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--space-2) var(--space-4);
   }
 
-  .hero {
-    padding: var(--space-6) 0;
+  .specNote {
+    grid-column: 1 / -1;
   }
 
-  .statCard {
-    padding: var(--space-6) var(--space-4);
+  .specValue { font-size: var(--text-xl); }
+}
+
+@media (max-width: 40rem) {
+  .openHead { padding: var(--space-5) var(--space-4) var(--space-4); }
+  .openItem { padding: var(--space-4); }
+
+  .indexItem {
+    grid-template-columns: auto minmax(0, 1fr);
+    padding: var(--space-4) var(--space-2);
   }
 
-  .actionCard {
-    padding: var(--space-5);
-  }
-
-  .actionCard h3 {
-    font-size: 1.125rem;
-  }
-
-  .actionCard p {
-    font-size: 0.875rem;
-  }
+  /* The arrow is a hover affordance with no touch equivalent, so it goes
+     rather than sitting there as a dead mark. */
+  .indexArrow { display: none; }
 }

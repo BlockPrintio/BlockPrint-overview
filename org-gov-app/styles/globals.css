@@ -1,277 +1,476 @@
-/* ============================================
-   COMPLETELY NEW DESIGN SYSTEM FROM SCRATCH
-   ============================================ */
+/* ============================================================================
+   BlockPrint Governance — token layer
+   ----------------------------------------------------------------------------
+   Direction: a drafting sheet. The palette is pulled from cyanotype blueprint
+   material — warm vellum paper, graphite line, Prussian-blue print ink, and
+   oxide-red revision annotation. Nothing here is a trend colour; every value
+   traces to that artifact, which is also what the organisation is named after.
+
+   Three layers, strictly. Components read the SEMANTIC layer only. A module
+   that reaches past --border to a raw hex breaks theming for everything else.
+
+     SEEDS      six authored colours + the neutral hue
+     SEMANTIC   roles derived from them: surface, text, border, primary, status
+     COMPONENT  the .module.css files. No colour literals live there.
+
+   Contrast is measured, not assumed. Ratios in comments are WCAG 2.x against
+   the stated ground, computed in scripts/, not eyeballed.
+
+   Single theme by decision: a blueprint is a light artifact. The dark variant
+   of this direction was considered and rejected, so there is no dark block to
+   drift out of sync. `color-scheme: light` stops the OS auto-darkening form
+   controls and scrollbars into a theme the page does not have.
+   ========================================================================== */
+
+@layer reset, base, layout, utilities;
+
+/* ==========================================================================
+   LAYER 1 — SEEDS.  The only place a colour is authored.
+   ========================================================================== */
 
 :root {
-  /* Brand Colors - Matching Logo & Page Theme */
-  --primary: #0033AD;
-  --primary-dark: #002080;
-  --primary-light: #1E88E5;
-  --secondary: #06b6d4;
-  --accent: #14b8a6;
-  --success: #10b981;
-  --warning: #f59e0b;
-  --error: #ef4444;
-  
-  /* Neutral Colors - Clean & Modern */
-  --bg-primary: #0f0f1e;
-  --bg-secondary: #1a1a2e;
-  --bg-tertiary: #16213e;
-  --bg-card: #1e1e3f;
-  --bg-card-hover: #252550;
-  
-  /* Text Colors */
-  --text-primary: #ffffff;
-  --text-secondary: #a8b3cf;
-  --text-tertiary: #6b7280;
-  --text-muted: #4b5563;
-  
-  /* Border & Divider */
-  --border-color: rgba(255, 255, 255, 0.1);
-  --border-hover: rgba(255, 255, 255, 0.2);
-  --divider: rgba(255, 255, 255, 0.05);
-  
-  /* Shadows - Modern & Layered */
-  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-  --shadow-sm: 0 2px 4px 0 rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 8px 16px 0 rgba(0, 0, 0, 0.5);
-  --shadow-xl: 0 16px 32px 0 rgba(0, 0, 0, 0.6);
-  --shadow-glow: 0 0 20px rgba(0, 51, 173, 0.4);
-  
-  /* Spacing Scale */
-  --space-1: 0.25rem;
-  --space-2: 0.5rem;
-  --space-3: 0.75rem;
-  --space-4: 1rem;
-  --space-5: 1.25rem;
-  --space-6: 1.5rem;
-  --space-8: 2rem;
-  --space-10: 2.5rem;
-  --space-12: 3rem;
-  --space-16: 4rem;
-  
-  /* Border Radius */
-  --radius-sm: 0.5rem;
-  --radius-md: 0.75rem;
-  --radius-lg: 1rem;
-  --radius-xl: 1.5rem;
-  --radius-full: 9999px;
-  
-  /* Typography - Helvetica */
-  --font-sans: 'Helvetica Neue', Helvetica, Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-mono: var(--font-mono), 'Courier New', monospace;
-  
-  /* Transitions */
-  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
-  
-  /* Z-index Scale */
-  --z-dropdown: 1000;
-  --z-sticky: 1020;
-  --z-fixed: 1030;
-  --z-modal-backdrop: 1040;
-  --z-modal: 1050;
-  --z-popover: 1060;
-  --z-tooltip: 1070;
+  color-scheme: light;
+
+  --seed-primary: oklch(0.3325 0.0715 249.18); /* #143859 cyanotype print ink */
+  --seed-accent:  oklch(0.4840 0.1348 34.65);  /* #9C3B24 oxide revision red  */
+  --seed-neutral-hue: 85;                      /* hue of the paper, not the ink */
+
+  --seed-danger:  oklch(0.5054 0.1905 27.52);  /* #B91C1C */
+  --seed-warning: oklch(0.5553 0.1455 49.00);  /* #B45309 drafting ochre */
+  --seed-success: oklch(0.5273 0.1371 150.07); /* #15803D */
+  --seed-info:    oklch(0.4882 0.2172 264.38); /* #1D4ED8 */
+
+  --_nh: var(--seed-neutral-hue);
+
+  /* ========================================================================
+     LAYER 2 — SEMANTIC
+     ====================================================================== */
+
+  /* ---- Surfaces.  Paper, and things laid on top of it. ------------------ */
+  --bg:             oklch(0.968 0.006 var(--_nh)); /* #f6f4f0 vellum        */
+  --bg-subtle:      oklch(0.947 0.008 var(--_nh)); /* #f0ede8 drawing field */
+  --surface:        oklch(0.992 0.003 var(--_nh)); /* #fdfcfa sheet         */
+  --surface-raised: oklch(1.000 0.000 var(--_nh)); /* #ffffff               */
+  --surface-sunken: oklch(0.928 0.009 var(--_nh)); /* #eae7e1 recessed well */
+  --overlay:        oklch(0.28 0.02 var(--_nh) / 0.58);
+
+  /* ---- Ink.  Graphite ramp; every tier clears 4.5:1 on every surface. ---- */
+  --text:        oklch(0.235 0.014 var(--_nh)); /* #211e17  15.20:1 on paper */
+  --text-muted:  oklch(0.425 0.017 var(--_nh)); /* #534e44   7.55:1 on paper */
+  --text-subtle: oklch(0.505 0.015 var(--_nh)); /* #69645b   5.35:1 on paper */
+  --text-inverse: oklch(0.985 0.003 var(--_nh));
+
+  /* ---- Rules.  --border-strong is the one bound by WCAG 1.4.11. --------- */
+  --border:        oklch(0.878 0.010 var(--_nh)); /* #dad6d0 */
+  --border-subtle: oklch(0.920 0.008 var(--_nh)); /* #e7e4df */
+  --border-strong: oklch(0.615 0.016 var(--_nh)); /* #89847a  3.39:1 on paper */
+
+  /* ---- Print ink.  Structure, links, active state, the ruled lines. -----
+     10.99:1 as text on paper; white label on the fill measures 12.07:1.
+     Clears AAA on every surface in the ramp (9.78:1 at worst, on sunken).   */
+  --primary:        var(--seed-primary);
+  --primary-hover:  oklch(from var(--seed-primary) calc(l - 0.06) c h);
+  --primary-active: oklch(from var(--seed-primary) calc(l - 0.11) c h);
+  --primary-subtle: oklch(from var(--seed-primary) 0.955 calc(c * 0.16) h);
+  --text-on-primary: oklch(from var(--seed-primary) clamp(0, (l / 0.58 - 1) * -infinity, 1) 0 h);
+
+  /* ---- Revision ink.  The one loud colour. Reserved for the open vote and
+     for annotation marks; if it appears more than once per screen it has
+     stopped meaning "look here".  6.25:1 as text on paper.  --------------- */
+  --accent:        var(--seed-accent);
+  --accent-hover:  oklch(from var(--seed-accent) calc(l - 0.06) c h);
+  --accent-active: oklch(from var(--seed-accent) calc(l - 0.11) c h);
+  --accent-subtle: oklch(from var(--seed-accent) 0.955 calc(c * 0.16) h);
+  --text-on-accent: oklch(from var(--seed-accent) clamp(0, (l / 0.58 - 1) * -infinity, 1) 0 h);
+
+  /* ---- Status.  Four tokens each, because these get used four ways: a
+     fill, a wash behind text, text on the page, and a label on the fill.
+     Colour is never the only channel — every status below is paired with a
+     word in the markup.  ------------------------------------------------- */
+  --danger:         var(--seed-danger);
+  --danger-subtle:  oklch(from var(--seed-danger) 0.955 calc(c * 0.16) h);
+  --danger-text:    oklch(from var(--seed-danger) min(l, 0.46) c h);   /* 7.11:1 */
+  --text-on-danger: oklch(from var(--seed-danger) clamp(0, (l / 0.58 - 1) * -infinity, 1) 0 h);
+
+  --warning:         var(--seed-warning);
+  --warning-subtle:  oklch(from var(--seed-warning) 0.955 calc(c * 0.16) h);
+  --warning-text:    oklch(from var(--seed-warning) min(l, 0.46) c h);  /* 6.86:1 */
+  --text-on-warning: oklch(from var(--seed-warning) clamp(0, (l / 0.58 - 1) * -infinity, 1) 0 h);
+
+  --success:         var(--seed-success);
+  --success-subtle:  oklch(from var(--seed-success) 0.955 calc(c * 0.16) h);
+  --success-text:    oklch(from var(--seed-success) min(l, 0.46) c h);  /* 6.03:1 */
+  --text-on-success: oklch(from var(--seed-success) clamp(0, (l / 0.58 - 1) * -infinity, 1) 0 h);
+
+  --info:         var(--seed-info);
+  --info-subtle:  oklch(from var(--seed-info) 0.955 calc(c * 0.16) h);
+  --info-text:    oklch(from var(--seed-info) min(l, 0.46) c h);        /* 6.93:1 */
+  --text-on-info: oklch(from var(--seed-info) clamp(0, (l / 0.58 - 1) * -infinity, 1) 0 h);
+
+  /* ---- Focus.  10.99:1 on paper. The offset guarantees the ring keeps a
+     high-contrast neighbour even when it sits on a primary-coloured fill,
+     where ring-on-fill would otherwise measure 1:1.  ---------------------- */
+  --focus-ring: var(--seed-primary);
+  --focus-ring-offset: oklch(1 0 0);
+
+  /* ========================================================================
+     DRAFTING PRIMITIVES — the tokens this direction adds beyond the standard
+     set. Each one exists because a drawing sheet needs it.
+     ====================================================================== */
+
+  /* The substrate: a network of blocks, nodes and traces rather than a plain
+     square grid. Two weights so the network has hierarchy — traces recede,
+     nodes and blocks sit a step forward.
+
+     Measured against paper: traces 1.10:1, nodes 1.17:1 — the same register
+     as the 1.08:1 grid these replace. An earlier pass ran these at 0.10/0.16
+     (1.19:1 / 1.33:1), which was loud enough to read through the headline;
+     that was compensation for the substrate being hidden entirely, not for
+     it being too faint. Once it actually paints, this is the right weight. */
+  --net-trace: oklch(from var(--seed-primary) l c h / 0.055);
+  --net-node: oklch(from var(--seed-primary) l c h / 0.09);
+  --net-tile: 240px;
+
+  /* The margin rail carrying zone letters, as on a real sheet. */
+  --rail-w: 2.75rem;
+  --rail-w-sm: 1.5rem;
+
+  /* Dimension lines — the milestone track. --dim-tick is the witness line at
+     each milestone, --dim-run the extension line spanning what's delivered. */
+  --dim-tick: var(--border-strong);
+  --dim-run: var(--primary);
+  --dim-height: 2px;
+
+  /* ---- Space.  4px base, one scale, held everywhere. ------------------- */
+  --space-1: 0.25rem;  --space-2: 0.5rem;   --space-3: 0.75rem;
+  --space-4: 1rem;     --space-5: 1.25rem;  --space-6: 1.5rem;
+  --space-8: 2rem;     --space-10: 2.5rem;  --space-11: 2.75rem; /* min target */
+  --space-12: 3rem;    --space-16: 4rem;    --space-20: 5rem;
+  --space-24: 6rem;
+
+  /* The single loudest spacing decision: the gap between major sections.
+     One value, held on every page. */
+  --section-gap: clamp(3rem, 2.4rem + 2.5vw, 4.5rem);
+
+  /* ---- Radius.  Drawings have square corners. Two values only: 0 for
+     anything that reads as drawn, 2px for controls that must feel pressable.
+     A blueprint with 12px rounded cards is a blueprint nobody believes. --- */
+  --radius-none: 0;
+  --radius-sm: 2px;
+  --radius-full: 9999px; /* avatars only */
+
+  /* ---- Shadow.  Tinted with the paper hue, never black alpha, which would
+     turn the warm ground grey. Used sparingly: paper doesn't float. ------ */
+  --shadow-1: 0 1px 2px -1px oklch(0.30 0.03 var(--_nh) / 0.10);
+  --shadow-2: 0 2px 4px -2px oklch(0.30 0.03 var(--_nh) / 0.10),
+              0 6px 16px -6px oklch(0.30 0.03 var(--_nh) / 0.08);
+  --shadow-3: 0 4px 8px -4px oklch(0.30 0.03 var(--_nh) / 0.12),
+              0 16px 40px -12px oklch(0.30 0.03 var(--_nh) / 0.14);
+
+  /* ---- Type. Two families, each with a job it alone can do.
+     Archivo: a grotesk drawn for signage and printed matter. Its width axis
+     is what makes the sheet titles read as drafting lettering rather than as
+     a scaled-up body face.
+     IBM Plex Mono: every project ID, ADA amount, count, date and field label.
+     Mono here is doing semantic work — it marks "this is a recorded value",
+     which is the whole subject of the site. --------------------------------- */
+  /* The inner fallback matters: next/font declares --font-archivo on the
+     element it is applied to, so any element above that in the tree would
+     otherwise invalidate the whole declaration and drop to the browser
+     default serif rather than to Helvetica. */
+  --font-display: var(--font-archivo, "Helvetica Neue"), Arial, sans-serif;
+  --font-body:    var(--font-archivo, "Helvetica Neue"), Arial, sans-serif;
+  --font-mono:    var(--font-plex-mono, ui-monospace), "SF Mono", Menlo, monospace;
+
+  --text-xs:   clamp(0.75rem, 0.73rem + 0.10vw, 0.8125rem);
+  --text-sm:   clamp(0.8125rem, 0.79rem + 0.10vw, 0.875rem);
+  --text-base: clamp(1rem, 0.96rem + 0.18vw, 1.0625rem);
+  --text-lg:   clamp(1.125rem, 1.07rem + 0.25vw, 1.25rem);
+  --text-xl:   clamp(1.25rem, 1.16rem + 0.40vw, 1.5rem);
+  --text-2xl:  clamp(1.5rem, 1.36rem + 0.60vw, 1.875rem);
+  --text-3xl:  clamp(1.75rem, 1.55rem + 0.90vw, 2.375rem);
+  --text-4xl:  clamp(2.125rem, 1.80rem + 1.45vw, 3rem);
+  --text-5xl:  clamp(2.5rem, 1.95rem + 2.45vw, 4rem);
+
+  --leading-tight: 1.08;
+  --leading-snug: 1.3;
+  --leading-normal: 1.55;
+  --leading-relaxed: 1.7;
+
+  --tracking-tight: -0.025em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.09em;  /* mono field labels — drafting lettering is open */
+
+  /* ---- Motion.  Swiss/technical physics: efficient, gets out of the way.
+     One orchestrated moment on the site (the dimension line drawing itself
+     in) is the exception, and it lives in Proposals.module.css. ---------- */
+  --dur-instant: 80ms;
+  --dur-fast: 140ms;
+  --dur-normal: 220ms;
+  --dur-slow: 420ms;
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* ---- Z.  Named layers so nobody writes 9999. ------------------------- */
+  --z-base: 0;
+  --z-sticky: 100;
+  --z-overlay: 200;
+  --z-modal: 300;
+
+  /* ---- Icon ------------------------------------------------------------ */
+  --icon-sm: 1rem;
+  --icon-md: 1.25rem;
+  --icon-lg: 1.5rem;
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+/* Engines without relative colour syntax still get a complete, correct theme.
+   Only the automatic on-colour degrades to a static pair; every derived
+   variant is still computed FROM the seed via color-mix, so the palette
+   stays coherent. */
+@supports not (color: oklch(from red l c h)) {
+  :root {
+    --primary-hover:  color-mix(in oklab, var(--seed-primary) 88%, black);
+    --primary-active: color-mix(in oklab, var(--seed-primary) 76%, black);
+    --primary-subtle: color-mix(in oklab, var(--seed-primary) 10%, white);
+    --text-on-primary: white;
+    --accent-hover:  color-mix(in oklab, var(--seed-accent) 88%, black);
+    --accent-active: color-mix(in oklab, var(--seed-accent) 76%, black);
+    --accent-subtle: color-mix(in oklab, var(--seed-accent) 10%, white);
+    --text-on-accent: white;
 
-html {
-  scroll-behavior: smooth;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+    --danger-subtle:  color-mix(in oklab, var(--seed-danger) 10%, white);
+    --danger-text:    color-mix(in oklab, var(--seed-danger) 82%, black);
+    --text-on-danger: white;
+    --warning-subtle:  color-mix(in oklab, var(--seed-warning) 10%, white);
+    --warning-text:    color-mix(in oklab, var(--seed-warning) 82%, black);
+    --text-on-warning: white;
+    --success-subtle:  color-mix(in oklab, var(--seed-success) 10%, white);
+    --success-text:    color-mix(in oklab, var(--seed-success) 82%, black);
+    --text-on-success: white;
+    --info-subtle:  color-mix(in oklab, var(--seed-info) 10%, white);
+    --info-text:    color-mix(in oklab, var(--seed-info) 82%, black);
+    --text-on-info: white;
 
-body {
-  font-family: var(--font-sans);
-  font-weight: 500;
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  line-height: 1.6;
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* Background Pattern */
-body::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: 
-    radial-gradient(circle at 20% 30%, rgba(0, 51, 173, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 80% 70%, rgba(6, 182, 212, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 50% 50%, rgba(20, 184, 166, 0.05) 0%, transparent 50%);
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* App Layout */
-.app-layout {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  position: relative;
-  z-index: 1;
-}
-
-.main-content {
-  flex: 1;
-  padding: var(--space-8) var(--space-6);
-  max-width: 1400px;
-  margin: 0 auto;
-  width: 100%;
-}
-
-/* Typography - Bold & Official */
-h1, h2, h3, h4, h5, h6 {
-  font-weight: 800;
-  line-height: 1.2;
-  color: var(--text-primary);
-  letter-spacing: -0.03em;
-  font-family: var(--font-sans);
-}
-
-h1 { font-weight: 900; }
-h2 { font-weight: 800; }
-h3 { font-weight: 700; }
-h4 { font-weight: 700; }
-
-h1 { font-size: clamp(2rem, 5vw, 3.5rem); }
-h2 { font-size: clamp(1.5rem, 4vw, 2.5rem); }
-h3 { font-size: clamp(1.25rem, 3vw, 1.75rem); }
-h4 { font-size: clamp(1.125rem, 2vw, 1.5rem); }
-
-p {
-  color: var(--text-secondary);
-  line-height: 1.7;
-  font-weight: 500;
-}
-
-strong, b {
-  font-weight: 700;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-  transition: color var(--transition-fast);
-}
-
-a:hover {
-  color: var(--primary-light);
-}
-
-/* Scrollbar Styling */
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--bg-secondary);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--bg-card);
-  border-radius: var(--radius-full);
-  border: 2px solid var(--bg-secondary);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--bg-card-hover);
-}
-
-/* Animations */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateX(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: -1000px 0;
-  }
-  100% {
-    background-position: 1000px 0;
+    --net-trace: color-mix(in oklab, var(--seed-primary) 5.5%, transparent);
+    --net-node: color-mix(in oklab, var(--seed-primary) 9%, transparent);
   }
 }
 
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
+/* Collapse the duration scale rather than killing transitions outright, so
+   state changes still apply — instantly — instead of getting stuck. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-instant: 0.01ms;
+    --dur-fast: 0.01ms;
+    --dur-normal: 0.01ms;
+    --dur-slow: 0.01ms;
   }
 }
 
-/* Utility Classes */
-.fade-in {
-  animation: fadeIn 0.6s ease-out;
+/* ==========================================================================
+   RESET
+   ========================================================================== */
+
+@layer reset {
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body, h1, h2, h3, h4, p, figure, blockquote, dl, dd, ul, ol {
+    margin: 0;
+    padding: 0;
+  }
+
+  ul[class], ol[class] { list-style: none; }
+
+  img, svg, video, canvas {
+    display: block;
+    max-width: 100%;
+  }
+
+  input, button, textarea, select {
+    font: inherit;
+    color: inherit;
+  }
+
+  /* Flex and grid children refuse to shrink below their content by default,
+     which is the usual cause of mystery horizontal overflow. */
+  :where(main, section, article, div, ul, ol) > * { min-width: 0; }
 }
 
-.slide-in {
-  animation: slideIn 0.6s ease-out;
+/* ==========================================================================
+   BASE
+   ========================================================================== */
+
+@layer base {
+  html { background: var(--bg); }
+
+  /* body keeps the paper AND establishes a stacking context. Both matter.
+     Without the background, text resolves against a transparent ancestor and
+     every automated contrast checker reports nonsense — 491 false failures,
+     including dark-on-paper reported at 1.26:1. Without the stacking context,
+     body's own background paints over the z-index:-1 substrate and hides it.
+     position+z-index makes body a context, so its background paints first and
+     the substrate paints immediately above it, still beneath all content. */
+  body {
+    position: relative;
+    z-index: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Figures never jitter as they update. */
+    font-variant-numeric: tabular-nums;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    line-height: var(--leading-snug);
+    letter-spacing: var(--tracking-tight);
+    text-wrap: balance;
+  }
+
+  p { text-wrap: pretty; }
+
+  a { color: var(--primary); }
+
+  /* One focus treatment for the whole site. Never animated — a keyboard user
+     outruns the transition and loses the indicator. */
+  :focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+    transition: none;
+  }
+  :focus:not(:focus-visible) { outline: none; }
+
+  ::selection {
+    background: var(--primary-subtle);
+    color: var(--text);
+  }
+
+  ::placeholder { color: var(--text-subtle); }
 }
 
-.scale-in {
-  animation: scaleIn 0.4s ease-out;
-}
+/* ==========================================================================
+   LAYOUT — the sheet
+   ========================================================================== */
 
-/* Responsive */
-@media (max-width: 768px) {
+@layer layout {
+  .app-layout {
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    /* Declared here, not on body: this is the element next/font puts
+       --font-archivo on, and a custom property resolves at the element that
+       uses it. */
+    font-family: var(--font-body);
+  }
+
+  /* The drawing field. The paper itself is painted on body; this element
+     stays transparent so the fixed substrate behind it shows through every
+     section rather than being covered by each one's own ground. */
   .main-content {
-    padding: var(--space-6) var(--space-4);
+    flex: 1;
+    position: relative;
+  }
+
+  /* The network substrate. Fixed, so the paper holds still while the record
+     scrolls over it, and negative z so it sits above the body ground but
+     beneath every piece of content. pointer-events and aria are both off:
+     it is texture, and neither the cursor nor a screen reader should meet
+     it. */
+  .substrate {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    display: block;
+  }
+
+  .substrate-trace path {
+    fill: none;
+    stroke: var(--net-trace);
+    stroke-width: 1;
+  }
+
+  .substrate-node circle {
+    fill: none;
+    stroke: var(--net-node);
+    stroke-width: 1;
+  }
+
+  .substrate-block rect {
+    fill: none;
+    stroke: var(--net-node);
+    stroke-width: 1;
+  }
+
+  .substrate-block-solid rect {
+    fill: var(--net-node);
+    stroke: none;
+  }
+
+  /* Ink and paper only. The substrate is a screen texture and would print as
+     a grey wash across every page. */
+  @media print {
+    .substrate { display: none; }
+  }
+
+  /* One owner for page gutters and one owner for section rhythm. Modules set
+     neither — that pairing (a layout class and a component class both writing
+     padding) is the specificity collision that silently flips on build order. */
+  .sheet {
+    max-width: 90rem;
+    margin: 0 auto;
+    padding: var(--space-10) var(--space-6) var(--space-24);
+  }
+
+  .sheet-section {
+    margin-block-start: var(--section-gap);
+  }
+
+  @media (max-width: 40rem) {
+    .sheet { padding: var(--space-8) var(--space-4) var(--space-16); }
   }
 }
 
-@media (max-width: 480px) {
-  .main-content {
-    padding: var(--space-4) var(--space-3);
+/* ==========================================================================
+   UTILITIES
+   ========================================================================== */
+
+@layer utilities {
+  .visually-hidden:not(:focus):not(:active) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
+
+  /* Skip link — first thing in the tab order, invisible until focused. */
+  .skip-link {
+    position: absolute;
+    left: var(--space-4);
+    top: var(--space-4);
+    z-index: var(--z-modal);
+    transform: translateY(-200%);
+    background: var(--primary);
+    color: var(--text-on-primary);
+    padding: var(--space-3) var(--space-4);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    text-decoration: none;
+  }
+  .skip-link:focus { transform: translateY(0); }
 }

@@ -1,249 +1,196 @@
-/* ============================================
-   COMPLETELY NEW NAVIGATION DESIGN
-   Top Navigation Bar - Modern & Clean
-   ============================================ */
+/* The title block of the sheet. On a real drawing this band carries the
+   drawing's identity and sits inside a heavy frame rule; here it does the
+   same job and doubles as the section index. */
 
-.navCard {
-  position: fixed;
+.frame {
+  position: sticky;
   top: 0;
-  left: 0;
-  right: 0;
-  z-index: var(--z-fixed);
-  background: rgba(15, 15, 30, 0.8);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border-bottom: 1px solid var(--border-color);
-  padding: var(--space-4) var(--space-6);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-6);
-  transition: all var(--transition-base);
+  z-index: var(--z-sticky);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border-strong);
 }
 
-.navCardMobile {
-  flex-direction: column;
+.inner {
+  max-width: 90rem;
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+  display: flex;
   align-items: stretch;
-  padding: var(--space-3) var(--space-4);
+  gap: var(--space-6);
+  min-height: 3.75rem;
 }
 
-/* Logo Container */
-.logoContainer {
+/* ---- Organisation mark ---------------------------------------------- */
+
+.mark {
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  flex-shrink: 0;
   text-decoration: none;
-  color: inherit;
-  cursor: pointer;
-  transition: opacity var(--transition-fast);
+  color: var(--text);
+  padding-right: var(--space-6);
+  border-right: 1px solid var(--border);
+  flex-shrink: 0;
 }
 
-.logoContainer:hover {
-  opacity: 0.8;
+.markImage {
+  width: 1.75rem;
+  height: 1.75rem;
+  object-fit: contain;
 }
 
-.logo {
+.markText {
   display: flex;
-  align-items: center;
-  gap: var(--space-3);
+  flex-direction: column;
+  line-height: 1.15;
 }
 
-.logoImage {
-  border-radius: var(--radius-md);
-  transition: transform var(--transition-fast);
+.markName {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--text-sm);
+  font-variation-settings: 'wdth' 112;
+  letter-spacing: 0.01em;
 }
 
-.logoImage:hover {
-  transform: scale(1.05);
+/* The subtitle names what the site is, once, in the place a drawing names
+   what it depicts. It is not repeated in any page heading. */
+.markRole {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--text-subtle);
 }
 
-.logoText {
-  font-size: 1.25rem;
-  font-weight: 800;
-  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
+/* ---- Section index ---------------------------------------------------- */
 
-/* Navigation Items */
-.navItems {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
+.nav {
   flex: 1;
-  justify-content: center;
+  display: flex;
+  align-items: stretch;
+  min-width: 0;
+  /* Scrolls rather than wrapping or collapsing behind a menu button. Every
+     destination stays one tap away at every width. */
+  overflow-x: auto;
+  scrollbar-width: none;
 }
+.nav::-webkit-scrollbar { display: none; }
+
+.navList {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navList li { display: flex; }
 
 .navItem {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
-  padding: var(--space-2) var(--space-4);
-  border-radius: var(--radius-md);
-  color: var(--text-secondary);
-  font-weight: 600;
-  font-size: 0.9375rem;
-  transition: all var(--transition-fast);
-  position: relative;
+  padding: 0 var(--space-4);
+  min-height: var(--space-11);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--text-muted);
+  text-decoration: none;
   white-space: nowrap;
-}
-
-.navItem::before {
-  content: '';
-  position: absolute;
-  bottom: -1px;
-  left: 50%;
-  transform: translateX(-50%) scaleX(0);
-  width: 80%;
-  height: 2px;
-  background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
-  border-radius: var(--radius-full);
-  transition: transform var(--transition-base);
+  /* A transparent rule that becomes ink on hover — reserving the space up
+     front means nothing reflows when it appears. */
+  border-bottom: 2px solid transparent;
+  transition: color var(--dur-fast) var(--ease-standard),
+              border-color var(--dur-fast) var(--ease-standard);
 }
 
 .navItem:hover {
-  color: var(--text-primary);
-  background: rgba(0, 51, 173, 0.1);
+  color: var(--text);
+  border-bottom-color: var(--border-strong);
 }
 
-.navItem:hover::before {
-  transform: translateX(-50%) scaleX(1);
+.navItem:active { color: var(--primary-active); }
+
+/* Active state carries two channels: the ink rule and the weight change.
+   Colour alone would be invisible to a reader who can't perceive it. */
+.active,
+.active:hover {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+  font-weight: 600;
 }
 
-.navItem.active {
-  color: var(--text-primary);
-  background: rgba(0, 51, 173, 0.15);
-}
+/* ---- Accounts --------------------------------------------------------- */
 
-.navItem.active::before {
-  transform: translateX(-50%) scaleX(1);
-}
-
-.icon {
+.social {
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 20px;
-  height: 20px;
-  flex-shrink: 0;
-}
-
-.label {
-  display: block;
-}
-
-/* Social Links */
-.socialLinks {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
+  gap: var(--space-1);
+  padding-left: var(--space-4);
+  border-left: 1px solid var(--border);
   flex-shrink: 0;
 }
 
 .socialLink {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-md);
-  background: var(--bg-card);
-  color: var(--text-secondary);
-  transition: all var(--transition-fast);
-  border: 1px solid var(--border-color);
+  display: grid;
+  place-items: center;
+  width: var(--space-11);
+  height: var(--space-11);
+  color: var(--text-subtle);
+  transition: color var(--dur-fast) var(--ease-standard);
 }
 
-.socialLink:hover {
-  background: var(--bg-card-hover);
-  color: var(--text-primary);
-  border-color: var(--primary);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
+.socialLink svg {
+  width: var(--icon-md);
+  height: var(--icon-md);
 }
 
-.socialIcon {
-  width: 20px;
-  height: 20px;
-}
+.socialLink:hover { color: var(--primary); }
+.socialLink:active { color: var(--primary-active); }
 
-/* Mobile Styles */
-@media (max-width: 768px) {
-  .navCard {
-    flex-direction: row;
-    padding: var(--space-3) var(--space-4);
+/* ---- Narrow widths ----------------------------------------------------
+   Reconsidered, not merely reflowed: the mark drops its subtitle, the
+   accounts move below the index, and the index keeps its full label set
+   because scrolling a row of five words beats hiding them behind a menu. */
+
+@media (max-width: 60rem) {
+  .inner {
+    flex-wrap: wrap;
+    padding: 0 var(--space-4);
+    gap: 0;
   }
 
-  .navCardMobile {
-    flex-direction: row;
-  }
-
-  .logoContainer {
-    order: 1;
-  }
-
-  .navItems {
-    order: 2;
+  .mark {
     flex: 1;
-    justify-content: flex-end;
-    gap: var(--space-1);
-    overflow-x: auto;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+    border-right: none;
+    padding: var(--space-3) 0;
+    min-height: 3.25rem;
   }
 
-  .navItems::-webkit-scrollbar {
-    display: none;
+  .social {
+    border-left: none;
+    padding-left: 0;
+  }
+
+  .nav {
+    flex-basis: 100%;
+    order: 3;
+    border-top: 1px solid var(--border);
+    /* Bleed the scroll region to the sheet edge so the last item can reach
+       the edge instead of stopping short inside the padding. */
+    margin: 0 calc(var(--space-4) * -1);
+    padding: 0 var(--space-4);
   }
 
   .navItem {
-    padding: var(--space-2) var(--space-3);
-    font-size: 0.875rem;
-  }
-
-  .label {
-    display: none;
-  }
-
-  .socialLinks {
-    order: 3;
-    gap: var(--space-1);
-  }
-
-  .socialLink {
-    width: 36px;
-    height: 36px;
-  }
-
-  .socialIcon {
-    width: 18px;
-    height: 18px;
+    padding: 0 var(--space-3);
+    min-height: 2.75rem;
   }
 }
 
-/* Mobile Menu Toggle (if needed) */
-.mobileMenuToggle {
-  display: none;
-  flex-direction: column;
-  gap: 4px;
-  padding: var(--space-2);
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  color: var(--text-primary);
-}
-
-.mobileMenuToggle span {
-  width: 24px;
-  height: 2px;
-  background: currentColor;
-  border-radius: var(--radius-full);
-  transition: all var(--transition-fast);
-}
-
-@media (max-width: 768px) {
-  .mobileMenuToggle {
-    display: flex;
-  }
+@media (max-width: 26rem) {
+  .markRole { display: none; }
 }

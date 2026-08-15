@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { FUND_15_PROPOSALS } from '../../../../data/fund15';
 
 interface ProposalContent {
     problem?: string;
@@ -43,20 +44,12 @@ export default async function handler(
             console.log('External API fetch failed, trying local sources');
         }
         
-        // If not found externally, check Fund 15 proposals
+        // If not found externally, fall back to the filed Fund 15 proposals.
         if (!proposal) {
-            const FUND_15_PROPOSALS = [
-                {
-                    project_id: '1500001',
-                    url: 'https://projectcatalyst.io/funds/15/cardano-use-cases-prototype-and-launch/blockprint-or-gimbalabs-build-a-cardano-treasury-explorer'
-                },
-                {
-                    project_id: '1500002',
-                    url: 'https://projectcatalyst.io/funds/15/cardano-use-cases-prototype-and-launch/cs-code-web-ide-scaffolder-for-onchain-and-offchain-code'
-                }
-            ];
-            
-            proposal = FUND_15_PROPOSALS.find((p: any) => p.project_id === projectId);
+            const filed = FUND_15_PROPOSALS.find(
+                (p) => p.projectDetails.project_id === projectId
+            );
+            if (filed) proposal = { url: filed.projectDetails.url };
         }
         
         if (!proposal || !proposal.url) {

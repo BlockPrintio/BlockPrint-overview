@@ -1,0 +1,68 @@
+/* The mark sits directly on the paper — no panel, no dark ground. The
+   reference art is a lit render on black; this is the same geometry drafted
+   onto the sheet, which is what keeps it in the same world as the rest. */
+
+.wrap {
+  width: 100%;
+  min-width: 0;
+}
+
+.stage {
+  position: relative;
+  width: 100%;
+  /* Matched to the artwork. The mark plus its cubes is about 2.8:1, so a 3:2
+     box left the drawing filling under half the height and the hero carrying
+     ~220px of dead space. A fixed ratio still reserves the space before the
+     canvas or SVG arrives, so nothing below shifts on load. */
+  aspect-ratio: 11 / 4;
+  min-height: 7rem;
+}
+
+.canvas,
+.fallback {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Paper fill, ink outline: a drafted solid rather than a wireframe.
+   non-scaling-stroke pins the line to one device pixel, because the viewBox
+   is in letterform units and a plain stroke-width would scale into a band. */
+.markShape {
+  fill: var(--surface);
+  stroke: var(--primary);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+  stroke-linejoin: round;
+}
+
+.cubeLine {
+  fill: var(--surface);
+  stroke: var(--primary);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+  opacity: 0.75;
+}
+
+.cubeFilled {
+  fill: var(--primary);
+  fill-opacity: 0.9;
+  stroke: var(--primary);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
+
+@media (max-width: 64rem) {
+  .stage { aspect-ratio: 11 / 4; }
+}
+
+@media (max-width: 40rem) {
+  /* A touch taller on a narrow screen so the mark keeps some presence
+     instead of becoming a thin strip. */
+  .stage {
+    aspect-ratio: 2 / 1;
+    min-height: 0;
+  }
+}

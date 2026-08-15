@@ -1,233 +1,139 @@
-import { FC, useState, useEffect } from 'react';
-import styles from '../styles/Proposals.module.css';
-import { CatalystData } from '../types';
+import { FC } from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
+import { CatalystProject } from '../types';
+import { formatAda, FUND_15_SUMMARIES } from '../data/fund15';
+import MilestoneTrack from './MilestoneTrack';
+import styles from '../styles/Proposals.module.css';
 
-// Simple number formatting function that doesn't rely on locale settings
-const formatNumber = (num: number): string => {
-    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-};
-
-// Format ADA amount with symbol
-const formatAda = (amount: number): string => {
-    return `₳ ${formatNumber(amount)}`;
-};
-
-// Calculate progress percentage safely
-const calculateProgress = (completed: number, total: number): number => {
-    if (!total) return 0;
-    return Math.round((completed / total) * 100);
-};
-
-// Get funding round from category (first 3 characters)
 const getFundingRound = (category: string): string => {
     const match = category.match(/Fund \d+/i);
     return match ? match[0] : category;
 };
 
-interface CatalystProposalsListProps {
-    data: CatalystData;
-    showMilestoneOverview?: boolean;
+interface ProposalRegisterProps {
+    projects: CatalystProject[];
 }
 
-const CatalystProposalsList: FC<CatalystProposalsListProps> = ({ data, showMilestoneOverview = true }) => {
+/**
+ * The register. One row per filed proposal, laid out as a drawing's schedule
+ * block: identifier, description, quantities, and the measured run.
+ *
+ * The previous page rendered every proposal three times — once in a
+ * highlight panel, once in a milestone grid, and once as a card — so a
+ * reader counting proposals could arrive at any of three answers.
+ */
+const ProposalRegister: FC<ProposalRegisterProps> = ({ projects }) => {
     const router = useRouter();
-    const [isNavigating, setIsNavigating] = useState(false);
 
-    // Format the timestamp consistently using UTC to avoid timezone issues
-    const formatDate = (timestamp: string): string => {
-        const date = new Date(timestamp);
-        const month = (date.getUTCMonth() + 1).toString().padStart(2, '0');
-        const day = date.getUTCDate().toString().padStart(2, '0');
-        const year = date.getUTCFullYear();
-        const hours = date.getUTCHours() % 12 || 12;
-        const minutes = date.getUTCMinutes().toString().padStart(2, '0');
-        const ampm = date.getUTCHours() >= 12 ? 'PM' : 'AM';
-
-        return `${month}/${day}/${year}, ${hours}:${minutes} ${ampm} UTC`;
-    };
-
-    // Handle router events for loading state
-    useEffect(() => {
-        const handleRouteChangeStart = (url: string) => {
-            if (url.startsWith('/catalyst-proposals/') && url !== '/catalyst-proposals') {
-                setIsNavigating(true);
-            }
-        };
-
-        const handleRouteChangeComplete = () => {
-            setIsNavigating(false);
-        };
-
-        const handleRouteChangeError = () => {
-            setIsNavigating(false);
-        };
-
-        router.events.on('routeChangeStart', handleRouteChangeStart);
-        router.events.on('routeChangeComplete', handleRouteChangeComplete);
-        router.events.on('routeChangeError', handleRouteChangeError);
-
-        return () => {
-            router.events.off('routeChangeStart', handleRouteChangeStart);
-            router.events.off('routeChangeComplete', handleRouteChangeComplete);
-            router.events.off('routeChangeError', handleRouteChangeError);
-        };
-    }, [router]);
-
-    const handleCardClick = (projectId: number) => {
-        setIsNavigating(true);
-        router.push(`/catalyst-proposals/${projectId}`);
-    };
+    if (projects.length === 0) {
+        return (
+            <p className={styles.status} role="status">
+                Nothing on the register yet. Filed proposals appear here once they are recorded.
+            </p>
+        );
+    }
 
     return (
-        <>
-            {isNavigating && (
-                <div className={styles.navigationLoading}>
-                    <div className={styles.navigationSpinner}></div>
-                    <p className={styles.navigationLoadingText}>Loading proposal details...</p>
-                </div>
-            )}
-            {showMilestoneOverview && (
-                <div className={styles.milestoneOverview}>
-                    <h3 className={styles.milestoneOverviewTitle}>Project Milestones Progress</h3>
-                    <div className={styles.milestoneGrid}>
-                        {data.projects.map((project) => {
-                            const progressPercent = calculateProgress(project.milestonesCompleted, project.projectDetails.milestones_qty);
-                            return (
-                                <a
-                                    key={project.projectDetails.id}
-                                    className={styles.milestoneRow}
-                                    onClick={() => handleCardClick(parseInt(project.projectDetails.project_id))}
-                                    style={{ cursor: 'pointer' }}
-                                >
-                                    <div className={styles.milestoneInfo}>
-                                        <div className={styles.milestoneTitle}>
-                                            <span className={styles.fundTag}>{getFundingRound(project.projectDetails.category)}</span>
-                                            <span className={styles.projectTitle}>{project.projectDetails.title}</span>
-                                        </div>
-                                        <div className={styles.milestoneCount}>
-                                            {project.milestonesCompleted ?? 0}/{project.projectDetails.milestones_qty}
-                                        </div>
-                                    </div>
-                                    <div className={styles.milestoneProgressBar}>
-                                        <div
-                                            className={styles.milestoneProgressFill}
-                                            style={{
-                                                width: `${progressPercent}%`,
-                                                background: progressPercent === 100
-                                                    ? 'linear-gradient(90deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.35))'
-                                                    : progressPercent > 50
-                                                        ? 'linear-gradient(90deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.25))'
-                                                        : 'linear-gradient(90deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.15))'
-                                            }}
-                                        />
-                                    </div>
-                                </a>
-                            );
-                        })}
-                    </div>
-                </div>
-            )}
+        <ol className={`${styles.register} sheet-section`}>
+            {projects.map((project) => {
+                const {
+                    project_id, title, budget, funds_distributed,
+                    milestones_qty, category, status, url, voting
+                } = project.projectDetails;
 
-            <ul className={styles.list}>
-                {data.projects.map((project) => {
-                    const progressPercent = calculateProgress(project.milestonesCompleted, project.projectDetails.milestones_qty);
+                const awaitingVote = project.milestonesCompleted === 0 && funds_distributed === 0;
+                const summary = FUND_15_SUMMARIES[project_id];
+                const detailHref = `/catalyst-proposals/${project_id}`;
 
-                    return (
-                        <li
-                            key={project.projectDetails.id}
-                            className={`${styles.card} ${styles.clickable}`}
-                            data-testid="proposal-item"
-                            onClick={() => handleCardClick(parseInt(project.projectDetails.project_id))}
-                            style={{ cursor: 'pointer' }}
-                        >
-                            <div className={styles.cardInner}>
-                                <div className={styles.cardHeader}>
-                                    <span className={`${styles.status} ${project.projectDetails.status === 'Completed' ? styles.statusCompleted :
-                                        project.projectDetails.status === 'In Progress' ? styles.statusInProgress :
-                                            styles.statusPending
-                                        }`}>
-                                        {project.projectDetails.status}
-                                    </span>
-                                    <h3 className={styles.title}>{project.projectDetails.title}</h3>
+                return (
+                    <li key={project_id} className={styles.entry}>
+                        <div className={styles.entryHead}>
+                            <p className={styles.entryId}>
+                                <span className={styles.fundTag}>{getFundingRound(category)}</span>
+                                <span className={styles.entryIdValue}>{project_id}</span>
+                            </p>
+
+                            {/* Status carries a word, not only a colour, and the
+                                dot is redundant reinforcement rather than the
+                                sole signal. */}
+                            <p className={`${styles.status_} ${awaitingVote ? styles.statusAwaiting : styles.statusActive}`}>
+                                <span className={styles.statusDot} aria-hidden="true" />
+                                {awaitingVote ? 'Awaiting vote' : status}
+                            </p>
+                        </div>
+
+                        <h2 className={styles.entryTitle}>
+                            {/* The whole row was a click target with no keyboard
+                                path and no visible URL. It is a real link now. */}
+                            <Link href={detailHref} className={styles.entryLink}>
+                                {title}
+                            </Link>
+                        </h2>
+
+                        {summary && <p className={styles.entrySummary}>{summary}</p>}
+
+                        <div className={styles.entryBody}>
+                            <dl className={styles.entrySpec}>
+                                <div>
+                                    <dt>Requested</dt>
+                                    <dd>{formatAda(budget)}</dd>
                                 </div>
-
-                                <div className={styles.cardContent}>
-                                    <div className={styles.infoGrid}>
-                                        <div className={styles.infoBox}>
-                                            <span className={styles.infoLabel}>Fund</span>
-                                            <span className={styles.infoValue}>{getFundingRound(project.projectDetails.category)}</span>
-                                        </div>
-
-                                        <div className={styles.infoBox}>
-                                            <span className={styles.infoLabel}>Budget</span>
-                                            <span className={styles.infoValue}>{formatAda(project.projectDetails.budget)}</span>
-                                        </div>
-
-                                        <div className={styles.infoBox}>
-                                            <span className={styles.infoLabel}>Distributed</span>
-                                            <span className={styles.infoValue}>{formatAda(project.projectDetails.funds_distributed)}</span>
-                                        </div>
-
-                                        <div className={styles.infoBox}>
-                                            <span className={styles.infoLabel}>Milestones</span>
-                                            <span className={styles.infoValue}>
-                                                {project.milestonesCompleted ?? 0}/{project.projectDetails.milestones_qty}
-                                            </span>
-                                            <div className={styles.progressBar}>
-                                                <div
-                                                    className={styles.progressFill}
-                                                    style={{
-                                                        width: `${progressPercent}%`,
-                                                        background: progressPercent === 100
-                                                            ? 'linear-gradient(90deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.35))'
-                                                            : progressPercent > 50
-                                                                ? 'linear-gradient(90deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.25))'
-                                                                : 'linear-gradient(90deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.15))'
-                                                    }}
-                                                />
-                                            </div>
-                                        </div>
-
-                                        <div className={styles.infoBox}>
-                                            <span className={styles.infoLabel}>Yes Votes</span>
-                                            <span className={styles.infoValue}>{formatAda(project.projectDetails.voting.yes_votes_count)}</span>
-                                        </div>
-
-                                        <div className={styles.infoBox}>
-                                            <span className={styles.infoLabel}>Unique Voters</span>
-                                            <span className={styles.infoValue}>{project.projectDetails.voting.unique_wallets}</span>
-                                        </div>
-                                        
-                                    </div>
-
-                                    <div className={styles.projectIdBox}>
-                                        <span className={styles.projectIdLabel}>Project ID</span>
-                                        <span className={styles.projectIdValue}>{project.projectDetails.project_id}</span>
-                                    </div>
+                                <div>
+                                    <dt>Distributed</dt>
+                                    <dd>{formatAda(funds_distributed)}</dd>
                                 </div>
+                                {/* Stated even at zero. Hiding these until a
+                                    vote existed meant the register silently
+                                    dropped two columns the deployed record
+                                    shows, and "no votes counted yet" is itself
+                                    the fact a reader came for. */}
+                                {voting && (
+                                    <>
+                                        <div>
+                                            <dt>Yes votes</dt>
+                                            <dd>{formatAda(voting.yes_votes_count)}</dd>
+                                        </div>
+                                        <div>
+                                            <dt>Unique voters</dt>
+                                            <dd>{new Intl.NumberFormat('en-US').format(voting.unique_wallets)}</dd>
+                                        </div>
+                                    </>
+                                )}
+                            </dl>
 
-                                <div className={styles.cardActions}>
-                                    <button
-                                        className={styles.actionButton}
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            handleCardClick(parseInt(project.projectDetails.project_id));
-                                        }}
-                                    >
-                                        View Details
-                                    </button>
-                                </div>
+                            <div className={styles.entryTrack}>
+                                <MilestoneTrack
+                                    completed={project.milestonesCompleted}
+                                    total={milestones_qty}
+                                />
                             </div>
-                        </li>
-                    );
-                })}
-            </ul>
-            <div className={styles.timestamp}>
-                Last updated: {formatDate(data.timestamp)}
-            </div>
-        </>
+                        </div>
+
+                        <div className={styles.entryActions}>
+                            <button
+                                type="button"
+                                className={styles.entryDetail}
+                                onClick={() => router.push(detailHref)}
+                            >
+                                Open record
+                            </button>
+                            {url && (
+                                <a
+                                    className={styles.entryExternal}
+                                    href={url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    Read it on Catalyst
+                                </a>
+                            )}
+                        </div>
+                    </li>
+                );
+            })}
+        </ol>
     );
 };
 
-export default CatalystProposalsList; 
+export default ProposalRegister;

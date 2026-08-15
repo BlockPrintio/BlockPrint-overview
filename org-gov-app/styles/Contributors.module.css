@@ -1,439 +1,330 @@
-/* ============================================
-   COMPLETELY NEW CONTRIBUTORS PAGE DESIGN
-   Modern Card-Based Layout
-   ============================================ */
+/* People sheet. */
 
-.container {
-  width: 100%;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0;
-}
-
-/* Summary Stats */
-.summaryContainer {
-  margin: var(--space-10) 0;
-  animation: fadeIn 0.6s ease-out;
-}
-
-.summaryCards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: var(--space-6);
-}
-
-.summaryCard {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  padding: var(--space-8);
-  text-align: center;
-  transition: all var(--transition-base);
-  position: relative;
-  overflow: hidden;
-  box-shadow: var(--shadow-md);
-}
-
-.summaryCard::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform var(--transition-base);
-}
-
-.summaryCard:hover {
-  transform: translateY(-6px);
-  border-color: var(--primary);
-  box-shadow: var(--shadow-xl), var(--shadow-glow);
-  background: var(--bg-card-hover);
-}
-
-.summaryCard:hover::before {
-  transform: scaleX(1);
-}
-
-.summaryContent {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  gap: var(--space-6);
-  margin-top: var(--space-4);
-}
-
-.statColumn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-2);
-  flex: 1;
-}
-
-.summaryIcon {
-  font-size: 2rem;
-  color: var(--primary);
-  margin-bottom: var(--space-2);
-}
-
-.statLabel {
-  font-size: 0.75rem;
-  color: var(--text-secondary);
+.sectionTitle {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 600;
+  font-variation-settings: 'wdth' 112;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.04em;
+  color: var(--text);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--text);
+  margin-bottom: var(--space-6);
+}
+
+.status {
+  padding: var(--space-10) 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--text-subtle);
+}
+
+.notice {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--warning);
+  background: var(--warning-subtle);
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+}
+
+.noticeLabel {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--warning-text);
   font-weight: 600;
 }
 
-.summaryNumber {
-  font-size: clamp(1.75rem, 3vw, 2.5rem);
-  font-weight: 900;
-  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  line-height: 1;
-}
+/* ==========================================================================
+   TEAM
+   ========================================================================== */
 
-/* Contributors Grid */
-.contributorsGrid {
+/* align-items: start — bios range from two lines to fifteen, and stretching
+   every card to the tallest one left the short ones as mostly empty boxes.
+   A ragged bottom edge reads far better than a cavernous card. */
+/* Three columns, not auto-fill. auto-fill gave four at 1440, which for a
+   nine-person team leaves one card stranded alone on a third row; three
+   divides exactly and gives the bio a comfortable measure besides.
+   align-items: stretch (the default) is what makes cards fill their row so
+   the bottoms line up — `start` was letting every card keep its own height. */
+.teamGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: var(--space-6);
-  margin: var(--space-10) 0;
-  animation: fadeIn 0.8s ease-out 0.2s both;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-5);
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-.contributorCard {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  padding: var(--space-6);
-  transition: all var(--transition-base);
-  cursor: pointer;
+/* The card has to stretch too, or the li stretches and the card sits short
+   inside it and nothing looks any different. */
+.teamGrid > li { display: flex; }
+
+/* Three columns hold down to ~56rem (about 280px a card, which still fits an
+   avatar, a name and five lines). Dropping to two at 64rem instead left a
+   ninth card stranded on a row of its own at 1024. */
+@media (max-width: 56rem) {
+  .teamGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 44rem) {
+  .teamGrid { grid-template-columns: minmax(0, 1fr); }
+}
+
+.manualContributorCard {
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
-  position: relative;
-  overflow: hidden;
-  box-shadow: var(--shadow-md);
-}
-
-.contributorCard::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform var(--transition-base);
-}
-
-.contributorCard:hover {
-  transform: translateY(-8px);
-  border-color: var(--primary);
-  box-shadow: var(--shadow-xl), var(--shadow-glow);
-  background: var(--bg-card-hover);
-}
-
-.contributorCard:hover::before {
-  transform: scaleX(1);
+  padding: var(--space-5);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  /* Fill the stretched li, so every card in a row ends on the same line and
+     .contributorLinks can pin the GitHub link to a shared bottom edge. */
+  flex: 1;
+  min-width: 0;
 }
 
 .contributorHeader {
   display: flex;
   align-items: center;
-  gap: var(--space-4);
-}
-
-.avatar {
-  width: 56px;
-  height: 56px;
-  border-radius: var(--radius-full);
-  border: 2px solid var(--border-color);
-  transition: all var(--transition-fast);
-}
-
-.contributorCard:hover .avatar {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 4px rgba(0, 51, 173, 0.1);
-}
-
-.username {
-  font-size: 1.25rem;
-  font-weight: 800;
-  color: var(--text-primary);
-  margin: 0;
-}
-
-.contributorStats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
   gap: var(--space-3);
-}
-
-.statItem {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  padding: var(--space-4);
-  text-align: center;
-  transition: all var(--transition-fast);
-}
-
-.contributorCard:hover .statItem {
-  background: var(--bg-tertiary);
-  border-color: var(--primary);
-}
-
-.statValue {
-  font-size: 1.25rem;
-  font-weight: 800;
-  color: var(--text-primary);
-  display: block;
-  margin-bottom: var(--space-1);
-}
-
-.statLabel {
-  font-size: 0.75rem;
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.timelineContainer {
-  width: 100%;
-  height: 60px;
-  margin: var(--space-2) 0;
-  padding: var(--space-2);
-  background: var(--bg-secondary);
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border-color);
-}
-
-.topRepos {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-}
-
-.repoBreakdown {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  padding: var(--space-3);
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  transition: all var(--transition-fast);
-}
-
-.contributorCard:hover .repoBreakdown {
-  background: var(--bg-tertiary);
-  border-color: var(--border-hover);
-}
-
-.repoColor {
-  width: 12px;
-  height: 12px;
-  border-radius: var(--radius-full);
-  flex-shrink: 0;
-}
-
-.repoInfo {
-  flex: 1;
   min-width: 0;
 }
 
-.repoName {
-  font-size: 0.875rem;
-  color: var(--text-primary);
-  font-weight: 500;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.avatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  object-fit: cover;
+  border: 1px solid var(--border);
+  flex-shrink: 0;
 }
 
-/* Section Headers */
-.sectionHeader {
-  margin: var(--space-12) 0 var(--space-8);
-  animation: fadeIn 0.6s ease-out;
+.username {
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--text);
+  line-height: var(--leading-snug);
+  overflow-wrap: anywhere;
 }
 
-.sectionTitle {
-  font-size: clamp(1.5rem, 3vw, 2rem);
-  font-weight: 800;
-  color: var(--text-primary);
-  margin: 0 0 var(--space-2) 0;
-  letter-spacing: -0.03em;
-}
+/* ==========================================================================
+   BIO
+   Bios run 250 to 939 characters — a 3.8x spread that, unclamped, made the
+   card heights vary by more than 2x and left dead pockets across the grid.
+   Five lines is enough to say who someone is; the rest is one click away.
+   ========================================================================== */
 
-.sectionDescription {
-  font-size: clamp(0.9375rem, 2vw, 1.125rem);
-  color: var(--text-secondary);
-  margin: 0;
-  line-height: 1.7;
-}
-
-/* Manual Contributor Card */
-.manualContributorCard {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  padding: var(--space-6);
-  transition: all var(--transition-base);
+.bioBlock {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
-  position: relative;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+
+.contributorBio,
+.bioClamped,
+.bioFull {
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+  color: var(--text-muted);
+}
+
+.bioClamped {
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  line-clamp: 5;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  box-shadow: var(--shadow-md);
 }
 
-.manualContributorCard::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform var(--transition-base);
+/* Reads as an annotation on the sheet, not as a call to action — the card's
+   one real destination is the GitHub link below it. */
+.bioToggle {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease-standard);
 }
 
-.manualContributorCard:hover {
-  transform: translateY(-8px);
-  border-color: var(--primary);
-  box-shadow: var(--shadow-xl), var(--shadow-glow);
-  background: var(--bg-card-hover);
-}
+.bioToggle:hover { color: var(--primary-hover); }
 
-.manualContributorCard:hover::before {
-  transform: scaleX(1);
-}
-
-.contributorBio {
-  font-size: 0.9375rem;
-  color: var(--text-secondary);
-  line-height: 1.7;
-  flex-grow: 1;
-}
-
-.contributorLinks {
-  display: flex;
-  gap: var(--space-3);
-  flex-wrap: wrap;
-}
+.contributorLinks { margin-top: auto; }
 
 .githubLink {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  padding: var(--space-3) var(--space-4);
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  color: var(--text-primary);
-  font-size: 0.875rem;
-  font-weight: 500;
+  min-height: var(--space-11);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-subtle);
   text-decoration: none;
-  transition: all var(--transition-fast);
+  overflow-wrap: anywhere;
 }
 
-.githubLink:hover {
-  background: var(--primary);
+.githubLink svg { width: var(--icon-sm); height: var(--icon-sm); }
+
+.githubLink:hover { color: var(--primary); text-decoration: underline; }
+
+/* ==========================================================================
+   COUNTED FIGURES
+   ========================================================================== */
+
+.totals {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(10rem, 100%), 1fr));
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  margin: 0 0 var(--space-8);
+}
+
+.total {
+  padding: var(--space-5);
+  border-right: 1px solid var(--border);
+}
+
+.total:last-child { border-right: none; }
+
+.total dt {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--text-subtle);
+  margin-bottom: var(--space-3);
+}
+
+.total dd {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-2xl);
+  font-weight: 500;
+  line-height: 1;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.contributorGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(19rem, 100%), 1fr));
+  gap: var(--space-5);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.contributorCard {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-none);
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+  transition: border-color var(--dur-fast) var(--ease-standard),
+              background-color var(--dur-fast) var(--ease-standard);
+}
+
+/* Border colour and background shift only — no transform, so the card never
+   creates a stacking context that would trap anything inside it. */
+.contributorCard:hover {
   border-color: var(--primary);
-  color: var(--text-primary);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
+  background: var(--primary-subtle);
 }
 
-/* Loading & Error States */
-.loadingContainer {
+.contributorCard:active { background: var(--surface-sunken); }
+
+.contributorHead {
   display: flex;
-  justify-content: center;
   align-items: center;
-  min-height: 400px;
-  width: 100%;
+  gap: var(--space-3);
+  min-width: 0;
 }
 
-.loadingSpinner {
-  width: 48px;
-  height: 48px;
-  border: 4px solid var(--bg-card);
-  border-top-color: var(--primary);
-  border-radius: var(--radius-full);
-  animation: spin 1s linear infinite;
+.login {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--text);
+  overflow-wrap: anywhere;
 }
 
-.errorContainer {
+.figures {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 200px;
-  width: 100%;
-  color: var(--error);
-  text-align: center;
-  padding: var(--space-6);
-  background: var(--bg-card);
-  border: 1px solid var(--error);
-  border-radius: var(--radius-lg);
+  gap: var(--space-6);
 }
 
-/* Responsive */
-@media (max-width: 1024px) {
-  .contributorsGrid {
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  }
+.figure { display: flex; flex-direction: column; gap: var(--space-1); }
+
+.figureKey {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--text-subtle);
 }
 
-@media (max-width: 768px) {
-  .container {
-    padding: 0;
-  }
-
-  .summaryCards {
-    grid-template-columns: 1fr;
-  }
-
-  .contributorsGrid {
-    grid-template-columns: 1fr;
-    gap: var(--space-4);
-  }
-
-  .summaryContent {
-    flex-direction: column;
-    gap: var(--space-4);
-  }
-
-  .statColumn {
-    width: 100%;
-  }
+.figureValue {
+  font-family: var(--font-mono);
+  font-size: var(--text-lg);
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
 }
 
-@media (max-width: 480px) {
-  .contributorCard {
-    padding: var(--space-5);
-  }
+.timeline {
+  display: block;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: var(--space-2) 0;
+}
 
-  .contributorStats {
-    grid-template-columns: 1fr;
-  }
+.repos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: auto;
+}
 
-  .avatar {
-    width: 48px;
-    height: 48px;
-  }
+.repo {
+  padding: 0.15rem var(--space-2);
+  border: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  color: var(--text-subtle);
+  overflow-wrap: anywhere;
+}
 
-  .username {
-    font-size: 1.125rem;
+@media (max-width: 48rem) {
+  .total {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
   }
+  .total:last-child { border-bottom: none; }
 }

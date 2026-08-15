@@ -1,61 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { CatalystProposal, CatalystProject } from '../../../../types';
-import { transformCatalystProposalToProject } from '../../../../utils/catalystDataTransform';
 import config from '../../../../config';
+import { FUND_15_PROPOSALS } from '../../../../data/fund15';
 import fs from 'fs';
 import path from 'path';
-
-// Fund 15 proposals (static data)
-const FUND_15_PROPOSALS: CatalystProject[] = [
-    {
-        projectDetails: {
-            id: 1,
-            title: 'BlockPrint | Gimbalabs build a cardano Treasury explorer',
-            budget: 150000,
-            milestones_qty: 5,
-            funds_distributed: 0,
-            project_id: '1500001',
-            name: 'BlockPrint',
-            category: 'Fund 15 - Cardano Use Cases: Prototype & Launch',
-            url: 'https://projectcatalyst.io/funds/15/cardano-use-cases-prototype-and-launch/blockprint-or-gimbalabs-build-a-cardano-treasury-explorer',
-            status: 'In Progress' as 'In Progress' | 'Completed',
-            finished: '',
-            milestones_content: null,
-            voting: {
-                proposalId: 0,
-                yes_votes_count: 0,
-                no_votes_count: null,
-                abstain_votes_count: null,
-                unique_wallets: 0
-            }
-        },
-        milestonesCompleted: 0
-    },
-    {
-        projectDetails: {
-            id: 2,
-            title: 'CS-Code: Web-IDE scaffolder for onchain and offchain code',
-            budget: 80000,
-            milestones_qty: 5,
-            funds_distributed: 0,
-            project_id: '1500002',
-            name: 'BlockPrint',
-            category: 'Fund 15 - Cardano Use Cases: Prototype & Launch',
-            url: 'https://projectcatalyst.io/funds/15/cardano-use-cases-prototype-and-launch/cs-code-web-ide-scaffolder-for-onchain-and-offchain-code',
-            status: 'In Progress' as 'In Progress' | 'Completed',
-            finished: '',
-            milestones_content: null,
-            voting: {
-                proposalId: 0,
-                yes_votes_count: 0,
-                no_votes_count: null,
-                abstain_votes_count: null,
-                unique_wallets: 0
-            }
-        },
-        milestonesCompleted: 0
-    }
-];
 
 // Convert CatalystProject to CatalystProposal format
 function projectToProposal(project: CatalystProject): CatalystProposal {
